@@ -1,0 +1,58 @@
+<shaders>
+    <shader name="PillCrusherBloom">
+        <parameters>
+            <param name="BloomAmount" type="float"/>
+            <param name="Ratio" type="vec2"/>
+        </parameters>
+        <vertex><![CDATA[
+            attribute vec3 Position;
+            attribute vec4 Color;
+            attribute vec2 TexCoord;
+            attribute vec4 RenderData;
+            attribute float Scale;
+            attribute float BloomAmount;
+            attribute vec2 Ratio;
+            varying vec4 Color0;
+            varying vec2 TexCoord0;
+            varying vec4 RenderDataOut;
+            varying float ScaleOut;
+            varying float BloomAmountOut;
+            varying vec2 RatioOut;
+            uniform mat4 Transform;
+            void main(void)
+            {
+                RenderDataOut = RenderData;
+                ScaleOut = Scale;           // Passing data to fragment shader
+                BloomAmountOut = BloomAmount;   // Passing data to fragment shader
+                RatioOut = Ratio;             // Passing data to fragment shader
+                Color0 = Color;
+                TexCoord0 = TexCoord;
+                gl_Position = Transform * vec4(Position.xyz, 1.0);
+            }
+        ]]></vertex>
+        <fragment><![CDATA[#version 150
+            varying lowp vec4 Color0;
+            varying mediump vec2 TexCoord0;
+            varying lowp vec4 RenderDataOut;
+            varying lowp float ScaleOut;
+            varying mediump float BloomAmountOut;
+            varying mediump vec2 RatioOut;
+            uniform sampler2D Texture0;
+            
+            uniform float weight[5] = float[] (0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216);
+
+            void main(void)
+            {
+                vec2 tex_offset = 1.0 / textureSize(Texture0, 0); // gets size of single texel
+                vec3 result = texture2D(Texture0, TexCoord0).rgb * weight[0]; // current fragment's contribution
+                gl_FragColor = Color0 * texture2D(Texture0, TexCoord0);
+                for(int i = 1; i < 5; ++i)
+                {
+                    result += texture2D(Texture0, TexCoord0 + vec2(tex_offset.x * i, tex_offset.y * i) * RatioOut).rgb * weight[i];
+                    result += texture2D(Texture0, TexCoord0 - vec2(tex_offset.x * i, tex_offset.y * i) * RatioOut).rgb * weight[i];
+                }
+                gl_FragColor += vec4(result, 1.0) * BloomAmountOut;
+            }
+        ]]></fragment>
+    </shader>
+</shaders>
