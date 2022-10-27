@@ -1,4 +1,8 @@
 <entities anm2root="gfx/" version="5">
+    <!-- BLANK BOMBS-->
+    <entity name="blank explosion" anm2path="blank_explosion.anm2" id="1000" variant=""/> 
+
+    <!-- LUCKY SEVEN-->
     <entity anm2path="lucky_seven_regular_slot.anm2" name="Lucky Seven Slot" id="6" variant=""
     collisionMass="3" collisionRadius="12" friction="1" numGridCollisionPoints="24" shadowSize="33" />
 

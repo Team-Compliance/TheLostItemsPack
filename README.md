@@ -7,9 +7,9 @@ Items included:
 - Book of Illusions/Illusion Hearts
 - Checked Mate
 - Keeper's Rope
-- Lucky Seven
+- Lucky Seven --done
 - Pacifist
-- Pill Crusher
+- Pill Crusher --done
 - Safety Bombs
 - Voodoo Pin
   - Salt Shaker?

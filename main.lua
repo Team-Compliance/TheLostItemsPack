@@ -7,11 +7,18 @@ LostItemsPack.CallOnLoad = {}
 
 --Constants and enums
 LostItemsPack.CollectibleType = {
+    BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
 }
 
 LostItemsPack.Entities = {
+    BLANK_BOMB_EXPLOSION = {
+        type = EntityType.ENTITY_EFFECT,
+        variant = Isaac.GetEntityVariantByName("blank explosion"),
+        subtype = 0
+    },
+
     LUCKY_SEVEN_SLOT = {
         type = EntityType.ENTITY_SLOT,
         variant = Isaac.GetEntityVariantByName("Lucky Seven Slot"),
@@ -75,6 +82,8 @@ end
 function LostItemsPack:OnPlayerInit()
     if #Isaac.FindByType(EntityType.ENTITY_PLAYER) ~= 0 then return end
 
+    Isaac.ExecuteCommand("reloadshaders")
+
     local isContinue = IsContinue()
 
     if isContinue and LostItemsPack:HasData() then
@@ -99,8 +108,10 @@ LostItemsPack:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, LostItemsPack.OnGameExi
 
 --Other mods compat
 require("lost_items_scripts.mod_compat.EIDCompat")
+require("lost_items_scripts.mod_compat.EnyclopediaCompat")
 require("lost_items_scripts.mod_compat.MinimapiCompat")
 
 --Require main item scripts
+require("lost_items_scripts.blank_bombs.BlankBombs")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")

@@ -213,4 +213,53 @@ function Helpers.DoesLaserHitEntity(laser, entity)
 end
 
 
+function Helpers.GetPtrHashEntity(entity)
+	if entity then
+		if entity.Entity then
+			entity = entity.Entity
+		end
+		for _, matchEntity in pairs(Isaac.FindByType(entity.Type, entity.Variant, entity.SubType, false, false)) do
+			if GetPtrHash(entity) == GetPtrHash(matchEntity) then
+				return matchEntity
+			end
+		end
+	end
+	return nil
+end
+
+
+function Helpers.GetPlayerFromTear(tear)
+	local check = tear.Parent or tear.SpawnerEntity
+	if check then
+		if check.Type == EntityType.ENTITY_PLAYER then
+			return Helpers.GetPtrHashEntity(check):ToPlayer()
+		elseif check.Type == EntityType.ENTITY_FAMILIAR and check.Variant == FamiliarVariant.INCUBUS then
+			return check:ToFamiliar().Player:ToPlayer()
+		end
+	end
+	return nil
+end
+
+
+---@param bomb EntityBomb
+---@return number
+function Helpers.GetBombExplosionRadius(bomb)
+	local damage = bomb.ExplosionDamage
+	local radiusMult = bomb.RadiusMultiplier
+	local radius
+
+	if damage >= 175.0 then
+		radius = 105.0
+	else
+		if damage <= 140.0 then
+			radius = 75.0
+		else
+			radius = 90.0
+		end
+	end
+
+	return radius * radiusMult
+end
+
+
 return Helpers
