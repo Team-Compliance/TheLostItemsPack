@@ -16,3 +16,6 @@ Items included:
   - Lunch Box?
 
 ? = maybe
+
+(To-do) Misc:
+- MCM or DSS options to allow people to disable items they don't like
