@@ -5,8 +5,42 @@ local json = require("json")
 LostItemsPack.PersistentData = {}
 LostItemsPack.CallOnLoad = {}
 
+--Constants and enums
 LostItemsPack.CollectibleType = {
-    PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher")
+    LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
+    PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
+}
+
+LostItemsPack.Entities = {
+    LUCKY_SEVEN_SLOT = {
+        type = EntityType.ENTITY_SLOT,
+        variant = Isaac.GetEntityVariantByName("Lucky Seven Slot"),
+        subtype = 0
+    },
+
+    LUCKY_SEVEN_MACHINE_SPARKLES = {
+        type = EntityType.ENTITY_EFFECT,
+        variant = Isaac.GetEntityVariantByName("Machine Sparkles"),
+        subtype = 0
+    },
+
+    LUCKY_SEVEN_CORD_END = {
+        type = EntityType.ENTITY_EFFECT,
+        variant = Isaac.GetEntityVariantByName("Crane Cord End"),
+        subtype = 0
+    },
+
+    LUCKY_SEVEN_CORD_HANDLER = {
+        type = EntityType.ENTITY_EFFECT,
+        variant = Isaac.GetEntityVariantByName("Crane Cord Handler"),
+        subtype = 0
+    },
+
+    LUCKY_SEVEN_CRANE_CORD = {
+        type = EntityType.ENTITY_EVIS,
+        variant = 10,
+        subtype = 231
+    }
 }
 
 
@@ -68,4 +102,5 @@ require("lost_items_scripts.mod_compat.EIDCompat")
 require("lost_items_scripts.mod_compat.MinimapiCompat")
 
 --Require main item scripts
+require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")

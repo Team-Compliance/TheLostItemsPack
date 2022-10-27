@@ -1,3 +1,5 @@
 <items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
+	<passive name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
+
 	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 </items>

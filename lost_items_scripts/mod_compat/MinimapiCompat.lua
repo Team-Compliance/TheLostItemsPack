@@ -1,6 +1,12 @@
 if not MiniMapiItemsAPI then return end
 
 local frame = 1
-local pillcrusherIcon = Sprite()
-pillcrusherIcon:Load("gfx/ui/minimapitems/pillcrusher_icon.anm2", true)
-MiniMapiItemsAPI:AddCollectible(CollectibleType.COLLECTIBLE_PILL_CRUSHER, pillcrusherIcon, "CustomIconPillCrusher", frame)
+local minimapiIconsSprite = Sprite()
+minimapiIconsSprite:Load("gfx/ui/minimapitems/lost_items_pack_icons.anm2", true)
+
+
+--Lucky seven
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, minimapiIconsSprite, "CustomIconLuckySeven", frame)
+
+--Pill crusher
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, minimapiIconsSprite, "CustomIconPillCrusher", frame)
