@@ -3,4 +3,12 @@
 		<sample weight="1" path="pickup_illusion.wav" />
 		<sample weight="1" path="pickup_illusion_2.wav" />
 	</sound>
+
+	<!-- DSS STUFF -->
+	<sound name="deadseascrolls_pop">
+        <sample weight="1" path="deadseascrolls/pop.wav"/>
+    </sound>
+    <sound name="deadseascrolls_whoosh">
+        <sample weight="1" path="deadseascrolls/whoosh.wav"/>
+    </sound>
 </sounds>

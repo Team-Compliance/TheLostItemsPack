@@ -37,7 +37,7 @@ Items included:
 	- Skipping Crawl Spaces gives you a Haunted Chest on the next floor --done
 - Blank Bombs = damage decrease to 25% with golden bombs --done
 - Illusion Hearts = polish, clones don't have visible HP, poofing sfx when they disappear. Also maybe a Bethany interaction where picking up illusion hearts spawns a special wisp
-- Checked Mate = RC Remote synergy
+- Checked Mate = RC Remote synergy --done
 - Voodoo Pin = visual polish
 
 (To-do) Misc:

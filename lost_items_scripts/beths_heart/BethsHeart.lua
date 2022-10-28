@@ -2,10 +2,6 @@ local BethsHeart = {}
 local Helpers = require("lost_items_scripts.Helpers")
 local bethsheartdesc = Isaac.GetItemConfig():GetCollectible(LostItemsPack.CollectibleType.BETHS_HEART)
 
-LostItemsPack.CallOnNewSaveData[#LostItemsPack.CallOnNewSaveData+1] = function ()
-	LostItemsPack.RunPersistentData.UnlockedBethsHeart = false
-end
-
 function BethsHeart:GetSlot(player,slot)
 	local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 	local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY)
@@ -36,25 +32,6 @@ local DIRECTION_VECTOR = {
 	[Direction.RIGHT] = Vector(1, 0),
 	[Direction.DOWN] = Vector(0, 1)
 }
-
-function BethsHeart:PostUpdateAchiv()
-	local hasAchievement = LostItemsPack.RunPersistentData.UnlockedBethsHeart
-	if Isaac.GetPlayer().ControlsEnabled and not hasAchievement then
-		LostItemsPack.RunPersistentData.UnlockedBethsHeart = true
-		CCO.AchievementDisplayAPI.PlayAchievement("gfx/ui/achievements/Cut_Achievement_Beth27s_Heart.png")
-	end
-
-	-- local showAchievement
-	-- if not showAchievement then
-	-- 	showAchievement = mod:HasData() and json.decode(mod:LoadData()) or false
-	-- 	if Isaac.GetPlayer().ControlsEnabled and showAchievement ~= true then
-	-- 		showAchievement = true
-	-- 		mod:SaveData(json.encode(showAchievement))
-	-- 		CCO.AchievementDisplayAPI.PlayAchievement("gfx/ui/achievements/Cut_Achievement_Beth27s_Heart.png")
-	-- 	end
-	-- end
-end
---LostItemsPack:AddCallback(ModCallbacks.MC_POST_UPDATE, BethsHeart.PostUpdateAchiv)
 
 
 function BethsHeart:HeartCollectibleUpdate(player)

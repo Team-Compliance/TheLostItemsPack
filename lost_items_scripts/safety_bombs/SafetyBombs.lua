@@ -4,7 +4,7 @@ local Helpers = require("lost_items_scripts.Helpers")
 
 local SpecialSynergies = {
 	[TearFlags.TEAR_STICKY] = function (player, entity)
-		entity:AddSlowing(player, 10, 1, Color(1, 1, 1))
+		entity:AddSlowing(EntityRef(player), 10, 1, Color(1, 1, 1))
 	end,
 
 	[TearFlags.TEAR_BURN] = function (player, entity)

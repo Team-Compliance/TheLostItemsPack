@@ -179,7 +179,7 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, LostItemsPack.OnGameExit)
 
 --Libs
-require("lost_items_scripts.lib.achievement_display_api")
+require("lost_items_scripts.lib.DSSMenu")
 
 --Other mods compat
 require("lost_items_scripts.mod_compat.EIDCompat")
