@@ -2,7 +2,26 @@ local SafetyBombsMod = {}
 local Helpers = require("lost_items_scripts.Helpers")
 
 
+local SpecialSynergies = {
+	[TearFlags.TEAR_STICKY] = function (player, entity)
+		entity:AddSlowing(player, 10, 1, Color(1, 1, 1))
+	end,
 
+	[TearFlags.TEAR_BURN] = function (player, entity)
+		entity:AddBurn(EntityRef(player), 10, player.Damage)
+	end,
+
+	[TearFlags.TEAR_POISON] = function (player, entity)
+		entity:AddPoison(EntityRef(player), 10, player.Damage)
+	end,
+
+	[TearFlags.TEAR_BUTT_BOMB] = function (player, entity)
+		entity:AddConfusion(EntityRef(player), 10, true)
+	end,
+}
+
+
+---@param bomb EntityBomb
 function SafetyBombsMod:BombUpdate(bomb)
 	local player = Helpers.GetPlayerFromTear(bomb)
 	local data = bomb:GetData()
@@ -18,6 +37,11 @@ function SafetyBombsMod:BombUpdate(bomb)
 						end
 					end
 				end
+
+				if not data.isSafetyBomb and player:HasCollectible(CollectibleType.COLLECTIBLE_NANCY_BOMBS) and
+				player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_NANCY_BOMBS):RandomInt(100) < 10 then
+					data.isSafetyBomb = true
+				end
 			end
 		end
 		if player:HasTrinket(TrinketType.TRINKET_SHORT_FUSE) then
@@ -29,8 +53,10 @@ function SafetyBombsMod:BombUpdate(bomb)
 	if data.isSafetyBomb then
 		if bomb.FrameCount == 1 then
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
+				---@diagnostic disable-next-line: param-type-mismatch
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
 					local sprite = bomb:GetSprite()
+					---@diagnostic disable-next-line: param-type-mismatch
 					if bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
 						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/safety_bombs_gold.png")
 					else
@@ -40,11 +66,32 @@ function SafetyBombsMod:BombUpdate(bomb)
 				end
 			end
 		end
-		
+
 		for i, p in ipairs(Isaac.FindInRadius(bomb.Position, Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber) * bomb.RadiusMultiplier, EntityPartition.PLAYER)) do
 			bomb:SetExplosionCountdown(fuseCD) -- temporary until we can get explosion countdown directly
 			--bomb:SetExplosionCountdown(bomb.ExplosionCountdown)
 			break
+		end
+
+		local debuffs = {}
+		for flag, funct in pairs(SpecialSynergies) do
+			---@diagnostic disable-next-line: param-type-mismatch
+			if bomb:HasTearFlags(flag) then
+				debuffs[#debuffs+1] = funct
+			end
+		end
+
+		if #debuffs == 0 then return end
+
+		---@diagnostic disable-next-line: param-type-mismatch
+		local bombRange = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage, bomb:HasTearFlags(TearFlags.TEAR_CROSS_BOMB))
+
+		for _, entity in ipairs(Helpers.GetEnemies(false, true)) do
+			if entity.Position:DistanceSquared(bomb.Position) <= bombRange ^ 2 then
+				for _, funct in ipairs(debuffs) do
+					funct(player, entity)
+				end
+			end
 		end
 	end
 end
@@ -78,6 +125,7 @@ local function DoRenderRadar(bomb)
 		data.BombRadar = nil
 	end
 end
+
 function SafetyBombsMod:BombRadar(bomb)
 	local data = bomb:GetData()
 	
