@@ -1,6 +1,32 @@
 if not EID then return end
 
 
+--Ancient Revelation
+local function AddAncientRevelationDesc()
+    local TotPlayers = #Isaac.FindByType(EntityType.ENTITY_PLAYER)
+    if TotPlayers ~= 0 then return end
+
+    local hearts_en = "{{SoulHeart}} +2 Soul Hearts"
+    local hearts_ru = "{{SoulHeart}} +2 синих сердца"
+    local hearts_spa = "{{SoulHeart}} +2 Corazones de alma"
+    if ComplianceImmortal then
+        hearts_en = "{{ImmortalHeart}} +2 Immortal Hearts"
+        hearts_ru = "{{ImmortalHeart}} +2 бессмертных сердца"
+        hearts_spa = "{{ImmortalHeart}} +2 Corazones inmortales"
+    end
+
+    local AncientDesc = "Grants flight#"..hearts_en.."#↑ {{Shotspeed}} +0.48 Shot Speed up#↑ {{Tears}} +1 Fire Rate up#Spectral tears#Tears turn 90 degrees to target enemies that they may have missed"
+    local AncientDescRu = "Даёт полёт#"..hearts_ru.."#↑ {{Shotspeed}} +0.48 к скорости полёта слезы#↑ {{Tears}} +1 к скорострельности#Спектральные слёзы#Слёзы поворачиваются на 90 градусов, чтобы попасть во врагов, которых они могли пропустить"
+    local AncientDescSpa = "Otorga vuelo#"..hearts_spa.."#↑ {{Shotspeed}} Vel. de tiro +0.48#↑ {{Tears}} Lágrimas +1#Lágrimas espectrales#Las lágrimas girarán en 90 grados hacia un enemigo si es que fallan"
+
+    EID:addCollectible(LostItemsPack.CollectibleType.ANCIENT_REVELATION, AncientDesc, "Ancient Revelation", "en_us")
+    EID:addCollectible(LostItemsPack.CollectibleType.ANCIENT_REVELATION, AncientDescRu, "Древнее откровение", "ru")
+    EID:addCollectible(LostItemsPack.CollectibleType.ANCIENT_REVELATION, AncientDescSpa, "Antigua Revelación", "spa")
+    EID:assignTransformation("collectible", LostItemsPack.CollectibleType.ANCIENT_REVELATION, "10") -- Seraphim
+end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, AddAncientRevelationDesc)
+
+
 --Blank Bombs
 local BlankDesc = "{{Bomb}} +5 Bombs#Bombs explode instantly. -50% bomb damage#Press {{ButtonRT}} + {{ButtonLB}} to place normal bombs. 100% bomb damage#The player is immune from their own bombs#Placed bombs destroy enemy projectiles and knock back enemies within a radius"
 local BlankDescSpa = "{{Bomb}} +5 Bombas#Las bombas explotan inmediatamente. -50% daño de bomba#Pulsa {{ButtonRT}} + {{ButtonLB}} para poner bombas normales. 100% daño de bomba# El jugador es inmune a sus bombas#Las bombas que exploten eliminarán los disparos enemigos y empujarán a los enemigos cercanos"

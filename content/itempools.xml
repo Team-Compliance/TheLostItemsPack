@@ -8,6 +8,10 @@
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
+	<Pool Name="angel">
+		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
+
 	<Pool Name="greedTreasure">
         <Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
@@ -16,6 +20,10 @@
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
+
+	<Pool Name="greedAngel">
+		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    </Pool>
 
 	<Pool Name="bombBum">
         <Item Name="Blank Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>

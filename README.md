@@ -1,9 +1,9 @@
 # TheLostItemsPack
 
 Items included:
-- Ancient Revelation
+- Ancient Revelation --done
 - Beth's Heart
-- Blank Bombs
+- Blank Bombs --done
 - Book of Illusions/Illusion Hearts
 - Checked Mate
 - Keeper's Rope

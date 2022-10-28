@@ -7,6 +7,7 @@ LostItemsPack.CallOnLoad = {}
 
 --Constants and enums
 LostItemsPack.CollectibleType = {
+    ANCIENT_REVELATION = Isaac.GetItemIdByName("Ancient Revelation"),
     BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
@@ -112,6 +113,7 @@ require("lost_items_scripts.mod_compat.EnyclopediaCompat")
 require("lost_items_scripts.mod_compat.MinimapiCompat")
 
 --Require main item scripts
+require("lost_items_scripts.ancient_revelation.AncientRevelation")
 require("lost_items_scripts.blank_bombs.BlankBombs")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")
