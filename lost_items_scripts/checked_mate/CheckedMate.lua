@@ -98,8 +98,10 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, CheckedMateMod.checkedMateInit, LostItemsPack.Entities.CHECKED_MATE.variant)
 
 
+---@param entity EntityFamiliar
 function CheckedMateMod:checkedMateUpdate(entity)
 	local sprite = entity:GetSprite()
+	local player = entity.Player
 	local room = game:GetRoom()
 	local bff = entity.Player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS)
 	local data = entity:GetData()
@@ -126,7 +128,28 @@ function CheckedMateMod:checkedMateUpdate(entity)
 		end
 
 		if entity.FireCooldown <= 0 then
-			entity.State = States.Jump
+			if player and player:HasTrinket(TrinketType.TRINKET_RC_REMOTE) then
+				local movementDirection = player:GetMovementDirection()
+				local controllerIndex = player.ControllerIndex
+				local isPressingCtrl = Input.IsActionPressed(ButtonAction.ACTION_DROP, controllerIndex)
+
+				if movementDirection ~= Direction.NO_DIRECTION and not isPressingCtrl then
+					entity.State = States.Jump
+
+					if not entity.Child then
+						local target = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TARGET, 0, Vector.Zero, Vector.Zero, nil)
+						target.Visible = false
+						entity.Child = target
+					end
+
+					local movementInput = player:GetMovementInput()
+					movementInput:Resize(40)
+
+					entity.Child.Position = room:GetGridPosition(room:GetClampedGridIndex(entity.Position + movementInput))
+				end
+			else
+				entity.State = States.Jump
+			end
 		else
 			entity.FireCooldown = entity.FireCooldown - 1
 		end
@@ -137,7 +160,7 @@ function CheckedMateMod:checkedMateUpdate(entity)
 		if not sprite:IsPlaying("Jump") then
 			sprite:Play("Jump", true)
 		end
-		
+
 		if sprite:IsEventTriggered("Jump") then
 			entity.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
@@ -145,7 +168,7 @@ function CheckedMateMod:checkedMateUpdate(entity)
 
 		elseif sprite:IsEventTriggered("Move") then
 			entity.State = States.Moving
-			
+
 			entity.Keys = 0
 			-- Amount of moves it can do
 			entity.Coins = 1
@@ -153,7 +176,12 @@ function CheckedMateMod:checkedMateUpdate(entity)
 				entity.Coins = Settings.BFFmoves
 			end
 
-			entity:PickEnemyTarget(Settings.MaxRange * 40, 0, 1, Vector.Zero, 0)
+			if player and player:HasTrinket(TrinketType.TRINKET_RC_REMOTE) then
+				entity.Target = entity.Child
+			else
+				entity:PickEnemyTarget(Settings.MaxRange * 40, 0, 1, Vector.Zero, 0)
+			end
+
 			if entity.Target == nil then
 				entity.Target = entity.Player
 			end
@@ -194,7 +222,28 @@ function CheckedMateMod:checkedMateUpdate(entity)
 		
 		-- Check if it moved above target or if target position is above grid entities
 		if entity.Target and entity.Target.Position:Distance(entity.Position) <= 80 then
-			entity.Keys = 1
+			if player and player:HasTrinket(TrinketType.TRINKET_RC_REMOTE) then
+				local movementDirection = player:GetMovementDirection()
+				local controllerIndex = player.ControllerIndex
+				local isPressingCtrl = Input.IsActionPressed(ButtonAction.ACTION_DROP, controllerIndex)
+
+				if movementDirection ~= Direction.NO_DIRECTION and not isPressingCtrl then
+					if not entity.Child then
+						local target = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TARGET, 0, Vector.Zero, Vector.Zero, nil)
+						target.Visible = false
+						entity.Child = target
+					end
+
+					local movementInput = player:GetMovementInput()
+					movementInput:Resize(40)
+
+					entity.Child.Position = room:GetGridPosition(room:GetClampedGridIndex(entity.Child.Position + movementInput))
+				else
+					entity.Keys = 1
+				end
+			else
+				entity.Keys = 1
+			end
 		end
 		
 		if entity.Position:Distance(entity.TargetPosition) > 2 and room:GetGridCollisionAtPos(entity.TargetPosition) <= 0 then
