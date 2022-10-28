@@ -10,6 +10,10 @@
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
+	<Pool Name="secret">
+		<Item Name="Keeper's Rope" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
 	<Pool Name="goldenChest">
         <Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
@@ -36,6 +40,10 @@
 	<Pool Name="greedShop">
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedSecret">
+		<Item Name="Keeper's Rope" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedAngel">

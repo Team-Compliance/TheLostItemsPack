@@ -5,8 +5,8 @@ Items included:
 - Beth's Heart --done
 - Blank Bombs --done
 - Book of Illusions/Illusion Hearts --done
-- Checked Mate
-- Keeper's Rope
+- Checked Mate --done
+- Keeper's Rope --done
 - Lucky Seven --done
 - Pacifist
 - Pill Crusher --done

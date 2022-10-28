@@ -19,6 +19,7 @@ LostItemsPack.CollectibleType = {
     BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     BOOK_OF_ILLUSIONS = Isaac.GetItemIdByName("Book of Illusions"),
     CHECKED_MATE = Isaac.GetItemIdByName("Checked Mate"),
+    KEEPERS_ROPE = Isaac.GetItemIdByName("Keeper's Rope"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
 }
@@ -46,6 +47,12 @@ LostItemsPack.Entities = {
         type = EntityType.ENTITY_PICKUP,
         variant = PickupVariant.PICKUP_HEART,
         subtype = 9000
+    },
+
+    KEEPERS_ROPE = {
+        type = Isaac.GetEntityTypeByName("Hanging rope"),
+        variant = Isaac.GetEntityVariantByName("Hanging rope"),
+        subtype = 0
     },
 
     LUCKY_SEVEN_SLOT = {
@@ -127,7 +134,10 @@ function LostItemsPack:OnPlayerInit()
         if LostItemsPack:HasData() then
             local loadedData = json.decode(LostItemsPack:LoadData())
             LostItemsPack.RunPersistentData = loadedData.RunPersistentData
-        else
+        end
+
+        if not LostItemsPack.RunPersistentData then
+            LostItemsPack.RunPersistentData = {}
             for _, funct in ipairs(LostItemsPack.CallOnNewSaveData) do
                 funct()
             end
@@ -167,5 +177,6 @@ require("lost_items_scripts.beths_heart.BethsHeart")
 require("lost_items_scripts.blank_bombs.BlankBombs")
 require("lost_items_scripts.checked_mate.CheckedMate")
 require("lost_items_scripts.illusion_hearts.IllusionHearts")
+require("lost_items_scripts.keepers_rope.KeepersRope")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")

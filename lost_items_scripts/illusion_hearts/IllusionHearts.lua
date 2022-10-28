@@ -41,8 +41,6 @@ local ForbiddenItems = {
 	CollectibleType.COLLECTIBLE_JUDAS_SHADOW,
 }
 
-local MCMIllusionsBombs = false
-
 local ForbiddenPCombos = {
 	{PlayerType = PlayerType.PLAYER_THELOST_B, Item = CollectibleType.COLLECTIBLE_BIRTHRIGHT},
 }
@@ -512,7 +510,7 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, IllusionModLocal.DarkEsau, EntityType.ENTITY_DARK_ESAU)
 
 function IllusionModLocal:ClonesControls(entity,hook,action)
-	if entity ~= nil and entity.Type == EntityType.ENTITY_PLAYER and not MCMIllusionsBombs then
+	if entity ~= nil and entity.Type == EntityType.ENTITY_PLAYER and not LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs then
 		local p = entity:ToPlayer()
 		local d = GetIllusionData(p)
         if not d then return end

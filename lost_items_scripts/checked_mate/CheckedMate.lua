@@ -268,7 +268,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, CheckedMateMod.checkedM
 
 function CheckedMateMod:checkedMateCheck(player)
 	local numFamiliars = player:GetCollectibleNum(LostItemsPack.CollectibleType.CHECKED_MATE) + player:GetEffects():GetCollectibleEffectNum(LostItemsPack.CollectibleType.CHECKED_MATE)
-	
+
 	player:CheckFamiliar(LostItemsPack.Entities.CHECKED_MATE.variant, numFamiliars, player:GetCollectibleRNG(LostItemsPack.CollectibleType.CHECKED_MATE), checkedMateDesc)	
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, CheckedMateMod.checkedMateCheck, CacheFlag.CACHE_FAMILIARS)

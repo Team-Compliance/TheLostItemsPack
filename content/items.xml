@@ -9,6 +9,8 @@
 
     <familiar name="Checked Mate" description="Chess friend" gfx="collectibles_checked_mate.png" quality="3" tags="summonable monstermanual offensive"/>
 
+    <passive name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" cache="flying luck" quality="3" tags="summonable offensive" />
+
 	<passive name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
 
 	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />

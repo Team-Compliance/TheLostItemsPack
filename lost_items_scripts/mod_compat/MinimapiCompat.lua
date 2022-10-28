@@ -16,6 +16,9 @@ MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, minim
 --Checked Mate
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, minimapiIconsSprite, "CustomIconCheckedMate", frame)
 
+--Keeper's Rope
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.KEEPERS_ROPE, minimapiIconsSprite, "CustomIconKeepersRope", frame)
+
 --Lucky Seven
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, minimapiIconsSprite, "CustomIconLuckySeven", frame)
 
