@@ -127,3 +127,13 @@ local SBDescRu = "{{Bomb}} +5 бомб#Размещенные бомбы не в
 EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDesc, "Safety Bombs")
 EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDescSpa, "Bombas de Seguridad", "spa")
 EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDescRu, "Безопасные бомбы", "ru")
+
+
+--Voodoo Pin
+local VDPdesc = "Isaac holds up a voodoo pin that can be thrown into enemy#If the pin hits a monster, its hitbox will swap with Isaac's hitbox. Lasts until enemy is dead#Hitting bosses makes it last for 5 seconds"
+local VDPdescRu = "Исаак достает булавку, которую можно бросить во врага#Если булавка попала в монстра, то его хитбокс поменяется местами с хитбоксом Исаака#При подании в босса действует 5 секунды"
+local VDPdescSpa = "Isaac sostiene un alfiler de vudú que puede ser lanzado al enemigo#Si el alfiler golpea a un monstruo, su hitbox será intercambiada por la de Isaac hasta que muera#Si golpea a un jefe si golpea a un jefe, durará 5 segundos"
+
+EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdesc, "Voodoo Pin")
+EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescRu, "Вуду булавка", "ru")
+EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescSpa, "Alfiler de vudú", "spa")

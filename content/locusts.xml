@@ -29,4 +29,7 @@
 	
 	<!-- Pacifist -->
 	<locust id="Pacifist" tearflags="13" color="fly_pac" />
+
+	<!-- Voodoo Pin -->
+	<locust id="Voodoo Pin" color="fly_black" />
 </locusts>

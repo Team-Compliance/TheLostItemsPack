@@ -23,7 +23,8 @@ LostItemsPack.CollectibleType = {
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PACIFIST = Isaac.GetItemIdByName("Pacifist"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
-    SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs")
+    SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs"),
+    VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin")
 }
 
 LostItemsPack.Entities = {
@@ -85,6 +86,18 @@ LostItemsPack.Entities = {
         type = EntityType.ENTITY_EVIS,
         variant = 10,
         subtype = 231
+    },
+
+    VOODOO_PIN_TEAR = {
+        type = EntityType.ENTITY_TEAR,
+        variant = Isaac.GetEntityVariantByName("Voodoo Pin Tear"),
+        subtype = 0
+    },
+
+    VOODOO_PIN_SHATTER = {
+        type = EntityType.ENTITY_EFFECT,
+        variant = Isaac.GetEntityVariantByName("Voodoo Pin Shatter"),
+        subtype = 0
     }
 }
 
@@ -184,3 +197,4 @@ require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pacifist.Pacifist")
 require("lost_items_scripts.pill_crusher.PillCrusher")
 require("lost_items_scripts.safety_bombs.SafetyBombs")
+require("lost_items_scripts.voodo_pin.VoodooPin")

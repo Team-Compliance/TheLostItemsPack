@@ -290,4 +290,9 @@ function Helpers.GridAlignPosition(pos)
 end
 
 
+function Helpers.GetCharge(player,slot)
+	return player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
+end
+
+
 return Helpers

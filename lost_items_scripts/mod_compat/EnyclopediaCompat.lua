@@ -298,7 +298,6 @@ local WikiSafetyBombs = {
         { str = "Safety Bombs was an unused concept from Antibirth." },
     },
 }
-
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.SAFETY_BOMBS,
     WikiDesc = WikiSafetyBombs,
@@ -306,5 +305,34 @@ Encyclopedia.AddItem({
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_GREED_TREASURE,
         Encyclopedia.ItemPools.POOL_BOMB_BUM,
+    },
+})
+
+
+--Voodoo Pin
+local WikiVoodooPin = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "Isaac holds up a voodoo pin that can be thrown in 4 directions." },
+        { str = "If the pin hits a monster, all damage taken by Isaac will be redirected to that monster." },
+        { str = "This effect lasts for 10 seconds if the monster is not killed within that timeframe." },
+        { str = "Hitting bosses has 25% chance to proc. Lasts for 3-4 seconds." },
+    },
+    { -- Notes
+        { str = "Notes", fsize = 2, clr = 3, halign = 0 },
+        { str = "This item can be used for certain strategies involving Demon Beggars, Blood Banks, or the IV Bag item." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "Voodoo Pin was an item from the Antibirth mod that was reworked into an Afterbirth DLC item called Dull Razor." },
+        { str = "Voodoo Pin was one of the few items not imported into Repentance alongside Book of Despair, Bowl of Tears, Donkey Jawbone, Knife Piece 3, Menorah, and Stone Bombs." },
+    },
+}
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.VOODOO_PIN,
+    WikiDesc = WikiVoodooPin,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_SHOP,
+        Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
 })

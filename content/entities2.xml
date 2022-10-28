@@ -31,4 +31,8 @@
     <entity anm2path="865.010_evis guts.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="15" friction="1" id="865" name="Crane Game Cord" numGridCollisionPoints="1" shadowSize="5" shutdoors="false" stageHP="0" tags="noreroll" variant="10" subtype="231">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
+
+    <!-- VOODOO PIN -->
+    <entity anm2path="voodoo_pin_tear.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="8" collisionRadius="12" friction="1" id="2" name="Voodoo Pin Tear" numGridCollisionPoints="8" shadowSize="9" stageHP="0" variant=""/>
+    <entity anm2path="voodoo_pin_tear.anm2" baseHP="0" boss="0" champion="0" collisionDamage="1" collisionMass="8" collisionRadius="12" friction="1" id="1000" name="Voodoo Pin Shatter" numGridCollisionPoints="8" shadowSize="9" stageHP="0" variant=""/>
 </entities>

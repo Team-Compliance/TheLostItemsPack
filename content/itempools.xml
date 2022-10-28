@@ -9,6 +9,7 @@
 
 	<Pool Name="shop">
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Voodoo Pin" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="secret">
@@ -43,6 +44,7 @@
 	<Pool Name="greedShop">
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Voodoo Pin" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

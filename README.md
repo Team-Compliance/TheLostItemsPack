@@ -10,8 +10,8 @@ Items included:
 - Lucky Seven --done
 - Pacifist --done
 - Pill Crusher --done
-- Safety Bombs
-- Voodoo Pin
+- Safety Bombs --done
+- Voodoo Pin --done
   - Salt Shaker?
   - Lunch Box?
 
