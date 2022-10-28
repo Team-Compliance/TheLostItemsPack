@@ -1,8 +1,11 @@
 if not Encyclopedia then return end
 
+print("loading encyclopedia")
+
+Wiki = {}
 
 --Encyclopeida Compatibility
-local WikiAncientRevelation = {
+Wiki.AncientRevelation = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Grants 2 soul hearts (Or 2 immortal hearts if that mod is installed)" },
@@ -27,16 +30,18 @@ local WikiAncientRevelation = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.ANCIENT_REVELATION,
-    WikiDesc = WikiAncientRevelation,
+    WikiDesc = Wiki.AncientRevelation,
     Pools = {
         Encyclopedia.ItemPools.POOL_ANGEL,
         Encyclopedia.ItemPools.POOL_GREED_ANGEL,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Beth's Heart
-local WikiBethsHeart = {
+Wiki.BethsHeart = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Spawns a throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 pips of charge." },
@@ -64,21 +69,22 @@ local WikiBethsHeart = {
         { str = "Shoutout to im_tem for doing the familiar code!" },
     },
 }
-
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.BETHS_HEART,
-    WikiDesc = WikiBethsHeart,
+    WikiDesc = Wiki.BethsHeart,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_ANGEL,
         Encyclopedia.ItemPools.POOL_GREED_TREASURE,
         Encyclopedia.ItemPools.POOL_GREED_ANGEL,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Blank bombs
-local WikiBlankBombs = {
+Wiki.BlankBombs = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Gives the player 5 bombs." },
@@ -102,17 +108,19 @@ local WikiBlankBombs = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.BLANK_BOMBS,
-    WikiDesc = WikiBlankBombs,
+    WikiDesc = Wiki.BlankBombs,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_GREED_TREASURE,
         Encyclopedia.ItemPools.POOL_BOMB_BUM,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Checked Mate
-local WikiCheckedMate = {
+Wiki.CheckedMate = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Spawns a familiar that moves by jumping from tile to tile." },
@@ -131,7 +139,7 @@ local WikiCheckedMate = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.CHECKED_MATE,
-    WikiDesc = WikiCheckedMate,
+    WikiDesc = Wiki.CheckedMate,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_GREED_TREASURE,
@@ -139,11 +147,13 @@ Encyclopedia.AddItem({
         Encyclopedia.ItemPools.POOL_WOODEN_CHEST,
         Encyclopedia.ItemPools.POOL_BABY_SHOP,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Illusion Hearts - Book Of Illusions
-local WikiBookOfIllusions = {
+Wiki.BookOfIllusions = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Spawns an illusion clone when used." },
@@ -159,7 +169,7 @@ local WikiBookOfIllusions = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS,
-    WikiDesc = WikiBookOfIllusions,
+    WikiDesc = Wiki.BookOfIllusions,
     Pools = {
         Encyclopedia.ItemPools.POOL_ANGEL,
         Encyclopedia.ItemPools.POOL_DEVIL,
@@ -167,11 +177,13 @@ Encyclopedia.AddItem({
         Encyclopedia.ItemPools.POOL_GREED_ANGEL,
         Encyclopedia.ItemPools.POOL_GREED_DEVIL,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Keeper's Rope
-local WikiKeepersRope = {
+Wiki.KeepersRope = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Grants flight." },
@@ -205,17 +217,19 @@ local WikiKeepersRope = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.KEEPERS_ROPE,
-    WikiDesc = WikiKeepersRope,
+    WikiDesc = Wiki.KeepersRope,
     Pools = {
         Encyclopedia.ItemPools.POOL_SECRET,
         Encyclopedia.ItemPools.POOL_GREED_SECRET,
         Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 ---Lucky Seven
-local WikiLuckySeven = {
+Wiki.LuckySeven = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Whenever one of the player's pickup counts ends in a 7 (07, 17, 27 and so on), Isaac will have chance to shoot out a golden tear." },
@@ -235,29 +249,33 @@ local WikiLuckySeven = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.LUCKY_SEVEN,
-    WikiDesc = WikiLuckySeven,
+    WikiDesc = Wiki.LuckySeven,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_CRANE_GAME,
         Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Pacifist
 local Pacdesc = "Gives pickup rewards at the start of a floor based on how many rooms you haven't cleared on the previous floor"
-local WikiPacifist = Encyclopedia.EIDtoWiki(Pacdesc)
+Wiki.Pacifist = Encyclopedia.EIDtoWiki(Pacdesc)
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PACIFIST,
-    WikiDesc = WikiPacifist,
+    WikiDesc = Wiki.Pacifist,
     Pools = {
         Encyclopedia.ItemPools.POOL_ANGEL
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 ---Pill Crusher
-local WikiPillCrusher = {
+Wiki.PillCrusher = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Whenever one of the player's coin count ends in a 7 (07, 17, 27 and so on), Isaac will have chance to shoot out a golden tear." },
@@ -277,16 +295,18 @@ local WikiPillCrusher = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PILL_CRUSHER,
-    WikiDesc = WikiPillCrusher,
+    WikiDesc = Wiki.PillCrusher,
     Pools = {
         Encyclopedia.ItemPools.POOL_SHOP,
         Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Safety Bombs
-local WikiSafetyBombs = {
+Wiki.SafetyBombs = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "+5 bombs." },
@@ -300,17 +320,19 @@ local WikiSafetyBombs = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.SAFETY_BOMBS,
-    WikiDesc = WikiSafetyBombs,
+    WikiDesc = Wiki.SafetyBombs,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
         Encyclopedia.ItemPools.POOL_GREED_TREASURE,
         Encyclopedia.ItemPools.POOL_BOMB_BUM,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
 
 
 --Voodoo Pin
-local WikiVoodooPin = {
+Wiki.VoodooPin = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
         { str = "Isaac holds up a voodoo pin that can be thrown in 4 directions." },
@@ -330,9 +352,11 @@ local WikiVoodooPin = {
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.VOODOO_PIN,
-    WikiDesc = WikiVoodooPin,
+    WikiDesc = Wiki.VoodooPin,
     Pools = {
         Encyclopedia.ItemPools.POOL_SHOP,
         Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
 })
