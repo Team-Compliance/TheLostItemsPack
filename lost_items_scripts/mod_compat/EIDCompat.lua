@@ -27,6 +27,18 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, AddAncientRevelationDesc)
 
 
+--Beth's Heart
+local BHDescEng = "{{Throwable}} Spawns a throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 charges#{{HalfSoulHeart}}: 1 charge#{{SoulHeart}}: 2 charges#{{BlackHeart}}: 3 charges#Press {{ButtonRT}} to supply the charges to the active item"
+local BHDescSpa = "{{Throwable}} Genera un familiar lanzable#Almacena corazones de alma y corazones negros para usarlos como cargas para el objeto activo, máximo 6 cargas#{{HalfSoulHeart}}: 1 carga#{{SoulHeart}}: 2 cargas#{{BlackHeart}}: 3 cargas#Presiona el botón {{ButtonRT}} para suministrar las cargas al objeto activo"
+local BHDescRu = "{{Throwable}} Создает спутника, которого можно бросать в выбранном направлении#Сохраняет синие и чёрные сердца как заряды для активируемых предметов, максимум 6 зарядов#{{HalfSoulHeart}}: 1 заряд#{{SoulHeart}}: 2 заряда#{{BlackHeart}}: 3 заряда#Для обеспечения зарядами активируемого предмета нужно нажать кнопку {{ButtonRT}}"
+local BHDescPt_Br = "{{Throwable}} Gera um familiar arremessável#Armazenas corações de alma e negros para usar como carga para o seu item ativado, máximo de 6 cargas#{{HalfSoulHeart}}: 1 carga#{{SoulHeart}}: 2 cargas#{{BlackHeart}}: 3 cargas##Aperta {{ButtonRT}} para fornecer as cargas para o item ativado"
+
+EID:addCollectible(LostItemsPack.CollectibleType.BETHS_HEART, BHDescEng, "Beth's Heart", "en_us")
+EID:addCollectible(LostItemsPack.CollectibleType.BETHS_HEART, BHDescSpa, "El corazón de Beth", "spa")
+EID:addCollectible(LostItemsPack.CollectibleType.BETHS_HEART, BHDescRu, "Сердце Вифании", "ru")
+EID:addCollectible(LostItemsPack.CollectibleType.BETHS_HEART, BHDescPt_Br, "Coração de Bethany", "pt_br")
+
+
 --Blank Bombs
 local BlankDesc = "{{Bomb}} +5 Bombs#Bombs explode instantly. -50% bomb damage#Press {{ButtonRT}} + {{ButtonLB}} to place normal bombs. 100% bomb damage#The player is immune from their own bombs#Placed bombs destroy enemy projectiles and knock back enemies within a radius"
 local BlankDescSpa = "{{Bomb}} +5 Bombas#Las bombas explotan inmediatamente. -50% daño de bomba#Pulsa {{ButtonRT}} + {{ButtonLB}} para poner bombas normales. 100% daño de bomba# El jugador es inmune a sus bombas#Las bombas que exploten eliminarán los disparos enemigos y empujarán a los enemigos cercanos"

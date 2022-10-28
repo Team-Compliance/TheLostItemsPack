@@ -2,18 +2,32 @@ LostItemsPack = RegisterMod("The Lost Items Pack", 1)
 
 local json = require("json")
 
+--Data that will persist between runs
+LostItemsPack.RunPersistentData = {}
+--Data that will reset between runs
 LostItemsPack.PersistentData = {}
+
+--Functions that will get called when there is no save data
+LostItemsPack.CallOnNewSaveData = {}
+--Functions that will be called when a new run is called
 LostItemsPack.CallOnLoad = {}
 
 --Constants and enums
 LostItemsPack.CollectibleType = {
     ANCIENT_REVELATION = Isaac.GetItemIdByName("Ancient Revelation"),
+    BETHS_HEART = Isaac.GetItemIdByName("Beth's Heart"),
     BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
 }
 
 LostItemsPack.Entities = {
+    BETHS_HEART = {
+        type = EntityType.ENTITY_FAMILIAR,
+        variant = Isaac.GetEntityVariantByName("Beth's Heart"),
+        subtype = 0
+    },
+
     BLANK_BOMB_EXPLOSION = {
         type = EntityType.ENTITY_EFFECT,
         variant = Isaac.GetEntityVariantByName("blank explosion"),
@@ -88,8 +102,19 @@ function LostItemsPack:OnPlayerInit()
     local isContinue = IsContinue()
 
     if isContinue and LostItemsPack:HasData() then
-        LostItemsPack.PersistentData = json.decode(LostItemsPack:LoadData())
+        local loadedData = json.decode(LostItemsPack:LoadData())
+        LostItemsPack.PersistentData = loadedData.PersistentData
+        LostItemsPack.RunPersistentData = loadedData.RunPersistentData
     else
+        if LostItemsPack:HasData() then
+            local loadedData = json.decode(LostItemsPack:LoadData())
+            LostItemsPack.RunPersistentData = loadedData.RunPersistentData
+        else
+            for _, funct in ipairs(LostItemsPack.CallOnNewSaveData) do
+                funct()
+            end
+        end
+
         LostItemsPack.PersistentData = {}
 
         for _, funct in ipairs(LostItemsPack.CallOnLoad) do
@@ -101,11 +126,17 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, LostItemsPack.OnPlay
 
 
 function LostItemsPack:OnGameExit()
-    local jsonString = json.encode(LostItemsPack.PersistentData)
+    local saveData = {
+        PersistentData = LostItemsPack.PersistentData,
+        RunPersistentData = LostItemsPack.RunPersistentData
+    }
+    local jsonString = json.encode(saveData)
     LostItemsPack:SaveData(jsonString)
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, LostItemsPack.OnGameExit)
 
+--Libs
+require("lost_items_scripts.lib.achievement_display_api")
 
 --Other mods compat
 require("lost_items_scripts.mod_compat.EIDCompat")
@@ -114,6 +145,7 @@ require("lost_items_scripts.mod_compat.MinimapiCompat")
 
 --Require main item scripts
 require("lost_items_scripts.ancient_revelation.AncientRevelation")
+require("lost_items_scripts.beths_heart.BethsHeart")
 require("lost_items_scripts.blank_bombs.BlankBombs")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")

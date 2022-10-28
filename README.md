@@ -2,7 +2,7 @@
 
 Items included:
 - Ancient Revelation --done
-- Beth's Heart
+- Beth's Heart --done
 - Blank Bombs --done
 - Book of Illusions/Illusion Hearts
 - Checked Mate

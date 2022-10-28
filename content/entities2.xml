@@ -1,8 +1,13 @@
 <entities anm2root="gfx/" version="5">
-    <!-- BLANK BOMBS-->
+    <!-- BETHS HEART -->
+    <entity anm2path="beths_heart_alt.anm2" baseHP="0" boss="0" champion="0" tags="cansacrifice" collisionDamage="0" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Beth's Heart" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="">
+        <gibs amount="4" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+
+    <!-- BLANK BOMBS -->
     <entity name="blank explosion" anm2path="blank_explosion.anm2" id="1000" variant=""/> 
 
-    <!-- LUCKY SEVEN-->
+    <!-- LUCKY SEVEN -->
     <entity anm2path="lucky_seven_regular_slot.anm2" name="Lucky Seven Slot" id="6" variant=""
     collisionMass="3" collisionRadius="12" friction="1" numGridCollisionPoints="24" shadowSize="33" />
 

@@ -35,6 +35,48 @@ Encyclopedia.AddItem({
 })
 
 
+--Beth's Heart
+local WikiBethsHeart = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "Spawns a throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 pips of charge." },
+        { str = "Half Soul Heart = 1 pip of charge. Soul Heart = 2 pips of charge. Black Heart = 3 pips of charge. Immortal Heart = 6 pips of charge." },
+        { str = "Pressing the 'CTRL' key will supply pips of charge to the active item." },
+    },
+    { -- Notes
+        { str = "Notes", fsize = 2, clr = 3, halign = 0 },
+        { str = "Getting BFFS! expands charge storage to 12 pips of charge." },
+        { str = "Double tapping in one direction will launch Beth's Heart that direction." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "Beth's Heart was one of the few items that was planned to be in Repentance but ultimately never came to fruition." },
+        { str = "This is TC's third version of Beth's Heart. Originally, it was a trinket that had no familar, then a trinket with a familiar, and then an item." },
+
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Team Compliance Director: Sillst" },
+        { str = "Coders: Akad, anchikai., BrakeDude" },
+        { str = "Artists: Michael¿?, Sillst, Soaring___Sky, The Demisemihemidemisemiquaver" },
+        { str = "Translators: BrakeDude, Kotry" },
+        { str = "Playtesters: Akad, anchikai., BrakeDude, Kotry, Sillst" },
+        { str = "Shoutout to im_tem for doing the familiar code!" },
+    },
+}
+
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.BETHS_HEART,
+    WikiDesc = WikiBethsHeart,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_TREASURE,
+        Encyclopedia.ItemPools.POOL_ANGEL,
+        Encyclopedia.ItemPools.POOL_GREED_TREASURE,
+        Encyclopedia.ItemPools.POOL_GREED_ANGEL,
+    },
+})
+
+
 --Blank bombs
 local WikiBlankBombs = {
     { -- Effect

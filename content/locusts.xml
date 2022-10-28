@@ -16,6 +16,9 @@
 	<!-- Ancient Revelation -->
 	<locust id="1" tearFlags="2" color="fly_yellow" />
 
+	<!-- Beth's Heart -->
+	<locust id="1" tearFlags="15" color="fly_blue_heart" />
+
 	<!-- Blank Bombs-->
 	<locust id="0" color="fly_blue"/>
 

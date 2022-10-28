@@ -1,5 +1,6 @@
 <ItemPools>
 	<Pool Name="treasure">
+		<Item Name="Beth's Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
@@ -10,6 +11,7 @@
 
 	<Pool Name="angel">
 		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Beth's Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
 
 	<Pool Name="greedTreasure">
@@ -23,6 +25,7 @@
 
 	<Pool Name="greedAngel">
 		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Beth's Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
 
 	<Pool Name="bombBum">
