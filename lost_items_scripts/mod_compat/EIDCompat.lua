@@ -97,6 +97,16 @@ EID:addCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, SevendescRu, "Сч
 EID:addCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, SevendescSpa, "7 de la suerte", "spa")
 
 
+--Pacifist
+local Pacdesc = "Gives pickup rewards at the start of a floor based on how many rooms you haven't cleared on the previous floor"
+local PacdescRu = "Дает награду предметами на следующем этаже в зависимости от того, сколько комнат вы не зачистили на текущем"
+local PacdescSpa = "Genera recolectables en el siguiente piso en función a cuantas habitaciones no limpiaste en el piso actual"
+
+EID:addCollectible(LostItemsPack.CollectibleType.PACIFIST, Pacdesc, "Pacifist")
+EID:addCollectible(LostItemsPack.CollectibleType.PACIFIST, PacdescRu, "Пацифист", "ru")
+EID:addCollectible(LostItemsPack.CollectibleType.PACIFIST, PacdescSpa, "Pacifista", "spa")
+
+
 ---Pill crusher
 local PCDesc = "Gives a random {{Pill}} pill when picked up#Increase pill drop rate when held#Consumes currently held pill and applies an effect to the entire room depending on the type of pill"
 local PCDescSpa = "Otorga una {{Pill}} pildora aleatoria al tomarlo#Las pildoras aparecen con mas frecuencia#Consume la pildora que posees y aplica un efecto a la sala, basado en la pildora"

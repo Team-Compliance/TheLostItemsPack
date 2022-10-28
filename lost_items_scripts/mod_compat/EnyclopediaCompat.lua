@@ -244,6 +244,18 @@ Encyclopedia.AddItem({
 })
 
 
+--Pacifist
+local Pacdesc = "Gives pickup rewards at the start of a floor based on how many rooms you haven't cleared on the previous floor"
+local WikiPacifist = Encyclopedia.EIDtoWiki(Pacdesc)
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.PACIFIST,
+    WikiDesc = WikiPacifist,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_ANGEL
+    },
+})
+
+
 ---Pill Crusher
 local WikiPillCrusher = {
     { -- Effect

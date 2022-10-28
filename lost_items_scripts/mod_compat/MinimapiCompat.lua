@@ -22,5 +22,8 @@ MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.KEEPERS_ROPE, mini
 --Lucky Seven
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, minimapiIconsSprite, "CustomIconLuckySeven", frame)
 
+--Pacifist
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.PACIFIST, minimapiIconsSprite, "CustomIconPacifist", frame)
+
 --Pill Crusher
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, minimapiIconsSprite, "CustomIconPillCrusher", frame)

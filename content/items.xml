@@ -13,6 +13,8 @@
 
 	<passive name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
 
+    <passive name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
+
 	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 
 	<passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
