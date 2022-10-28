@@ -56,12 +56,32 @@ function SafetyBombsMod:BombUpdate(bomb)
 				---@diagnostic disable-next-line: param-type-mismatch
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
 					local sprite = bomb:GetSprite()
+
+					local spriteSheet = "gfx/items/pick ups/bombs/costumes/safety_bombs"
+
+					---@diagnostic disable-next-line: param-type-mismatch
+					if bomb:HasTearFlags(TearFlags.TEAR_BUTT_BOMB) then
+						spriteSheet = spriteSheet .. "_poop"
+					else
+						---@diagnostic disable-next-line: param-type-mismatch
+						if bomb:HasTearFlags(TearFlags.TEAR_STICKY) then
+							spriteSheet = spriteSheet .. "_sticky"
+						end
+
+						---@diagnostic disable-next-line: param-type-mismatch
+						if bomb:HasTearFlags(TearFlags.TEAR_BURN) then
+							spriteSheet = spriteSheet .. "_hot"
+						end
+					end
+
 					---@diagnostic disable-next-line: param-type-mismatch
 					if bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
-						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/safety_bombs_gold.png")
-					else
-						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/safety_bombs.png")
+						spriteSheet = spriteSheet .. "_gold"
 					end
+
+					spriteSheet = spriteSheet .. ".png"
+
+					sprite:ReplaceSpritesheet(0, spriteSheet)
 					sprite:LoadGraphics()
 				end
 			end
