@@ -20,11 +20,11 @@ Items included:
 (To-do) Item tweaks:
 - Safety Bombs = synergies
   - Abyss synergy
-  - Sticky Bombs synergy = Enemies that go within the radius of bombs get the slowness effect
-  - Hot Bombs synergy = Enemies that go within the radius of bombs get the burn effect
-  - Bob's Curse synergy = Enemies that go within the radius of bombs get the poison effect
-  - Butt Bombs synergy = Enemies that go within the radius of bombs get confusion
-  - Nancy Bombs synergy = The Safety Bombs effect is in the Nancy Bombs effect pool
+  - Sticky Bombs synergy = Enemies that go within the radius of bombs get the slowness effect --done
+  - Hot Bombs synergy = Enemies that go within the radius of bombs get the burn effect --done
+  - Bob's Curse synergy = Enemies that go within the radius of bombs get the poison effect --done
+  - Butt Bombs synergy = Enemies that go within the radius of bombs get confusion --done
+  - Nancy Bombs synergy = The Safety Bombs effect is in the Nancy Bombs effect pool --done
 - Keeper's Rope = decrease the coin despawn time to more closely match Tainted Keeper --done
 - Pacifist = interactions with special rooms to make it more viable --done
 	- Skipping Treasure Rooms, Shops, Planetariums, Vaults, and/or Dice Rooms gives you a golden chest on the next floor
