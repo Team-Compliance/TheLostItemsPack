@@ -108,8 +108,129 @@ local DSSInitializerFunction = require("lost_items_scripts.lib.dssmenucore")
 local dssmod = DSSInitializerFunction(DSSModName, DSSCoreVersion, MenuProvider)
 
 
+local itemTogglesMenu = {
+    {str = 'Choose what items', fsize = 2, nosel = true},
+    {str = 'show up', fsize = 2, nosel = true},
+    {str = '', fsize = 2, nosel = true},
+}
+
+local itemConfig = Isaac.GetItemConfig()
+---@type ItemConfig_Item[]
+local orderedItems = {}
+for _, collectible in pairs(LostItemsPack.CollectibleType) do
+    local collectibleConf = itemConfig:GetCollectible(collectible)
+    orderedItems[#orderedItems+1] = collectibleConf
+end
+table.sort(orderedItems, function (a, b)
+    return a.Name < b.Name
+end)
+
+local function SplitStr(inputstr, sep)
+    if sep == nil then
+            sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end
+
+for _, collectible in pairs(orderedItems) do
+    local split = SplitStr(string.lower(collectible.Name))
+
+    local tooltipStr = {"enable", ""}
+    for _, word in ipairs(split) do
+        if tooltipStr[#tooltipStr]:len() + word:len() > 15 then
+            tooltipStr[#tooltipStr] = tooltipStr[#tooltipStr]:sub(0, tooltipStr[#tooltipStr]:len()-1)
+            tooltipStr[#tooltipStr+1] = word .. " "
+        else
+            tooltipStr[#tooltipStr] = tooltipStr[#tooltipStr] .. word .. " "
+        end
+    end
+    tooltipStr[#tooltipStr] = tooltipStr[#tooltipStr]:sub(0, tooltipStr[#tooltipStr]:len()-1)
+
+    local itemSprite = Sprite()
+    itemSprite:Load("gfx/ui/dss_item.anm2", false)
+    itemSprite:ReplaceSpritesheet(0, collectible.GfxFileName)
+    itemSprite:LoadGraphics()
+    itemSprite:SetFrame("Idle", 0)
+
+    local collectibleOption = {
+        str = string.lower(collectible.Name),
+
+        -- The "choices" tag on a button allows you to create a multiple-choice setting
+        choices = {'enabled', 'disabled'},
+        -- The "setting" tag determines the default setting, by list index. EG "1" here will result in the default setting being "choice a"
+        setting = 1,
+
+        -- "variable" is used as a key to story your setting; just set it to something unique for each setting!
+        variable = 'ToggleItem' .. collectible.Name,
+
+        -- When the menu is opened, "load" will be called on all settings-buttons
+        -- The "load" function for a button should return what its current setting should be
+        -- This generally means looking at your mod's save data, and returning whatever setting you have stored
+        load = function()
+            if not LostItemsPack.RunPersistentData.DisabledItems then
+                LostItemsPack.RunPersistentData.DisabledItems = {}
+            end
+
+            for _, disabledItem in ipairs(LostItemsPack.RunPersistentData.DisabledItems) do
+                if disabledItem == collectible.ID then
+                    return 2
+                end
+            end
+            return 1
+        end,
+
+        -- When the menu is closed, "store" will be called on all settings-buttons
+        -- The "store" function for a button should save the button's setting (passed in as the first argument) to save data!
+        store = function(var)
+            if not LostItemsPack.RunPersistentData.DisabledItems then
+                LostItemsPack.RunPersistentData.DisabledItems = {}
+            end
+
+            for index, disabledItem in ipairs(LostItemsPack.RunPersistentData.DisabledItems) do
+                if disabledItem == collectible.ID then
+                    if var == 1 then
+                        table.remove(LostItemsPack.RunPersistentData.DisabledItems, index)
+                    end
+                    return
+                end
+            end
+
+            if var == 2 then
+                table.insert(LostItemsPack.RunPersistentData.DisabledItems, collectible)
+            end
+        end,
+
+        -- A simple way to define tooltips is using the "strset" tag, where each string in the table is another line of the tooltip
+        tooltip = {
+            buttons = {
+                {spr = {
+                    sprite = itemSprite,
+                    centerx = 16,
+                    centery = 16,
+                    width = 32,
+                    height = 32,
+                    float = {1, 6},
+                    shadow = true,
+                    nosel = true
+                }},
+                {strset = tooltipStr},
+            }
+        }
+    }
+
+    itemTogglesMenu[#itemTogglesMenu+1] = collectibleOption
+end
+
+
 -- Creating a menu like any other DSS menu is a simple process.
 -- You need a "Directory", which defines all of the pages ("items") that can be accessed on your menu, and a "DirectoryKey", which defines the state of the menu.
+local itemSprite = Sprite()
+itemSprite:Load("gfx/ui/dss_item.anm2", false)
+
 local exampledirectory = {
     -- The keys in this table are used to determine button destinations.
     main = {
@@ -130,14 +251,13 @@ local exampledirectory = {
             -- If using the "openmenu" action, "dest" will pick which item of that menu you are sent to.
             {str = 'settings', dest = 'settings'},
 
+            {str = 'item toggles', dest = 'items'},
+
             -- A few default buttons are provided in the table returned from DSSInitializerFunction.
             -- They're buttons that handle generic menu features, like changelogs, palette, and the menu opening keybind
             -- They'll only be visible in your menu if your menu is the only mod menu active; otherwise, they'll show up in the outermost Dead Sea Scrolls menu that lets you pick which mod menu to open.
             -- This one leads to the changelogs menu, which contains changelogs defined by all mods.
             dssmod.changelogsButton,
-
-            -- Text font size can be modified with the "fsize" tag. There are three font sizes, 1, 2, and 3, with 1 being the smallest and 3 being the largest.
-            {str = 'look at the little text!', fsize = 1}
         },
 
         -- A tooltip can be set either on an item or a button, and will display in the corner of the menu while a button is selected or the item is visible with no tooltip selected from a button.
@@ -145,6 +265,7 @@ local exampledirectory = {
         -- It's generally a good idea to use that one as a default!
         tooltip = dssmod.menuOpenToolTip
     },
+
     settings = {
         title = 'settings',
         buttons = {
@@ -158,148 +279,35 @@ local exampledirectory = {
             dssmod.menuHintButton,
             dssmod.menuBuzzerButton,
 
+            {str = '- illusion hearts -', nosel = true},
+            {str = '', nosel = true},
+
             {
-                str = 'choice option',
-
-                -- The "choices" tag on a button allows you to create a multiple-choice setting
-                choices = {'choice a', 'choice b', 'choice c'},
-                -- The "setting" tag determines the default setting, by list index. EG "1" here will result in the default setting being "choice a"
-                setting = 1,
-
-                -- "variable" is used as a key to story your setting; just set it to something unique for each setting!
-                variable = 'ExampleChoiceOption',
-                
-                -- When the menu is opened, "load" will be called on all settings-buttons
-                -- The "load" function for a button should return what its current setting should be
-                -- This generally means looking at your mod's save data, and returning whatever setting you have stored
-                load = function()
-                    return DSSMenuManager.GetSaveData().exampleoption or 1
-                end,
-
-                -- When the menu is closed, "store" will be called on all settings-buttons
-                -- The "store" function for a button should save the button's setting (passed in as the first argument) to save data!
-                store = function(var)
-                    DSSMenuManager.GetSaveData().exampleoption = var
-                end,
-
-                -- A simple way to define tooltips is using the "strset" tag, where each string in the table is another line of the tooltip
-                tooltip = {strset = {'configure', 'my options', 'please!'}}
-            },
-            {
-                str = 'slider option',
-
-                -- The "slider" tag allows you to make a button a slider, with notches that are transparent / opaque depending on if they're filled.
-                slider = true,
-                -- Increment determines how much the value of the slider changes with each notch
-                increment = 1,
-                -- Max determines the maximum value of the slider. The number of notches is equal to max / increment!
-                max = 10,
-                -- Setting determines the initial value of the slider
-                setting = 1,
-
-                -- "variable" is used as a key to story your setting; just set it to something unique for each setting!
-                variable = 'ExampleSliderOption',
-                
-                -- These functions work just like in the choice option!
-                load = function()
-                    return DSSMenuManager.GetSaveData().exampleslider or 1
-                end,
-                store = function(var)
-                    DSSMenuManager.GetSaveData().exampleslider = var
-                end,
-
-                tooltip = {strset = {'like a slide!'}}
-            },
-            {
-                str = 'number option',
-
-                -- If "min" and "max" are set without "slider", you've got yourself a number option!
-                -- It will allow you to scroll through the entire range of numbers from "min" to "max", incrementing by "increment"
-                min = 20,
-                max = 100,
-                increment = 5,
-
-                -- You can also specify a prefix or suffix that will be applied to the number, which is especially useful for percentages!
-                pref = 'hi! ',
-                suf = '%',
-
-                setting = 20,
-
-                variable = "ExampleNumberOption",
-
-                load = function()
-                    return DSSMenuManager.GetSaveData().examplenumber or 20
-                end,
-                store = function(var)
-                    DSSMenuManager.GetSaveData().examplenumber = var
-                end,
-
-                tooltip = {strset = {"who knows", "what it could", "mean"}},
-            },
-            {
-                str = 'keybind option',
-
-                -- A keybind option lets you bind a key!
-                keybind = true,
-                -- -1 means no key set, otherwise use the Keyboard enum!
-                setting = -1,
-
-                variable = "ExampleKeybindOption",
-
-                load = function()
-                    return DSSMenuManager.GetSaveData().examplekeybind or -1
-                end,
-                store = function(var)
-                    DSSMenuManager.GetSaveData().examplekeybind = var
-                end,
-
-                tooltip = {strset = {"it's the key!"}},
-            },
-            {
-                -- Creating gaps in your page can be done simply by inserting a blank button.
-                -- The "nosel" tag will make it impossible to select, so it'll be skipped over when traversing the menu, while still rendering!
-                str = '',
+                strset = {'illusions can', 'place bombs'},
                 fsize = 2,
-                nosel = true
-            },
-            {
-                str = 'kill me!',
+                choices = {'no', 'yes'},
+                setting = 1,
 
-                -- If you want a button to do something unusual, you can have it call a function using the "func" tag!
-                -- The function passes in "button", which is this button object, "item", which is the item object containing these buttons, and "menuObj", which is what you pass into AddMenu (contains DirectoryKey and Directory!)
-                func = function(button, item, menuObj)
-                    Isaac.GetPlayer():Kill()
-                end,
-
-                -- "displayif" allows you to dynamically hide or show a button. If you return true, it will display, and if you return false, it won't!
-                -- It passes in all the same args as "func"
-                -- In this example, this button will be hidden if the "slider option" button above is set to its maximum value.
-                displayif = function(button, item, menuObj)
-                    if item and item.buttons then
-                        for _, btn in ipairs(item.buttons) do
-                            if btn.str == 'slider option' and btn.setting == 10 then
-                                return false
-                            end
-                        end
+                load = function ()
+                    if LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs then
+                        return 2
                     end
-
-                    return true
+                    return 1
                 end,
 
-                -- The "generate" function is run the very first time a button displays upon switching to its item
-                -- You can use this to change the button's data dynamically, for instance for a menu that uses non-constant data.
-                -- In this example, it's just a random chance to change the string the button displays, but you could do pretty much anything!
-                generate = function(button, item, tbl)
-                    if math.random(1, 100) == 1 then
-                        button.str = "really kill me!"
-                    else
-                        button.str = "kill me!"
-                    end
+                store = function(newOption)
+                    LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs = newOption == 2
                 end,
 
-                tooltip = {strset = {'press this', 'to kill', 'isaac!'}}
-            },
+                tooltip = {strset = {'Can illusions', 'place bombs?'}}
+            }
         }
+    },
+
+    items = {
+        title = 'item toggles',
+
+        buttons = itemTogglesMenu
     }
 }
 

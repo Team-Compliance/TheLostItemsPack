@@ -153,6 +153,7 @@ function LostItemsPack:OnPlayerInit()
 
         if not LostItemsPack.RunPersistentData then
             LostItemsPack.RunPersistentData = {}
+            LostItemsPack.RunPersistentData.DisabledItems = {}
             for _, funct in ipairs(LostItemsPack.CallOnNewSaveData) do
                 funct()
             end
