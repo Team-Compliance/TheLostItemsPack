@@ -13,6 +13,9 @@ MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.BETHS_HEART, minim
 --Blank Bombs
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, minimapiIconsSprite, "CustomIconBlankBombs", frame)
 
+--Checked Mate
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, minimapiIconsSprite, "CustomIconCheckedMate", frame)
+
 --Lucky Seven
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN, minimapiIconsSprite, "CustomIconLuckySeven", frame)
 

@@ -18,6 +18,7 @@ LostItemsPack.CollectibleType = {
     BETHS_HEART = Isaac.GetItemIdByName("Beth's Heart"),
     BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     BOOK_OF_ILLUSIONS = Isaac.GetItemIdByName("Book of Illusions"),
+    CHECKED_MATE = Isaac.GetItemIdByName("Checked Mate"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
 }
@@ -32,6 +33,12 @@ LostItemsPack.Entities = {
     BLANK_BOMB_EXPLOSION = {
         type = EntityType.ENTITY_EFFECT,
         variant = Isaac.GetEntityVariantByName("blank explosion"),
+        subtype = 0
+    },
+
+    CHECKED_MATE = {
+        type = EntityType.ENTITY_FAMILIAR,
+        variant = Isaac.GetEntityVariantByName("Checked Mate"),
         subtype = 0
     },
 
@@ -158,6 +165,7 @@ require("lost_items_scripts.mod_compat.MinimapiCompat")
 require("lost_items_scripts.ancient_revelation.AncientRevelation")
 require("lost_items_scripts.beths_heart.BethsHeart")
 require("lost_items_scripts.blank_bombs.BlankBombs")
+require("lost_items_scripts.checked_mate.CheckedMate")
 require("lost_items_scripts.illusion_hearts.IllusionHearts")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pill_crusher.PillCrusher")

@@ -262,4 +262,15 @@ function Helpers.GetBombExplosionRadius(bomb)
 end
 
 
+function Helpers.GridAlignPosition(pos)
+	local x = pos.X
+	local y = pos.Y
+
+	x = 40 * math.floor(x/40 + 0.5)
+	y = 40 * math.floor(y/40 + 0.5)
+
+	return Vector(x, y)
+end
+
+
 return Helpers

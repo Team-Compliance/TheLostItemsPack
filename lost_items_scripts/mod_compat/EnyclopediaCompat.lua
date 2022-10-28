@@ -111,6 +111,37 @@ Encyclopedia.AddItem({
 })
 
 
+--Checked Mate
+local WikiCheckedMate = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "Spawns a familiar that moves by jumping from tile to tile." },
+        { str = "20 AOE damage is delt upon each landing." },
+        { str = "If the familiar lands directly on a monster, 40 damage is delt." },
+    },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "BFFS! = Checked Mate moves like a queen piece from chess instead of a king piece. All damage is doubled." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "Checked mate was a scrapped item from the cancelled Antibirth update. It was originally a passive item whos intended effect was to clear the room if a champion was killed." },
+        { str = "Checked Mate is the only familar whos sprite has changes other than size upon obtaining BFFS!." },
+    },
+}
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.CHECKED_MATE,
+    WikiDesc = WikiCheckedMate,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_TREASURE,
+        Encyclopedia.ItemPools.POOL_GREED_TREASURE,
+        Encyclopedia.ItemPools.POOL_GOLDEN_CHEST,
+        Encyclopedia.ItemPools.POOL_WOODEN_CHEST,
+        Encyclopedia.ItemPools.POOL_BABY_SHOP,
+    },
+})
+
+
 --Illusion Hearts - Book Of Illusions
 local WikiBookOfIllusions = {
     { -- Effect
@@ -126,7 +157,6 @@ local WikiBookOfIllusions = {
         { str = "Book of Illusions was an unused item in Antibirth, with its effect being the same as and complimentary to the unused Illusion Hearts." },
     },
 }
-
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS,
     WikiDesc = WikiBookOfIllusions,

@@ -51,6 +51,16 @@ EID:addCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, BlankDescRu, "Пу
 EID:addCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, BlankDescPt, "Bombas de Festim", "pt_br")
 
 
+--Checked Mate
+local CheckedMateENG = "Spawns a familiar that moves by jumping from tile to tile.#20 AOE damage is delt upon each landing.#If the familiar lands directly on a monster, 40 damage is delt."
+local CheckedMateRU = "Создает фамильяра, который перемещается, прыгая с места на место.#20 урона по площади при каждом приземлении.#Если фамильяр приземляется прямо на монстра, тот получает 40 единиц урона."
+local CheckedMateSPA = "Genera un Rey de Ajedréz que saltará de cuadro en cuadro#Inflige 20 puntos de daño en área cada vez que aterriza#Si la pieza aterriza directamente sobre un enemigo, inflige 40 puntos de daño"
+
+EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateENG, "Checked Mate", "en_us")
+EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateRU, "Checked Mate", "ru")
+EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateSPA, "Rey en jaque", "spa")
+
+
 --Illusion Hearts - Book Of Illusions
 local BOIDesc = "Spawns an illusion clone when used#Illusion clones are the same character as you and die in one hit"
 local BOIDescSpa = "Genera un clon de ilusión tras usarlo#El clon es el mismo personaje que el tuyo#Morirá al recibir un golpe"

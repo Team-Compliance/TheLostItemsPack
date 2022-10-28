@@ -4,7 +4,7 @@ Items included:
 - Ancient Revelation --done
 - Beth's Heart --done
 - Blank Bombs --done
-- Book of Illusions/Illusion Hearts
+- Book of Illusions/Illusion Hearts --done
 - Checked Mate
 - Keeper's Rope
 - Lucky Seven --done
