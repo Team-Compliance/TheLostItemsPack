@@ -170,6 +170,7 @@ function BlankBombsMod:OnBombInitLate(bomb)
 		end
 
 		bomb.ExplosionDamage = bomb.ExplosionDamage / 2
+		if player:HasGoldenBomb() then bomb.ExplosionDamage = bomb.ExplosionDamage / 2 end
 		bomb:SetExplosionCountdown(0)
 	end
 end
