@@ -8,7 +8,7 @@ Items included:
 - Checked Mate --done
 - Keeper's Rope --done
 - Lucky Seven --done
-- Pacifist
+- Pacifist --done
 - Pill Crusher --done
 - Safety Bombs
 - Voodoo Pin

@@ -262,6 +262,23 @@ function Helpers.GetBombExplosionRadius(bomb)
 end
 
 
+function Helpers.GetBombRadiusFromDamage(damage,isBomber)
+	if 300 <= damage then
+		return 300.0
+	elseif isBomber then
+		return 155.0
+	elseif 175.0 <= damage then
+		return 105.0
+	else
+		if damage <= 140.0 then
+			return 75.0
+		else
+			return 90.0
+		end
+	end
+end
+
+
 function Helpers.GridAlignPosition(pos)
 	local x = pos.X
 	local y = pos.Y

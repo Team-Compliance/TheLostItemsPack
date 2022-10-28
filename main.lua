@@ -21,8 +21,9 @@ LostItemsPack.CollectibleType = {
     CHECKED_MATE = Isaac.GetItemIdByName("Checked Mate"),
     KEEPERS_ROPE = Isaac.GetItemIdByName("Keeper's Rope"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
+    PACIFIST = Isaac.GetItemIdByName("Pacifist"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
-    PACIFIST = Isaac.GetItemIdByName("Pacifist")
+    SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs")
 }
 
 LostItemsPack.Entities = {
@@ -182,3 +183,4 @@ require("lost_items_scripts.keepers_rope.KeepersRope")
 require("lost_items_scripts.lucky_seven.LuckySeven")
 require("lost_items_scripts.pacifist.Pacifist")
 require("lost_items_scripts.pill_crusher.PillCrusher")
+require("lost_items_scripts.safety_bombs.SafetyBombs")

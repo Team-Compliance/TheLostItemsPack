@@ -17,6 +17,8 @@
 
 	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 
+    <passive name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
+
 	<passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
     <passive name="Mom transform" description="Counts towards mom" hidden="true" tags="mom"/>
     <passive name="Guppy transform" description="Counts towards guppy" hidden="true" tags="guppy"/>

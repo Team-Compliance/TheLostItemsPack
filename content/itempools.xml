@@ -4,6 +4,7 @@
 		<Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Safety Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
 
 	<Pool Name="shop">
@@ -36,6 +37,7 @@
 	<Pool Name="greedTreasure">
         <Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Safety Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
     </Pool>
 
 	<Pool Name="greedShop">
@@ -59,6 +61,7 @@
 
 	<Pool Name="bombBum">
         <Item Name="Blank Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Safety Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
     </Pool>
 
 	<Pool Name="craneGame">

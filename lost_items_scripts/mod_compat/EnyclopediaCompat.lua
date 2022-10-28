@@ -283,3 +283,28 @@ Encyclopedia.AddItem({
         Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
 })
+
+
+--Safety Bombs
+local WikiSafetyBombs = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "+5 bombs." },
+        { str = "Placed bombs will not explode until the player leaves its explosion radius." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "This mod was coded by kittenchilly!" },
+        { str = "Safety Bombs was an unused concept from Antibirth." },
+    },
+}
+
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.SAFETY_BOMBS,
+    WikiDesc = WikiSafetyBombs,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_TREASURE,
+        Encyclopedia.ItemPools.POOL_GREED_TREASURE,
+        Encyclopedia.ItemPools.POOL_BOMB_BUM,
+    },
+})

@@ -27,3 +27,6 @@ MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.PACIFIST, minimapi
 
 --Pill Crusher
 MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, minimapiIconsSprite, "CustomIconPillCrusher", frame)
+
+--Safety Bombs
+MiniMapiItemsAPI:AddCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, minimapiIconsSprite, "CustomIconSafetyBombs", frame)

@@ -117,3 +117,13 @@ EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDesc, "Pill Cru
 EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDescSpa, "Triturador de Pildoras", "spa")
 EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDescRu, "Дробилка пилюль", "ru")
 EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDescPt_Br, "Triturador de Pílula", "pt_br")
+
+
+--Safety Bombs
+local SBDesc = "{{Bomb}} +5 Bombs#Placed bombs will not explode until the player leaves its explosion radius"
+local SBDescSpa = "{{Bomb}} +5 Bombas#Las bombas que coloques no explotarán hasta que te alejes de su radio de explosión"
+local SBDescRu = "{{Bomb}} +5 бомб#Размещенные бомбы не взорвутся, пока игрок не покинет радиус взрыва"
+
+EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDesc, "Safety Bombs")
+EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDescSpa, "Bombas de Seguridad", "spa")
+EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDescRu, "Безопасные бомбы", "ru")
