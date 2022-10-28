@@ -5,7 +5,22 @@
 
 	<passive name="Blank Bombs" description="Enter the basement" gfx="collectibles_097x_BlankBombs.png" bombs="5" quality="2" tags="summonable offensive"/>
 	
+	<active name="Book of Illusions" description="Army of you" gfx="BookOfIllusions.png" maxcharges="12" quality="4" tags="book offensive" />
+
 	<passive name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
 
 	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
+
+	<passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
+    <passive name="Mom transform" description="Counts towards mom" hidden="true" tags="mom"/>
+    <passive name="Guppy transform" description="Counts towards guppy" hidden="true" tags="guppy"/>
+    <passive name="Fly transform" description="Counts towards fly" hidden="true" tags="fly"/>
+    <passive name="Bob transform" description="Counts towards bob" hidden="true" tags="bob"/>
+    <passive name="Mushroom transform" description="Counts towards mushroom" hidden="true" tags="mushroom"/>
+    <passive name="Baby transform" description="Counts towards baby" hidden="true" tags="baby"/>
+    <passive name="Angel transform" description="Counts towards angel" hidden="true" tags="angel"/>
+    <passive name="Devil transform" description="Counts towards devil" hidden="true" tags="devil"/>
+    <passive name="Poop transform" description="Counts towards poop" hidden="true" tags="poop"/>
+    <passive name="Book transform" description="Counts towards book" hidden="true" tags="book"/>
+    <passive name="Spider transform" description="Counts towards spider" hidden="true" tags="spider"/>
 </items>

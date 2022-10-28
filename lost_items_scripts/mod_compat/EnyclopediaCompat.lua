@@ -111,6 +111,35 @@ Encyclopedia.AddItem({
 })
 
 
+--Illusion Hearts - Book Of Illusions
+local WikiBookOfIllusions = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "Spawns an illusion clone when used." },
+        { str = "Illusion clones are the same character as you, with the same starting stats and items." },
+        { str = "Illusion clones control like Esau, but cannot pickup any items or pickups." },
+        { str = "Illusion clones always die in one hit." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "This has the same effect as picking up an Illusion Heart." },
+        { str = "Book of Illusions was an unused item in Antibirth, with its effect being the same as and complimentary to the unused Illusion Hearts." },
+    },
+}
+
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS,
+    WikiDesc = WikiBookOfIllusions,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_ANGEL,
+        Encyclopedia.ItemPools.POOL_DEVIL,
+        Encyclopedia.ItemPools.POOL_LIBRARY,
+        Encyclopedia.ItemPools.POOL_GREED_ANGEL,
+        Encyclopedia.ItemPools.POOL_GREED_DEVIL,
+    },
+})
+
+
 ---Lucky Seven
 local WikiLuckySeven = {
     { -- Effect

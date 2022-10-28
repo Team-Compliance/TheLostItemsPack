@@ -51,6 +51,22 @@ EID:addCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, BlankDescRu, "Пу
 EID:addCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS, BlankDescPt, "Bombas de Festim", "pt_br")
 
 
+--Illusion Hearts - Book Of Illusions
+local BOIDesc = "Spawns an illusion clone when used#Illusion clones are the same character as you and die in one hit"
+local BOIDescSpa = "Genera un clon de ilusión tras usarlo#El clon es el mismo personaje que el tuyo#Morirá al recibir un golpe"
+local BOIDescRu = "При использовании создаёт иллюзию# Иллюзия - это тот же персонаж, что и ваш, которые умирают от одного удара"
+local BOIDescPt_Br = "Gera um clone de ilusão quando usado#Clones de ilusão são o mesmo personagem como você e morrem em um golpe"
+
+EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDesc, "Book of Illusions", "en_us")
+EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "en_us")
+EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescSpa, "El Libro de las ilusiones", "spa")
+EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "spa")
+EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescRu , "Книга иллюзий", "ru")
+EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "ru")
+EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescPt_Br, "Livro de Ilusões", "pt_br")
+EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "pt_br")
+
+
 --Lucky seven
 local Sevendesc = "Whenever any of the player's pickup counts ends in a 7, Isaac has a chance to shoot golden tears that spawn special slot machines when they hit monsters"
 local SevendescRu = "Всякий раз, когда один из предметов игрока заканчивается на 7, у Исаака есть шанс выстрелить золотыми слезами, которые при попадании во врагов превращают их в особые игровые автоматы"
