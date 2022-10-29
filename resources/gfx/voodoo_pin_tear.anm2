@@ -1,5 +1,5 @@
 <AnimatedActor>
-	<Info CreatedBy="trtv" CreatedOn="28/10/2022 14:06:11" Version="22" Fps="30"/>
+	<Info CreatedBy="trtv" CreatedOn="29/10/2022 19:08:25" Version="23" Fps="30"/>
 	<Content>
 		<Spritesheets>
 			<Spritesheet Path="effects\pin_fracture.png" Id="0"/>

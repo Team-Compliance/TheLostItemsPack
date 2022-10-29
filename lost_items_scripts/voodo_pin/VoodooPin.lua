@@ -16,6 +16,8 @@ function VoodooPin:UseVoodooPin(_, _, player, _, slot)
 	local returntable = {Discharge = false, Remove = false, ShowAnim = false} --don't discharge, don't remove item, don't show animation
 	return returntable
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, VoodooPin.UseVoodooPin, LostItemsPack.CollectibleType.VOODOO_PIN)
+
 
 function VoodooPin:OnNewRoom()
     for playerNum = 0, Game():GetNumPlayers() - 1 do
@@ -23,6 +25,8 @@ function VoodooPin:OnNewRoom()
         Helpers.GetData(player).HoldVooodooPin = nil
     end
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, VoodooPin.OnNewRoom)
+
 
 --taiking damage to reset state/slot number
 function VoodooPin:DamagedWithVoodoo(player,dmg,dmgFlags,dmgSource,dmgCountDownFrames)
@@ -37,6 +41,8 @@ function VoodooPin:DamagedWithVoodoo(player,dmg,dmgFlags,dmgSource,dmgCountDownF
 	Helpers.GetData(player).HoldVooodooPin = nil
 	return nil
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, VoodooPin.DamagedWithVoodoo, EntityType.ENTITY_PLAYER)
+
 
 --taiking damage to reset state/slot number
 function VoodooPin:DamagedWispVoodoo(wisp,dmg,dmgFlags,dmgSource,dmgCountDownFrames)
@@ -50,6 +56,8 @@ function VoodooPin:DamagedWispVoodoo(wisp,dmg,dmgFlags,dmgSource,dmgCountDownFra
 	end
 	return nil
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, VoodooPin.DamagedWispVoodoo, EntityType.ENTITY_FAMILIAR)
+
 
 --shooting tears from bowl
 function VoodooPin:VoodooThrow(player)
@@ -113,21 +121,46 @@ function VoodooPin:VoodooThrow(player)
 		end
 	end
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, VoodooPin.VoodooThrow)
+
 
 --taiking damage to reset state/slot number
-function VoodooPin:VoodooHit(tear,collider,low)
+---@param tear EntityTear
+---@param collider Entity
+function VoodooPin:VoodooHit(tear,collider)
 	local player = Helpers.GetPlayerFromTear(tear)
     if not player then return end
+
 	local data = Helpers.GetData(player)
 	local sfx = SFXManager()
 	if collider:IsVulnerableEnemy() then
 		data.SwapedEnemy = collider:ToNPC()
-		if collider:IsVulnerableEnemy() and collider:IsBoss() then
+		if collider:IsBoss() then
 			data.Timer = 150
 		end
+
+		Helpers.GetData(tear).StuckToEnemy = true
+
+		local stickedVoodooPin = Isaac.Spawn(EntityType.ENTITY_EFFECT, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant, 0, tear.Position, Vector.Zero, nil)
+		local stickedData = Helpers.GetData(stickedVoodooPin)
+
+		stickedData.EnemyStikedTo = collider
+		stickedData.StickedPositionOffset = tear.Position - collider.Position
+		stickedData.AnimationFrame = tear:GetSprite():GetFrame()
+
+		stickedVoodooPin:GetSprite():SetFrame("Idle", stickedData.AnimationFrame)
+
+		stickedVoodooPin.SpriteRotation = tear.SpriteRotation
+		stickedVoodooPin.SpriteOffset = Vector(0, tear.Height)
+		stickedVoodooPin.DepthOffset = -tear.Height
+
+		SFXManager():Play(SoundEffect.SOUND_GOOATTACH0)
+		return
 	end
 	sfx:Play(SoundEffect.SOUND_SPLATTER,1,0,false)
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, VoodooPin.VoodooHit, LostItemsPack.Entities.VOODOO_PIN_TEAR.variant)
+
 
 local voodoo = Sprite()
 voodoo:Load("gfx/effects/voodoo_status.anm2", true)
@@ -151,6 +184,8 @@ function VoodooPin:RenderVoodooCurse(player)
 		voodoo:Render(Game():GetRoom():WorldToScreenPosition(data.SwapedEnemy.Position),Vector.Zero,Vector.Zero)
 	end
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, VoodooPin.RenderVoodooCurse)
+
 
 function VoodooPin:VoodooPinThrown(pin)
 	pin.CollisionDamage = 1
@@ -164,9 +199,17 @@ function VoodooPin:VoodooPinThrown(pin)
 		end
 	end
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, VoodooPin.VoodooPinThrown, LostItemsPack.Entities.VOODOO_PIN_TEAR.variant)
+
 
 function VoodooPin:VoodooShatter(pin)
 	if pin.Variant == LostItemsPack.Entities.VOODOO_PIN_TEAR.variant then
+		local data = Helpers.GetData(pin)
+
+		if data.StuckToEnemy then
+			return
+		end
+
 		local shatters = Isaac.Spawn(EntityType.ENTITY_EFFECT,LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant,0,pin.Position,Vector.Zero,pin):GetSprite()
 		local sfx = SFXManager()
 		shatters.Rotation = pin:GetSprite().Rotation
@@ -175,6 +218,8 @@ function VoodooPin:VoodooShatter(pin)
 		sfx:Play(SoundEffect.SOUND_STONE_IMPACT,1,0,false)
 	end
 end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, VoodooPin.VoodooShatter, EntityType.ENTITY_TEAR)
+
 
 function VoodooPin:VoodooShattered(pin)
 	local sprite = pin:GetSprite()
@@ -182,19 +227,43 @@ function VoodooPin:VoodooShattered(pin)
 		pin:Remove()
 	end
 end
-
-
-
-LostItemsPack:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, VoodooPin.VoodooHit, LostItemsPack.Entities.VOODOO_PIN_TEAR.variant)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, VoodooPin.VoodooThrow)
-LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, VoodooPin.DamagedWithVoodoo, EntityType.ENTITY_PLAYER)
-LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, VoodooPin.DamagedWispVoodoo, EntityType.ENTITY_FAMILIAR)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, VoodooPin.OnNewRoom)
-LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, VoodooPin.UseVoodooPin, LostItemsPack.CollectibleType.VOODOO_PIN)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, VoodooPin.VoodooPinThrown, LostItemsPack.Entities.VOODOO_PIN_TEAR.variant)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, VoodooPin.RenderVoodooCurse)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, VoodooPin.VoodooShatter, EntityType.ENTITY_TEAR)
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, VoodooPin.VoodooShattered, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant)
+
+
+---@param pin EntityEffect
+function VoodooPin:OnVoodooShatterRender(pin)
+	local data = Helpers.GetData(pin)
+
+	if not data.EnemyStikedTo then return end
+
+	local isSwapEnemy = false
+
+	for i = 0, Game():GetNumPlayers()-1, 1 do
+		local player = Game():GetPlayer(i)
+		local playerData = Helpers.GetData(player)
+
+		if playerData.SwapedEnemy and
+		GetPtrHash(playerData.SwapedEnemy) == GetPtrHash(data.EnemyStikedTo) then
+			isSwapEnemy = true
+			break
+		end
+	end
+
+	if not data.EnemyStikedTo or not data.EnemyStikedTo:Exists() or
+	data.EnemyStikedTo:IsDead() or not isSwapEnemy then
+		data.EnemyStikedTo = nil
+		pin.Velocity = Vector.Zero
+		pin:GetSprite():Play("Shatter", true)
+		return
+	end
+
+	---@diagnostic disable-next-line: assign-type-mismatch
+	pin.Position = data.EnemyStikedTo.Position + data.StickedPositionOffset
+	pin.Velocity = data.EnemyStikedTo.Velocity
+	pin:GetSprite():SetFrame("Idle", data.AnimationFrame)
+end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, VoodooPin.OnVoodooShatterRender, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant)
+
 
 local entitySpawnData = {}
 LostItemsPack:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, function(_, type, variant, subType, position, velocity, spawner, seed)
