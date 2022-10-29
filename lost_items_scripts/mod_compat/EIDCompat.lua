@@ -15,9 +15,9 @@ local function AddAncientRevelationDesc()
         hearts_spa = "{{ImmortalHeart}} +2 Corazones inmortales"
     end
 
-    local AncientDesc = "Grants flight#"..hearts_en.."#↑ {{Shotspeed}} +0.48 Shot Speed up#↑ {{Tears}} +1 Fire Rate up#Spectral tears#Tears turn 90 degrees to target enemies that they may have missed"
-    local AncientDescRu = "Даёт полёт#"..hearts_ru.."#↑ {{Shotspeed}} +0.48 к скорости полёта слезы#↑ {{Tears}} +1 к скорострельности#Спектральные слёзы#Слёзы поворачиваются на 90 градусов, чтобы попасть во врагов, которых они могли пропустить"
-    local AncientDescSpa = "Otorga vuelo#"..hearts_spa.."#↑ {{Shotspeed}} Vel. de tiro +0.48#↑ {{Tears}} Lágrimas +1#Lágrimas espectrales#Las lágrimas girarán en 90 grados hacia un enemigo si es que fallan"
+    local AncientDesc = "Grants flight#" .. hearts_en .. "#↑ {{Shotspeed}} +0.48 Shot Speed up#↑ {{Tears}} +1 Fire Rate up#Spectral tears#Tears turn 90 degrees to target enemies that they may have missed"
+    local AncientDescRu = "Даёт полёт#" .. hearts_ru .. "#↑ {{Shotspeed}} +0.48 к скорости полёта слезы#↑ {{Tears}} +1 к скорострельности#Спектральные слёзы#Слёзы поворачиваются на 90 градусов, чтобы попасть во врагов, которых они могли пропустить"
+    local AncientDescSpa = "Otorga vuelo#" .. hearts_spa .. "#↑ {{Shotspeed}} Vel. de tiro +0.48#↑ {{Tears}} Lágrimas +1#Lágrimas espectrales#Las lágrimas girarán en 90 grados hacia un enemigo si es que fallan"
 
     EID:addCollectible(LostItemsPack.CollectibleType.ANCIENT_REVELATION, AncientDesc, "Ancient Revelation", "en_us")
     EID:addCollectible(LostItemsPack.CollectibleType.ANCIENT_REVELATION, AncientDescRu, "Древнее откровение", "ru")
@@ -68,13 +68,10 @@ local BOIDescRu = "При использовании создаёт иллюзи
 local BOIDescPt_Br = "Gera um clone de ilusão quando usado#Clones de ilusão são o mesmo personagem como você e morrem em um golpe"
 
 EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDesc, "Book of Illusions", "en_us")
-EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "en_us")
 EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescSpa, "El Libro de las ilusiones", "spa")
-EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "spa")
 EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescRu , "Книга иллюзий", "ru")
-EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "ru")
 EID:addCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, BOIDescPt_Br, "Livro de Ilusões", "pt_br")
-EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12", "pt_br")
+EID:assignTransformation("collectible", LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "12")
 
 
 --Keeper's Rope

@@ -87,10 +87,8 @@ function SafetyBombsMod:BombUpdate(bomb)
 			end
 		end
 
-		for _, _ in ipairs(Isaac.FindInRadius(bomb.Position, Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber) * bomb.RadiusMultiplier, EntityPartition.PLAYER)) do
-			bomb:SetExplosionCountdown(fuseCD) -- temporary until we can get explosion countdown directly
-			--bomb:SetExplosionCountdown(bomb.ExplosionCountdown)
-			break
+		if Helpers.GetData(bomb).IsBlankBombInstaDetonating then
+			return
 		end
 
 		local playBackSpeed = 0.4

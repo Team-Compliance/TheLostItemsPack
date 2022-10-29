@@ -261,8 +261,22 @@ Encyclopedia.AddItem({
 
 
 --Pacifist
-local Pacdesc = "Gives pickup rewards at the start of a floor based on how many rooms you haven't cleared on the previous floor"
-Wiki.Pacifist = Encyclopedia.EIDtoWiki(Pacdesc)
+Wiki.Pacifist = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "After entering a new floor, gives pickups based on how many rooms haven't been cleared on the previous floor." },
+        { str = "Skipping special rooms will reward the player with chests." },
+        { str = "Different types of special rooms will spawn different types of chests." },
+    },
+    { -- Notes
+        { str = "Notes", fsize = 2, clr = 3, halign = 0 },
+        { str = "Skipping angel or deal rooms, and crawlspaces (if the corresponding entrances spawn) will also spawn rewards." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "Pacifist was one of the few items that were apart of the Antibirth update, which never came to fruition." },
+    },
+}
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PACIFIST,
     WikiDesc = Wiki.Pacifist,
