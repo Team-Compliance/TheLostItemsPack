@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
 	<passive name="Ancient Revelation" description="Remember what came before" gfx="AncientRevelation.png" achievement="470" cache="firedelay shotspeed flying tearcolor tearflag" soulhearts="4" devilprice="2" quality="4" tags="summonable offensive angel" />
 
-	<familiar name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" quality="3" tags="summonable offensive"/>
+	<familiar name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" quality="1" tags="summonable offensive"/>
 
 	<passive name="Blank Bombs" description="Enter the basement" gfx="collectibles_097x_BlankBombs.png" bombs="5" quality="2" tags="summonable offensive"/>
 	
@@ -19,7 +19,7 @@
 
     <passive name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
 
-    <active name="Voodoo Pin" description="Ow!" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="4"/>
+    <active name="Voodoo Pin" description="Ow!" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
 
 	<passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
     <passive name="Mom transform" description="Counts towards mom" hidden="true" tags="mom"/>
