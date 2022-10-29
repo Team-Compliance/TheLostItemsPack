@@ -87,10 +87,27 @@ function SafetyBombsMod:BombUpdate(bomb)
 			end
 		end
 
-		for i, p in ipairs(Isaac.FindInRadius(bomb.Position, Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber) * bomb.RadiusMultiplier, EntityPartition.PLAYER)) do
+		for _, _ in ipairs(Isaac.FindInRadius(bomb.Position, Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber) * bomb.RadiusMultiplier, EntityPartition.PLAYER)) do
 			bomb:SetExplosionCountdown(fuseCD) -- temporary until we can get explosion countdown directly
 			--bomb:SetExplosionCountdown(bomb.ExplosionCountdown)
 			break
+		end
+
+		local playBackSpeed = 0.4
+		for _, entity in ipairs(Isaac.FindInRadius(bomb.Position, Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber) * bomb.RadiusMultiplier)) do
+			if entity.Type == EntityType.ENTITY_PLAYER then
+				bomb:SetExplosionCountdown(fuseCD)
+			elseif entity.Type == EntityType.ENTITY_BOMB then
+				local selfPtr = GetPtrHash(bomb)
+				local otherPtr = GetPtrHash(entity)
+
+				if selfPtr ~= otherPtr then
+					playBackSpeed = playBackSpeed + 0.1
+				end
+			end
+		end
+		if data.BombRadar then
+			data.BombRadar.Sprite.PlaybackSpeed = playBackSpeed
 		end
 
 		local debuffs = {}
