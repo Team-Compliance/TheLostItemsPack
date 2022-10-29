@@ -200,7 +200,7 @@ for _, collectible in pairs(orderedItems) do
             end
 
             if var == 2 then
-                table.insert(LostItemsPack.RunPersistentData.DisabledItems, collectible)
+                table.insert(LostItemsPack.RunPersistentData.DisabledItems, collectible.ID)
             end
         end,
 

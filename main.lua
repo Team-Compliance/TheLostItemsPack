@@ -187,6 +187,9 @@ require("lost_items_scripts.mod_compat.EIDCompat")
 require("lost_items_scripts.mod_compat.EnyclopediaCompat")
 require("lost_items_scripts.mod_compat.MinimapiCompat")
 
+--Require main generic scripts
+require("lost_items_scripts.BlockDisabledItems")
+
 --Require main item scripts
 require("lost_items_scripts.ancient_revelation.AncientRevelation")
 require("lost_items_scripts.beths_heart.BethsHeart")
