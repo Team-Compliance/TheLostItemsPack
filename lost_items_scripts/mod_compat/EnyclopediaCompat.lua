@@ -25,7 +25,11 @@ Wiki.AncientRevelation = {
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "This item was what Revelation originally was in the Antibirth mod." },
-        { str = "This mod was primarily coded by kittenchilly!" },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by kittenchilly!" },
+        { str = "Spritework by Demi!" },
     },
 }
 Encyclopedia.AddItem({
@@ -44,29 +48,31 @@ Encyclopedia.AddItem({
 Wiki.BethsHeart = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-        { str = "Spawns a throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 pips of charge." },
-        { str = "Half Soul Heart = 1 pip of charge. Soul Heart = 2 pips of charge. Black Heart = 3 pips of charge. Immortal Heart = 6 pips of charge." },
+        { str = "Spawns a double-tap throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 pips of charge." },
+        { str = "Half Soul Heart = 1 pip of charge. Soul Heart = 2 pips of charge. Black Heart = 3 pips of charge." },
         { str = "Pressing the 'CTRL' key will supply pips of charge to the active item." },
     },
-    { -- Notes
-        { str = "Notes", fsize = 2, clr = 3, halign = 0 },
-        { str = "Getting BFFS! expands charge storage to 12 pips of charge." },
-        { str = "Double tapping in one direction will launch Beth's Heart that direction." },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "BFFS - Expands charge storage to 12 pips of charge." },
+    },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description of the item." },
+        { str = "Encyclopedia - Shows a description of the item." },
+        { str = "Minimap Items - Shows a minimap icon of the item." },
+        { str = "Immortal Hearts - Immortal Heart = 6 pips of charge when collected with Beth's Heart" },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Beth's Heart was one of the few items that was planned to be in Repentance but ultimately never came to fruition." },
         { str = "This is TC's third version of Beth's Heart. Originally, it was a trinket that had no familar, then a trinket with a familiar, and then an item." },
-
     },
     { -- Credits
         { str = "Credits", fsize = 2, clr = 3, halign = 0 },
-        { str = "Team Compliance Director: Sillst" },
-        { str = "Coders: Akad, anchikai., BrakeDude" },
-        { str = "Artists: Michael¿?, Sillst, Soaring___Sky, The Demisemihemidemisemiquaver" },
-        { str = "Translators: BrakeDude, Kotry" },
-        { str = "Playtesters: Akad, anchikai., BrakeDude, Kotry, Sillst" },
-        { str = "Shoutout to im_tem for doing the familiar code!" },
+        { str = "Coded by Akad, BrakeDude, and im_tem!" },
+        { str = "Familiar animations by Firework!" },
+        { str = "Translations by BrakeDude & Kotry!" },
     },
 }
 Encyclopedia.AddItem({
@@ -94,16 +100,21 @@ Wiki.BlankBombs = {
         { str = "Blank Bomb explosions destroy all enemy projectiles within a radius." },
         { str = "Blank Bomb explosions knock back enemies within a radius." },
     },
-    { -- Interactions
-        { str = "Interactions", fsize = 2, clr = 3, halign = 0 },
-        { str = "External Item Descriptions: Provides a description for the item." },
-        { str = "Encyclopedia: Provides a more detailed description for the item." },
-        { str = "MinimapiItemsAPI: Provides a minimap icon for the item." },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Blank Bombs were a scrapped item concept from the acclaimed Antibirth mod." },
-        { str = "This item was coded by kittenchilly and Thicco Catto, with spritework done by Royal, ALADAR, and Demi!" },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by kittenchilly and Thicco Catto!" },
+        { str = "Spritework by ALADAR and Demi!" },
+        { str = "Translations by BrakeDude & Kotry!" },
     },
 }
 Encyclopedia.AddItem({
@@ -129,12 +140,27 @@ Wiki.CheckedMate = {
     },
     { -- Synergies
         { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
-        { str = "BFFS! = Checked Mate moves like a queen piece from chess instead of a king piece. All damage is doubled." },
+        { str = "BFFS! - Checked Mate moves like a queen piece from chess instead of a king piece. All damage is doubled." },
+        { str = "RC Remote - The direction of Checked Mate's movement is controlled by the player's directional movements." },
+    },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Checked mate was a scrapped item from the cancelled Antibirth update. It was originally a passive item whos intended effect was to clear the room if a champion was killed." },
         { str = "Checked Mate is the only familar whos sprite has changes other than size upon obtaining BFFS!." },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by kittenchilly, PixelPlz and Thicco Catto!" },
+        { str = "Animations by Firework!" },
+        { str = "BFFS! spritework by Amy!" },
+        { str = "Translations by BrakeDude & Kotry!" },
+        { str = "Special thanks to Xalum for helping with the improved pathfinding code!" },
     },
 }
 Encyclopedia.AddItem({
@@ -161,10 +187,21 @@ Wiki.BookOfIllusions = {
         { str = "Illusion clones control like Esau, but cannot pickup any items or pickups." },
         { str = "Illusion clones always die in one hit." },
     },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
+    },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "This has the same effect as picking up an Illusion Heart." },
         { str = "Book of Illusions was an unused item in Antibirth, with its effect being the same as and complimentary to the unused Illusion Hearts." },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by Akad, BrakeDude, kittenchilly, and Thicco Catto!" },
+        { str = "Special thanks to Mark Shwedow for the Illusion Heart SFX!" },
     },
 }
 Encyclopedia.AddItem({
@@ -192,7 +229,7 @@ Wiki.KeepersRope = {
         { str = "When playing as Keeper monsters have 16.7% chance to contain 1-2 pennies." },
         { str = "When playing as Tainted Keeper monsters have 12.5% chance to contain 1 penny." },
         { str = "The pennies can be extracted by inflicting damage on the monsters." },
-        { str = "The pennies disappear after 3 seconds." },
+        { str = "The pennies disappear after 2 seconds." },
     },
     { -- Notes
         { str = "Notes", fsize = 2, clr = 3, halign = 0 },
@@ -201,18 +238,27 @@ Wiki.KeepersRope = {
     },
     { -- Synergies
         { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
-        { str = "Dad's Key: Dropped coins have a 33% chance to be replaced with keys." },
-        { str = "Mr. Boom: Dropped coins have a 33% chance to be replaced with bombs." },
-        { str = "Crooked Penny: Dropped coins have a 50% chance to be doubled." },
-        { str = "Humbling Bundle: Dropped coins, bombs, and keys have a 50% chance to be doubled." },
-        { str = "BOGO Bombs: Dropped bombs from the Mr. Boom synergy have a 100% chance to be doubled." },
+        { str = "Dad's Key - Dropped coins have a 33% chance to be replaced with keys." },
+        { str = "Mr. Boom - Dropped coins have a 33% chance to be replaced with bombs." },
+        { str = "Crooked Penny - Dropped coins have a 50% chance to be doubled." },
+        { str = "Humbling Bundle - Dropped coins, bombs, and keys have a 50% chance to be doubled." },
+        { str = "BOGO Bombs - Dropped bombs from the Mr. Boom synergy have a 100% chance to be doubled." },
+    },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Keeper's Rope was one of the few cancelled items that was originally planned to be in Repentance." },
         { str = "According to its unlock paper sprite, Keeper's Rope was supposed to look similar to the item Transendence, so similar in fact that Team Compliance decided to edit it in order to avoid potential confusion." },
-        { str = "The original Keeper's Rope mod was made by Akad!" },
-        { str = "This mod was primarily coded by BrakeDude!" },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by Akad and BrakeDude!" },
+        { str = "Spritework by ALADAR!" },
     },
 }
 Encyclopedia.AddItem({
@@ -232,7 +278,7 @@ Encyclopedia.AddItem({
 Wiki.LuckySeven = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-        { str = "Whenever one of the player's pickup counts ends in a 7 (07, 17, 27 and so on), Isaac will have chance to shoot out a golden tear." },
+        { str = "Whenever one of the player's pickups count ends in a 7 (07, 17, 27 and so on), Isaac will have chance to shoot out a golden tear." },
         { str = "If a golden tear hits a monster, it will spawn a slot machine that shoots out money tears in random directions for 3 seconds." },
         { str = "The machine will explode after the 3 seconds pass." },
         { str = "The remains of the machine disappear 1 second after the explosion." },
@@ -240,11 +286,33 @@ Wiki.LuckySeven = {
     { -- Notes
         { str = "Notes", fsize = 2, clr = 3, halign = 0 },
         { str = "Unlike normal slot machines, the ones spawned from Lucky Seven will not drop any pickups after exploding." },
-        { str = "" },
+        { str = "The Lucky Seven slot machine explosions do not harm the player." },
+    },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "IV Bag - Dropped coins have a 33% chance to be replaced with keys." },
+        { str = "Keeper's Box - Spawns a special donation machine that drops coins on monsters similarly to Ultra Greed." },
+        { str = "Crystal Ball - Spawns a special fortune machine that shoots rays of light." },
+        { str = "Tammy's Head - Spawns a special crane machine that grabs monsters and holds them in place with a claw. Maximum of 5 monsters." },
+        { str = "BOGO Bombs - Dropped bombs from the Mr. Boom synergy have a 100% chance to be doubled." },
+        { str = "Brimstone - Beams inherit the tear effect." },
+        { str = "Technology items - Lasers inherit the tear effect." },
+    },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Lucky Seven was one of the few items that were apart of the Antibirth update, which never came to fruition." },
+        { str = "There is a secret synergy, have fun finding it :)" },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by BrakeDude, fly_6 and Thicco Catto!" },
+        { str = "Spritework by Akad, Chug all This and Demi!" },
     },
 }
 Encyclopedia.AddItem({
@@ -272,10 +340,20 @@ Wiki.Pacifist = {
         { str = "Notes", fsize = 2, clr = 3, halign = 0 },
         { str = "Skipping angel or deal rooms, and crawlspaces (if the corresponding entrances spawn) will also spawn rewards." },
     },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
+    },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Pacifist was one of the few items that were apart of the Antibirth update, which never came to fruition." },
     },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by kittenchilly and Thicco Catto!" },
+    },   
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PACIFIST,
@@ -292,20 +370,33 @@ Encyclopedia.AddItem({
 Wiki.PillCrusher = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-        { str = "Whenever one of the player's coin count ends in a 7 (07, 17, 27 and so on), Isaac will have chance to shoot out a golden tear." },
-        { str = "If a golden tear hits a monster, it will spawn a slot machine that shoots out money tears in random directions for 3 seconds." },
-        { str = "The machine will explode after the 3 seconds pass." },
-        { str = "The remains of the machine disappear 1 second after the explosion." },
+        { str = "Spawns a random pill on pickup." },
+        { str = "Crushing a pill activates a unique alternate effect, typically not affecting the player but rather the enemies, room, or floor." },
+        { str = "Pills have a chance to spawn after completing a room." },
     },
     { -- Notes
         { str = "Notes", fsize = 2, clr = 3, halign = 0 },
-        { str = "Unlike normal slot machines, the ones spawned from Lucky Seven will not drop any pickups after exploding." },
-        { str = "" },
+        { str = "The names of pills do not get revealed if they are crushed." },
+    },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "Book of Virtues - Spawns unique pill wisps that have different effects." },
+    },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
+        { str = "Fiend Folio - Pill effects." },
     },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
-        { str = "Lucky Seven was one of the few items that were apart of the Antibirth update, which never came to fruition." },
+        { str = "Pill Crusher was a cut item from Antibirth and Repentance. The sprite is in the game's files and there were videos of certain effects." },
     },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by Akad, BrakeDude, kittenchilly and Thicco Catto!" },
+    }, 
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PILL_CRUSHER,
@@ -326,11 +417,23 @@ Wiki.SafetyBombs = {
         { str = "+5 bombs." },
         { str = "Placed bombs will not explode until the player leaves its explosion radius." },
     },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "Bob's Curse - Enemies that go within the radius of bombs get the poison effect." },
+        { str = "Butt Bombs - Enemies that go within the radius of bombs get confusion." },
+        { str = "Hot Bombs - Enemies that go within the radius of bombs get the burn effect." },
+        { str = "Sticky Bombs - Enemies that go within the radius of bombs get the slowness effect." },
+        { str = "Nancy Bombs - The Safety Bombs effect is in the Nancy Bombs effect pool." },
+    },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
-        { str = "This mod was coded by kittenchilly!" },
-        { str = "Safety Bombs was an unused concept from Antibirth." },
+        { str = "Safety Bombs was an unused idea from Antibirth, it only existed in concept art." },
     },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by BrakeDude, kittenchilly and Thicco Catto!" },
+        { str = "Spritework by Demi!" },
+    },   
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.SAFETY_BOMBS,
@@ -349,7 +452,7 @@ Encyclopedia.AddItem({
 Wiki.VoodooPin = {
     { -- Effect
         { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-        { str = "Isaac holds up a voodoo pin that can be thrown in 4 directions." },
+        { str = "Isaac holds up a voodoo pin that can be thrown." },
         { str = "If the pin hits a monster, all damage taken by Isaac will be redirected to that monster." },
         { str = "This effect lasts for 10 seconds if the monster is not killed within that timeframe." },
         { str = "Hitting bosses has 25% chance to proc. Lasts for 3-4 seconds." },
@@ -358,11 +461,22 @@ Wiki.VoodooPin = {
         { str = "Notes", fsize = 2, clr = 3, halign = 0 },
         { str = "This item can be used for certain strategies involving Demon Beggars, Blood Banks, or the IV Bag item." },
     },
+    { -- Mod Compatibility
+        { str = "Mod Compatibility", fsize = 2, clr = 3, halign = 0 },
+        { str = "EID - Shows a description for the item." },
+        { str = "Encyclopedia - Shows a more detailed description for the item." },
+        { str = "Minimap Items - Shows a minimap icon for the item." },
+    },
     { -- Trivia
         { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
         { str = "Voodoo Pin was an item from the Antibirth mod that was reworked into an Afterbirth DLC item called Dull Razor." },
         { str = "Voodoo Pin was one of the few items not imported into Repentance alongside Book of Despair, Bowl of Tears, Donkey Jawbone, Knife Piece 3, Menorah, and Stone Bombs." },
     },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by BrakeDude and Thicco Catto!" },
+        { str = "Spritework by Amy!" },
+    },   
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.VOODOO_PIN,
