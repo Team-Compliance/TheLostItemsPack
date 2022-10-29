@@ -53,30 +53,6 @@ function IllusionMod.AddForbiddenCharItem(type, i)
 	table.insert(ForbiddenPCombos,{PlayerType = type, Item = i})
 end
 
---local pDataTable = {}
-
--- if ModConfigMenu then
--- 	local IHandBoI = "Illusions mod"
--- 	ModConfigMenu.UpdateCategory(IHandBoI, {
--- 		Info = {"Configuration for clones.",}
--- 	})
--- 	ModConfigMenu.AddSetting(IHandBoI,
--- 		{
--- 			Type = ModConfigMenu.OptionType.BOOLEAN,
--- 			CurrentSetting = function()
--- 				return MCMIllusionsBombs
--- 			end,
--- 			Default = false,
--- 			Display = function()
--- 				local displaystring = MCMIllusionsBombs == true and "On" or "Off"
--- 				return "Illusions can use bombs: "..displaystring
--- 			end,
--- 			OnChange = function(value)
--- 				MCMIllusionsBombs = value
--- 			end,
--- 			Info = "Option for clones to drop bombs."
--- 		})
--- end
 
 local function BlackList(collectible)
 	for _,i in ipairs(ForbiddenItems) do
@@ -159,73 +135,6 @@ local function RemoveIllusionData(entity, forgottenB)
     end
 end
 
-
--- function mod:Save(isSaving)
--- 	if isSaving then
--- 		local save = {}
--- 		local playersSave = nil
--- 		for key,value in pairs(pDataTable) do
--- 			if value ~= nil and key ~= nil then
--- 				if playersSave == nil then
--- 					playersSave = {}
--- 				end
--- 				playersSave[tostring(key)] = value
--- 			end
--- 		end
--- 		save.Players = playersSave
--- 		save.Version = version
--- 		save.BombOption = MCMIllusionsBombs
--- 		mod:SaveData(json.encode(save))
--- 	end
--- end
--- mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.Save)
-
--- function mod:Load(isLoading)
--- 	pDataTable = {}
--- 	local load
--- 	if mod:HasData() then
--- 		load = json.decode(mod:LoadData())
--- 		if load.Version ~= nil and load.Version >= 2.3 then
--- 			MCMIllusionsBombs = load.BombOption
--- 		end
--- 	end
--- 	if isLoading then
--- 		local playersLoad
--- 		if load.Version == nil or load.Version ~= nil and load.Version < 2.3 then
--- 			playersLoad = load
--- 		else
--- 			playersLoad = load.Players
--- 		end
--- 		if playersLoad ~= nil then
--- 			for key,value in pairs(playersLoad) do
--- 				if value ~= nil and key ~= nil then
--- 					pDataTable[tonumber(key)] = value
--- 				end
--- 			end
--- 		end
--- 		for i = 0, game:GetNumPlayers()-1 do
--- 			local p = Isaac.GetPlayer(i)
--- 			local data = Helpers.GetData(p)
--- 			if data.IsIllusion then
--- 				p:AddCacheFlags(CacheFlag.CACHE_ALL)
--- 				p:EvaluateItems()
--- 			else
--- 				mod:RemoveEntityData(p)
--- 			end
--- 		end
--- 	end
--- end
--- mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.Load)
-
--- function mod:End(GameOver)
--- 	if GameOver then
--- 		pDataTable = {}
--- 		local save = {Version = version, BombOption = MCMIllusionsBombs}
--- 		mod:SaveData(json.encode(save))
--- 	end
--- end
--- mod:AddCallback(ModCallbacks.MC_POST_GAME_END, mod.End)
-
 function IllusionModLocal:UpdateClones(p)
 	local data = GetIllusionData(p)
     if not data then return end
@@ -245,6 +154,7 @@ function IllusionModLocal:UpdateClones(p)
 					local offset = (p:GetPlayerType() ~= PlayerType.PLAYER_THEFORGOTTEN or p:GetPlayerType() ~= PlayerType.PLAYER_THEFORGOTTEN_B) and Vector(30 * p.SpriteScale.X,0) or Vector.Zero
                     ---@diagnostic disable-next-line: param-type-mismatch
 					Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, p.Position + offset, Vector.Zero, p)
+					sfxManager:Play(SoundEffect.SOUND_BLACK_POOF)
 				end
 			end
 		end
@@ -426,7 +336,7 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 			pickup:Die()
 			IllusionModLocal:addIllusion(player, true)
 			sfxManager:Play(LostItemsPack.SFX.PICKUP_ILLUSION,1,0,false)
-			return true		
+			return true
 		end
 	end
 end
