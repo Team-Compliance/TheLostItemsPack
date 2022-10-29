@@ -55,6 +55,7 @@ function ScreenWobble(position)
 	abusedMonstro.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 	abusedMonstro.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 	abusedMonstro:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+	abusedMonstro:AddEntityFlags(EntityFlag.FLAG_HIDE_HP_BAR)
 	abusedMonstro.State = NpcState.STATE_STOMP
 
 	local monstroSpr = abusedMonstro:GetSprite()
@@ -169,6 +170,26 @@ function BlankBombsMod:OnBombInitLate(bomb)
 			player:GetData().AddNoKnockBackFlag = 2
 		end
 
+		if player.Parent and player.Parent.Type == EntityType.ENTITY_PLAYER then
+			local playerParent = player.Parent:ToPlayer()
+			playerParent:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
+			playerParent:GetData().AddNoKnockBackFlag = 2
+		end
+
+		local playerIndex = Helpers.GetPlayerIndex(player)
+		for i = 0, Game():GetNumPlayers() - 1, 1 do
+			local otherPlayer = Game():GetPlayer(i)
+
+			if otherPlayer.Parent and otherPlayer.Parent.Type == EntityType.ENTITY_PLAYER then
+				local otherPlayerParentIndex = Helpers.GetPlayerIndex(otherPlayer.Parent:ToPlayer())
+
+				if playerIndex == otherPlayerParentIndex then
+					otherPlayer:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
+					otherPlayer:GetData().AddNoKnockBackFlag = 2
+				end
+			end
+		end
+
 		bomb.ExplosionDamage = bomb.ExplosionDamage / 2
 		if player:HasGoldenBomb() then bomb.ExplosionDamage = bomb.ExplosionDamage / 2 end
 		bomb:SetExplosionCountdown(0)
@@ -260,7 +281,22 @@ function BlankBombsMod:OnPlayerDamage(entity, _, _, source)
 
     if not bombPlayer then return end
 
-	if Helpers.GetPlayerIndex(player) == Helpers.GetPlayerIndex(bombPlayer) then
+	local playerIndex = Helpers.GetPlayerIndex(player)
+	local bombPlayerIndex = Helpers.GetPlayerIndex(bombPlayer)
+	local parentIndex
+	local bombParentIndex
+
+	if player.Parent and player.Parent.Type == EntityType.ENTITY_PLAYER then
+		parentIndex = Helpers.GetPlayerIndex(player.Parent:ToPlayer())
+	end
+
+	if bombPlayer.Parent and bombPlayer.Parent.Type == EntityType.ENTITY_PLAYER then
+		bombParentIndex = Helpers.GetPlayerIndex(bombPlayer.Parent:ToPlayer())
+	end
+
+	if playerIndex == bombPlayerIndex or
+	(parentIndex and parentIndex == bombPlayerIndex) or
+	(bombParentIndex and playerIndex == bombParentIndex) then
 		return false
 	end
 end

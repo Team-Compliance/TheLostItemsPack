@@ -153,7 +153,11 @@ function IllusionModLocal:UpdateClones(p)
 					p:ChangePlayerType(PlayerType.PLAYER_THELOST)
 					local offset = (p:GetPlayerType() ~= PlayerType.PLAYER_THEFORGOTTEN or p:GetPlayerType() ~= PlayerType.PLAYER_THEFORGOTTEN_B) and Vector(30 * p.SpriteScale.X,0) or Vector.Zero
                     ---@diagnostic disable-next-line: param-type-mismatch
-					Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, p.Position + offset, Vector.Zero, p)
+					local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, p.Position + offset, Vector.Zero, p)
+					local sColor = poof:GetSprite().Color
+					local color = Color(sColor.R, sColor.G, sColor.B, 0.7, 0.518, 0.15, 0.8)
+					local s = poof:GetSprite()
+					s.Color = color
 					sfxManager:Play(SoundEffect.SOUND_BLACK_POOF)
 				end
 			end
@@ -273,7 +277,12 @@ function IllusionModLocal:addIllusion(player, isIllusion)
 			dl.IsIllusion = true
 			_p:GetOtherTwin().Parent = player:GetOtherTwin()
 		end
-		Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, _p.Position, Vector.Zero, _p)
+		local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, _p.Position, Vector.Zero, _p)
+
+		local sColor = poof:GetSprite().Color
+		local color = Color(sColor.R, sColor.G, sColor.B, 0.7, 0.518, 0.15, 0.8)
+		local s = poof:GetSprite()
+		s.Color = color
 	end
 	_p:PlayExtraAnimation("Appear")
 	_p:AddCacheFlags(CacheFlag.CACHE_ALL)

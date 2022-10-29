@@ -287,6 +287,7 @@ local exampledirectory = {
                 fsize = 2,
                 choices = {'no', 'yes'},
                 setting = 1,
+                variable = 'IllusionsPlaceBombs',
 
                 load = function ()
                     if LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs then
