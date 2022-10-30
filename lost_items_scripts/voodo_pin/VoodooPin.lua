@@ -138,24 +138,6 @@ function VoodooPin:VoodooHit(tear,collider)
 		if collider:IsBoss() then
 			data.Timer = 150
 		end
-
-		Helpers.GetData(tear).StuckToEnemy = true
-
-		local stickedVoodooPin = Isaac.Spawn(EntityType.ENTITY_EFFECT, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant, 0, tear.Position, Vector.Zero, nil)
-		local stickedData = Helpers.GetData(stickedVoodooPin)
-
-		stickedData.EnemyStikedTo = collider
-		stickedData.StickedPositionOffset = tear.Position - collider.Position
-		stickedData.AnimationFrame = tear:GetSprite():GetFrame()
-
-		stickedVoodooPin:GetSprite():SetFrame("Idle", stickedData.AnimationFrame)
-
-		stickedVoodooPin.SpriteRotation = tear.SpriteRotation
-		stickedVoodooPin.SpriteOffset = Vector(0, tear.Height)
-		stickedVoodooPin.DepthOffset = -tear.Height
-
-		SFXManager():Play(SoundEffect.SOUND_GOOATTACH0)
-		return
 	end
 	sfx:Play(SoundEffect.SOUND_SPLATTER,1,0,false)
 end
@@ -166,23 +148,28 @@ local voodoo = Sprite()
 voodoo:Load("gfx/effects/voodoo_status.anm2", true)
 voodoo:LoadGraphics()
 
+
 function VoodooPin:RenderVoodooCurse(player)
-	if Game():GetRoom():GetRenderMode() == RenderMode.RENDER_WATER_REFLECT then return end
 	local data = Helpers.GetData(player)
-	if data.SwapedEnemy then
-		if not voodoo:IsPlaying("Curse") then
-			voodoo:Play("Curse")
-			voodoo.PlaybackSpeed = 0.4
-		elseif not Game():IsPaused() then
-			voodoo:Update()
-		end
-		local size = data.SwapedEnemy.Size < 20 and data.SwapedEnemy.Size or 20
-		voodoo.Scale = Vector(1.3, 1.3)
-        ---@diagnostic disable-next-line: assign-type-mismatch
-		voodoo.Offset = data.SwapedEnemy:GetSprite().Offset - Vector(0.8, size * (data.SwapedEnemy.SizeMulti.Y * 2.8))
-		voodoo.Color = Color(1,1,1,0.6)
-		voodoo:Render(Game():GetRoom():WorldToScreenPosition(data.SwapedEnemy.Position),Vector.Zero,Vector.Zero)
+	if not data.SwapedEnemy then return end
+
+	data.SwapedEnemy:SetColor(Color(0.518, 0.15, 0.8), 2, 1, false, false)
+
+	if Game():GetRoom():GetRenderMode() == RenderMode.RENDER_WATER_REFLECT then return end
+
+	if not voodoo:IsPlaying("Curse") then
+		voodoo:Play("Curse")
+		voodoo.PlaybackSpeed = 0.4
+	elseif not Game():IsPaused() then
+		voodoo:Update()
 	end
+
+	local size = data.SwapedEnemy.Size < 20 and data.SwapedEnemy.Size or 20
+	voodoo.Scale = Vector(1.3, 1.3)
+	---@diagnostic disable-next-line: assign-type-mismatch
+	voodoo.Offset = data.SwapedEnemy:GetSprite().Offset - Vector(0.8, size * (data.SwapedEnemy.SizeMulti.Y * 2.8))
+	voodoo.Color = Color(1,1,1,0.8)
+	voodoo:Render(Game():GetRoom():WorldToScreenPosition(data.SwapedEnemy.Position),Vector.Zero,Vector.Zero)
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, VoodooPin.RenderVoodooCurse)
 
@@ -204,12 +191,6 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, VoodooPin.VoodooPinT
 
 function VoodooPin:VoodooShatter(pin)
 	if pin.Variant == LostItemsPack.Entities.VOODOO_PIN_TEAR.variant then
-		local data = Helpers.GetData(pin)
-
-		if data.StuckToEnemy then
-			return
-		end
-
 		local shatters = Isaac.Spawn(EntityType.ENTITY_EFFECT,LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant,0,pin.Position,Vector.Zero,pin):GetSprite()
 		local sfx = SFXManager()
 		shatters.Rotation = pin:GetSprite().Rotation
@@ -228,41 +209,6 @@ function VoodooPin:VoodooShattered(pin)
 	end
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, VoodooPin.VoodooShattered, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant)
-
-
----@param pin EntityEffect
-function VoodooPin:OnVoodooShatterRender(pin)
-	local data = Helpers.GetData(pin)
-
-	if not data.EnemyStikedTo then return end
-
-	local isSwapEnemy = false
-
-	for i = 0, Game():GetNumPlayers()-1, 1 do
-		local player = Game():GetPlayer(i)
-		local playerData = Helpers.GetData(player)
-
-		if playerData.SwapedEnemy and
-		GetPtrHash(playerData.SwapedEnemy) == GetPtrHash(data.EnemyStikedTo) then
-			isSwapEnemy = true
-			break
-		end
-	end
-
-	if not data.EnemyStikedTo or not data.EnemyStikedTo:Exists() or
-	data.EnemyStikedTo:IsDead() or not isSwapEnemy then
-		data.EnemyStikedTo = nil
-		pin.Velocity = Vector.Zero
-		pin:GetSprite():Play("Shatter", true)
-		return
-	end
-
-	---@diagnostic disable-next-line: assign-type-mismatch
-	pin.Position = data.EnemyStikedTo.Position + data.StickedPositionOffset
-	pin.Velocity = data.EnemyStikedTo.Velocity
-	pin:GetSprite():SetFrame("Idle", data.AnimationFrame)
-end
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, VoodooPin.OnVoodooShatterRender, LostItemsPack.Entities.VOODOO_PIN_SHATTER.variant)
 
 
 local entitySpawnData = {}

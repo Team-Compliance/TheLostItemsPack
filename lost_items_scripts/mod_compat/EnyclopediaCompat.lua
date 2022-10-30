@@ -291,7 +291,6 @@ Wiki.LuckySeven = {
         { str = "Keeper's Box - Spawns a special donation machine that drops coins on monsters similarly to Ultra Greed." },
         { str = "Crystal Ball - Spawns a special fortune machine that shoots rays of light." },
         { str = "Tammy's Head - Spawns a special crane machine that grabs monsters and holds them in place with a claw. Maximum of 5 monsters." },
-        { str = "BOGO Bombs - Dropped bombs from the Mr. Boom synergy have a 100% chance to be doubled." },
         { str = "Brimstone - Beams inherit the tear effect." },
         { str = "Technology items - Lasers inherit the tear effect." },
     },
@@ -350,7 +349,7 @@ Wiki.Pacifist = {
     { -- Credits
         { str = "Credits", fsize = 2, clr = 3, halign = 0 },
         { str = "Coded by kittenchilly and Thicco Catto!" },
-    },   
+    },
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.PACIFIST,
@@ -430,7 +429,7 @@ Wiki.SafetyBombs = {
         { str = "Credits", fsize = 2, clr = 3, halign = 0 },
         { str = "Coded by BrakeDude, kittenchilly and Thicco Catto!" },
         { str = "Spritework by Demi!" },
-    },   
+    },
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.SAFETY_BOMBS,
@@ -473,7 +472,7 @@ Wiki.VoodooPin = {
         { str = "Credits", fsize = 2, clr = 3, halign = 0 },
         { str = "Coded by BrakeDude and Thicco Catto!" },
         { str = "Spritework by Amy!" },
-    },   
+    },
 }
 Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.VOODOO_PIN,
