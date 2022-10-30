@@ -55,7 +55,7 @@ function ScreenWobble(position)
 	abusedMonstro.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 	abusedMonstro.GridCollisionClass = GridCollisionClass.COLLISION_NONE
 	abusedMonstro:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
-	abusedMonstro:AddEntityFlags(EntityFlag.FLAG_HIDE_HP_BAR)
+	abusedMonstro:AddEntityFlags(EntityFlag.FLAG_HIDE_HP_BAR | EntityFlag.FLAG_FRIENDLY)
 	abusedMonstro.State = NpcState.STATE_STOMP
 
 	local monstroSpr = abusedMonstro:GetSprite()
