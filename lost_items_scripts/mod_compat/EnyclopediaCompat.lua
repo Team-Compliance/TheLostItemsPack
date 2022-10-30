@@ -38,6 +38,7 @@ Encyclopedia.AddItem({
     Pools = {
         Encyclopedia.ItemPools.POOL_ANGEL,
         Encyclopedia.ItemPools.POOL_GREED_ANGEL,
+        Encyclopedia.ItemPools.POOL_ULTRA_SECRET,
     },
     Class = "Lost Items Pack",
     ModName = "Lost Items Pack"
@@ -80,9 +81,8 @@ Encyclopedia.AddItem({
     WikiDesc = Wiki.BethsHeart,
     Pools = {
         Encyclopedia.ItemPools.POOL_TREASURE,
-        Encyclopedia.ItemPools.POOL_ANGEL,
-        Encyclopedia.ItemPools.POOL_GREED_TREASURE,
-        Encyclopedia.ItemPools.POOL_GREED_ANGEL,
+        Encyclopedia.ItemPools.POOL_GREED_SHOP,
+        Encyclopedia.ItemPools.POOL_BABY_SHOP,
     },
     Class = "Lost Items Pack",
     ModName = "Lost Items Pack"
@@ -208,10 +208,8 @@ Encyclopedia.AddItem({
     ID = LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS,
     WikiDesc = Wiki.BookOfIllusions,
     Pools = {
-        Encyclopedia.ItemPools.POOL_ANGEL,
         Encyclopedia.ItemPools.POOL_DEVIL,
         Encyclopedia.ItemPools.POOL_LIBRARY,
-        Encyclopedia.ItemPools.POOL_GREED_ANGEL,
         Encyclopedia.ItemPools.POOL_GREED_DEVIL,
     },
     Class = "Lost Items Pack",
@@ -267,7 +265,6 @@ Encyclopedia.AddItem({
     Pools = {
         Encyclopedia.ItemPools.POOL_SECRET,
         Encyclopedia.ItemPools.POOL_GREED_SECRET,
-        Encyclopedia.ItemPools.POOL_GREED_SHOP,
     },
     Class = "Lost Items Pack",
     ModName = "Lost Items Pack"
