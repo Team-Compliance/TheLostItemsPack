@@ -138,6 +138,19 @@ function VoodooPin:VoodooHit(tear,collider)
 		if collider:IsBoss() then
 			data.Timer = 150
 		end
+
+		Game():ShakeScreen(7)
+		SFXManager():Play(SoundEffect.SOUND_DEVILROOM_DEAL, 0.5)
+
+		for _ = 1, 2 + math.random(3), 1 do
+			local spawningPos = tear.Position + Vector(0, tear.Height)
+			local speed = Vector.One
+			speed:Resize(math.random() * 3 + 2)
+			speed = speed:Rotated(math.random(360))
+			local particle = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLOOD_PARTICLE, 0, spawningPos, speed, nil)
+			particle:GetSprite().Color = Color(0.1, 0.1, 0.1)
+			particle.SpriteScale = Vector(0.7, 0.7)
+		end
 	end
 	sfx:Play(SoundEffect.SOUND_SPLATTER,1,0,false)
 end
@@ -171,7 +184,15 @@ function VoodooPin:RenderVoodooCurse(player)
 	voodoo.Color = Color(1,1,1,0.8)
 	voodoo:Render(Game():GetRoom():WorldToScreenPosition(data.SwapedEnemy.Position),Vector.Zero,Vector.Zero)
 end
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, VoodooPin.RenderVoodooCurse)
+
+
+function VoodooPin:OnRender()
+	for i = 0, Game():GetNumPlayers(), 1 do
+		local player = Game():GetPlayer(i)
+		VoodooPin:RenderVoodooCurse(player)
+	end
+end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_RENDER, VoodooPin.OnRender)
 
 
 function VoodooPin:VoodooPinThrown(pin)
