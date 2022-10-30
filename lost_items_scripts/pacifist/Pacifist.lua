@@ -1,3 +1,4 @@
+local Helpers = require "lost_items_scripts.Helpers"
 local PacifistMod = {}
 local game = Game()
 
@@ -150,25 +151,29 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_UPDATE, PacifistMod.OnUpdate)
 function PacifistMod:PickupsDrop() -- Spawn pickups every level after pickup
 	if #PickupsToSpawn <= 0 then return end
 
+	local pacifistPlayer
 	for i = 0, game:GetNumPlayers() - 1 do
 		local player = game:GetPlayer(i)
 
 		if player:HasCollectible(LostItemsPack.CollectibleType.PACIFIST) then
 			SFXManager():Play(SoundEffect.SOUND_THUMBSUP, 1, 0)
 			player:AnimateHappy()
-
-			for _, pickupVariant in ipairs(PickupsToSpawn) do
-				local subtype = ChestSubType.CHEST_CLOSED
-
-				if pickupVariant == PickupVariant.PICKUP_NULL then
-					subtype = 2
-				end
-
-				local spawningPos = game:GetRoom():FindFreePickupSpawnPosition(player.Position, 0, true)
-
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, pickupVariant, subtype, spawningPos, Vector.Zero, player)
-			end
+			pacifistPlayer = player
 		end
+	end
+
+	if not pacifistPlayer then return end
+
+	for _, pickupVariant in ipairs(PickupsToSpawn) do
+		local subtype = ChestSubType.CHEST_CLOSED
+
+		if pickupVariant == PickupVariant.PICKUP_NULL then
+			subtype = 2
+		end
+
+		local spawningPos = game:GetRoom():FindFreePickupSpawnPosition(pacifistPlayer.Position, 0, true)
+
+		Isaac.Spawn(EntityType.ENTITY_PICKUP, pickupVariant, subtype, spawningPos, Vector.Zero, pacifistPlayer)
 	end
 
 	PickupsToSpawn = {}

@@ -36,10 +36,12 @@ function LuckySeven:OnPeffectUpdate(player)
         if playerIndex == otherPlayerIndex then return end
     end
 
-    local room = Game():GetRoom()
-    for _ = 1, 7, 1 do
-        local spawningPos = room:FindFreePickupSpawnPosition(player.Position, 1, true)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_PENNY, spawningPos, Vector.Zero, player)
+    if not player.Parent then
+        local room = Game():GetRoom()
+        for _ = 1, 7, 1 do
+            local spawningPos = room:FindFreePickupSpawnPosition(player.Position, 1, true)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_PENNY, spawningPos, Vector.Zero, player)
+        end
     end
 
     LostItemsPack.PersistentData.PlayersCollectedLuckySeven[#LostItemsPack.PersistentData.PlayersCollectedLuckySeven+1] = playerIndex
