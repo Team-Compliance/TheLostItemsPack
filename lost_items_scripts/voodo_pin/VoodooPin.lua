@@ -33,7 +33,7 @@ function VoodooPin:DamagedWithVoodoo(player,dmg,dmgFlags,dmgSource,dmgCountDownF
 	local data = Helpers.GetData(player:ToPlayer())
 	if data.SwapedEnemy then
 		local entity = dmgSource.Entity
-		if GetPtrHash(data.SwapedEnemy) ~= GetPtrHash(entity) then
+		if entity and GetPtrHash(data.SwapedEnemy) ~= GetPtrHash(entity) then
 			data.SwapedEnemy:TakeDamage(dmg, dmgFlags, dmgSource, dmgCountDownFrames * 2)
 			return false
 		end
