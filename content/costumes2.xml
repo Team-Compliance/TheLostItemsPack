@@ -1,9 +1,9 @@
 <costumes anm2root="gfx/characters/">
-	<costume id="0" anm2path="ancientrevelation.anm2" type="passive" isFlying="true" hasSkinAlt="true" />
+	<costume id="1" anm2path="ancientrevelation.anm2" type="passive" isFlying="true" hasSkinAlt="true" />
 
-	<costume id="1" anm2path="keepers rope.anm2" type="passive" isFlying="true" hasSkinAlt="true" priority="99" />
+	<costume id="6" anm2path="keepers rope.anm2" type="passive" isFlying="true" hasSkinAlt="true" priority="99" />
 
-	<costume id="1" anm2path="077x_lucky7.anm2" type="passive" hasOverlay="true" />
+	<costume id="7" anm2path="077x_lucky7.anm2" type="passive" hasOverlay="true" />
 
-	<costume id="0" anm2path="662_Pacifist.anm2" type="passive" />
+	<costume id="8" anm2path="662_Pacifist.anm2" type="passive" />
 </costumes>

@@ -1,25 +1,25 @@
 <items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
-	<passive name="Ancient Revelation" description="Remember what came before" gfx="AncientRevelation.png" achievement="470" cache="firedelay shotspeed flying tearcolor tearflag" soulhearts="4" devilprice="2" quality="4" tags="summonable offensive angel" />
+	<passive id="1" name="Ancient Revelation" description="Remember what came before" gfx="AncientRevelation.png" achievement="470" cache="firedelay shotspeed flying tearcolor tearflag" soulhearts="4" devilprice="2" quality="4" tags="summonable offensive angel" />
 
-	<familiar name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" quality="1" tags="summonable offensive"/>
+	<familiar id="2" name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" quality="1" tags="summonable offensive"/>
 
-	<passive name="Blank Bombs" description="Enter the basement" gfx="collectibles_097x_BlankBombs.png" bombs="5" quality="2" tags="summonable offensive"/>
+	<passive id="3" name="Blank Bombs" description="Enter the basement" gfx="collectibles_097x_BlankBombs.png" bombs="5" quality="2" tags="summonable offensive"/>
 	
-	<active name="Book of Illusions" description="Army of you" gfx="BookOfIllusions.png" maxcharges="12" quality="4" tags="book offensive" />
+	<active id="4" name="Book of Illusions" description="Army of you" gfx="BookOfIllusions.png" maxcharges="12" quality="4" tags="book offensive" />
 
-    <familiar name="Checked Mate" description="Chess friend" gfx="collectibles_checked_mate.png" quality="3" tags="summonable monstermanual offensive"/>
+    <familiar id="5" name="Checked Mate" description="Chess friend" gfx="collectibles_checked_mate.png" quality="3" tags="summonable monstermanual offensive"/>
 
-    <passive name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" cache="flying luck" quality="3" tags="summonable offensive" />
+    <passive id="6" name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" cache="flying luck" quality="3" tags="summonable offensive" />
 
-	<passive name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
+	<passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
 
-    <passive name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
+    <passive id="8" name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
 
-	<active name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
+	<active id="9" name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 
-    <passive name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
+    <passive id="10" name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
 
-    <active name="Voodoo Pin" description="Ow!" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
+    <active id="11" name="Voodoo Pin" description="Ow!" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
 
 	<passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
     <passive name="Mom transform" description="Counts towards mom" hidden="true" tags="mom"/>

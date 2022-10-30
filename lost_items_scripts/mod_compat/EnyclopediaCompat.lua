@@ -1,7 +1,5 @@
 if not Encyclopedia then return end
 
-print("loading encyclopedia")
-
 Wiki = {}
 
 --Encyclopeida Compatibility
@@ -287,7 +285,7 @@ Wiki.LuckySeven = {
     },
     { -- Synergies
         { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
-        { str = "IV Bag - Dropped coins have a 33% chance to be replaced with keys." },
+        { str = "IV Bag - Spawns a special donation machine that spawns creep and explodes into big blood tears." },
         { str = "Keeper's Box - Spawns a special donation machine that drops coins on monsters similarly to Ultra Greed." },
         { str = "Crystal Ball - Spawns a special fortune machine that shoots rays of light." },
         { str = "Tammy's Head - Spawns a special crane machine that grabs monsters and holds them in place with a claw. Maximum of 5 monsters." },

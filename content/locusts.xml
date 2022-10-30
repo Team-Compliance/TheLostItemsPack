@@ -19,17 +19,17 @@
 	<locust id="1" tearFlags="2" color="fly_yellow" />
 
 	<!-- Beth's Heart -->
-	<locust id="1" tearFlags="15" color="fly_blue_heart" />
+	<locust id="2" tearFlags="15" color="fly_blue_heart" />
 
 	<!-- Blank Bombs-->
-	<locust id="0" color="fly_blue"/>
+	<locust id="3" color="fly_blue"/>
 
 	<!-- Lucky Seven -->
-	<locust id="777" tearFlags="74" color="fly_yellow" />	
+	<locust id="7" tearFlags="74" color="fly_yellow" />	
 	
 	<!-- Pacifist -->
-	<locust id="Pacifist" tearflags="13" color="fly_pac" />
+	<locust id="8" tearflags="13" color="fly_pac" />
 
 	<!-- Voodoo Pin -->
-	<locust id="Voodoo Pin" color="fly_black" />
+	<locust id="11" color="fly_black" />
 </locusts>
