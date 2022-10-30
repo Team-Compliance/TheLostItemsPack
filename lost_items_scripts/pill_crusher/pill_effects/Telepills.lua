@@ -135,7 +135,7 @@ local function TeleportMonsterAnim(_, npc)
 			npc.Visible = false
 		else
 			if not data.WasHorseTelePilled then
-				local rng = Isaac.GetPlayer():GetCollectibleRNG(CollectibleType.COLLECTIBLE_PILL_CRUSHER)
+				local rng = Isaac.GetPlayer():GetCollectibleRNG(LostItemsPack.CollectibleType.PILL_CRUSHER)
 
 				local level = Game():GetLevel()
 				local currentRoomIndex = level:GetCurrentRoomDesc().SafeGridIndex
