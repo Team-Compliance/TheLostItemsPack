@@ -151,7 +151,7 @@ function LostItemsPack:OnPlayerInit()
             LostItemsPack.RunPersistentData = loadedData.RunPersistentData
         end
 
-        if not LostItemsPack.RunPersistentData then
+        if not LostItemsPack.RunPersistentData or not LostItemsPack.RunPersistentData.DisabledItems then
             LostItemsPack.RunPersistentData = {}
             LostItemsPack.RunPersistentData.DisabledItems = {}
             for _, funct in ipairs(LostItemsPack.CallOnNewSaveData) do
@@ -174,6 +174,7 @@ function LostItemsPack:OnGameExit()
         PersistentData = LostItemsPack.PersistentData,
         RunPersistentData = LostItemsPack.RunPersistentData
     }
+
     local jsonString = json.encode(saveData)
     LostItemsPack:SaveData(jsonString)
 end
