@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" version="1" deathanm2="gfx/death items.anm2">
     <passive id="1" name="Ancient Revelation" description="Remember what came before" gfx="AncientRevelation.png" achievement="470" cache="firedelay shotspeed flying tearcolor tearflag" soulhearts="4" devilprice="2" quality="4" tags="summonable offensive angel" />
 
-    <familiar id="2" name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" quality="1" tags="summonable offensive"/>
+    <familiar id="2" name="Beth's Heart" description="Faith accumulator" gfx="collectibles_beths_heart.png" achievement="404" quality="1" tags="summonable offensive"/>
 
     <passive id="3" name="Blank Bombs" description="Enter the basement" gfx="collectibles_097x_BlankBombs.png" bombs="5" quality="2" tags="summonable offensive"/>
 
@@ -9,7 +9,7 @@
 
     <familiar id="5" name="Checked Mate" description="Chess friend" gfx="collectibles_checked_mate.png" quality="3" tags="summonable monstermanual offensive"/>
 
-    <passive id="6" name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" cache="flying luck" quality="3" tags="summonable offensive" />
+    <passive id="6" name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" achievement="251" cache="flying luck" quality="3" tags="summonable offensive" />
 
     <passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
 
