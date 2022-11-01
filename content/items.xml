@@ -11,7 +11,7 @@
 
     <passive id="6" name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" achievement="251" cache="flying luck" quality="3" tags="summonable offensive" />
 
-    <passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png"  quality="2" cache="luck" />
+    <passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png" quality="2" cache="luck" />
 
     <passive id="8" name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
 

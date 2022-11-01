@@ -25,8 +25,8 @@
 	<locust id="3" color="fly_blue"/>
 
 	<!-- Lucky Seven -->
-	<locust id="7" tearFlags="74" color="fly_yellow" />	
-	
+	<locust id="7" tearFlags="74" color="fly_yellow" />
+
 	<!-- Pacifist -->
 	<locust id="8" tearflags="13" color="fly_pac" />
 

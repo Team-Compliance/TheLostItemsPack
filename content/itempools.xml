@@ -3,45 +3,45 @@
 		<Item Name="Beth's Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-                <Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Safety Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-        </Pool>
+	</Pool>
 
 	<Pool Name="shop">
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Voodoo Pin" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-        </Pool>
+	</Pool>
 
 	<Pool Name="secret">
 		<Item Name="Keeper's Rope" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-        </Pool>
+	</Pool>
 
 	<Pool Name="ultraSecret">
 		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
-                <Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-        </Pool>
+		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 
 	<Pool Name="angel">
 		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Pacifist" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-        </Pool>
+	</Pool>
 
 	<Pool Name="devil">
-        	<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+		<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 
 	<Pool Name="library">
-        	<Item Name="Book of Illusions" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
-    	</Pool>
+		<Item Name="Book of Illusions" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
+	</Pool>
 
 	<Pool Name="greedTreasure">
-        	<Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Blank Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Safety Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+	</Pool>
 
 	<Pool Name="greedShop">
 		<Item Name="Pill Crusher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -56,27 +56,27 @@
 
 	<Pool Name="greedAngel">
 		<Item Name="Ancient Revelation" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+	</Pool>
 
 	<Pool Name="greedDevil">
-        	<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-   	</Pool>
+		<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 
 	<Pool Name="bombBum">
-        	<Item Name="Blank Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Blank Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Safety Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-    	</Pool>
+	</Pool>
 
 	<Pool Name="craneGame">
-        	<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+		<Item Name="Lucky Seven" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 
 	<Pool Name="babyShop">
-        	<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Beth's Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+	</Pool>
 
 	<Pool Name="woodenChest">
-        	<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-    	</Pool>
+		<Item Name="Checked Mate" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 </ItemPools>
