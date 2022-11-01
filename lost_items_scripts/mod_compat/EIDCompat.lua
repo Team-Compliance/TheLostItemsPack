@@ -29,7 +29,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, AddAncientRevelation
 
 --Beth's Heart
 local BHDescEng = "{{Throwable}} Spawns a throwable familiar#Stores soul and black hearts to use as charges for the active item, maximum 6 charges#{{HalfSoulHeart}}: 1 charge#{{SoulHeart}}: 2 charges#{{BlackHeart}}: 3 charges#Press {{ButtonRT}} to supply the charges to the active item"
-local BHDescSpa = "{{Throwable}} Genera un familiar lanzable#Almacena corazones de alma y corazones negros para usarlos como cargas para el objeto activo, máximo 6 cargas#{{HalfSoulHeart}}: 1 carga#{{SoulHeart}}: 2 cargas#{{BlackHeart}}: 3 cargas#Presiona el botón {{ButtonRT}} para suministrar las cargas al objeto activo"
+local BHDescSpa = "{{Throwable}} Genera un familiar lanzable#Almacena corazones de alma y corazones negros para usarlos como cargas para el objeto activo, máximo 6 cargas#{{HalfSoulHeart}}: 1 carga#{{SoulHeart}}: 2 cargas#{{BlackHeart}}: 3 cargas#Presiona {{ButtonRT}} para suministrar las cargas al objeto activo"
 local BHDescRu = "{{Throwable}} Создает спутника, которого можно бросать в выбранном направлении#Сохраняет синие и чёрные сердца как заряды для активируемых предметов, максимум 6 зарядов#{{HalfSoulHeart}}: 1 заряд#{{SoulHeart}}: 2 заряда#{{BlackHeart}}: 3 заряда#Для обеспечения зарядами активируемого предмета нужно нажать кнопку {{ButtonRT}}"
 local BHDescPt_Br = "{{Throwable}} Gera um familiar arremessável#Armazenas corações de alma e negros para usar como carga para o seu item ativado, máximo de 6 cargas#{{HalfSoulHeart}}: 1 carga#{{SoulHeart}}: 2 cargas#{{BlackHeart}}: 3 cargas##Aperta {{ButtonRT}} para fornecer as cargas para o item ativado"
 
@@ -105,10 +105,10 @@ EID:addCollectible(LostItemsPack.CollectibleType.PACIFIST, PacdescSpa, "Pacifist
 
 
 ---Pill crusher
-local PCDesc = "Gives a random {{Pill}} pill when picked up#Increase pill drop rate when held#Consumes currently held pill and applies an effect to the entire room depending on the type of pill"
-local PCDescSpa = "Otorga una {{Pill}} pildora aleatoria al tomarlo#Las pildoras aparecen con mas frecuencia#Consume la pildora que posees y aplica un efecto a la sala, basado en la pildora"
-local PCDescRu = "Дает случайную {{Pill}} пилюлю#Увеличивает шанс появления пилюль#Использует текущую пилюлю и накладывает зависимый от её типа эффект на всю комнату"
-local PCDescPt_Br = "Gere uma pílula {{Pill}} aleatória quando pego#Almente a taxa de queda de pílulas# Consome a pílula segurada e aplique um efeito na sala inteira dependendo no tipo de pílula"
+local PCDesc = "{{Pill}} Gives a random pill when picked up#Increase pill drop rate when held#Consumes currently held pill and applies an effect to the entire room depending on the type of pill"
+local PCDescSpa = "{{Pill}} Genera una píldora aleatoria al tomarlo#{{Pill}} Las píldora aparecen con mas frecuencia#Consume la píldora que posees y aplica un efecto a la sala, basado en la píldora"
+local PCDescRu = "{{Pill}} Дает случайную пилюлю#{{Pill}} Увеличивает шанс появления пилюль#Использует текущую пилюлю и накладывает зависимый от её типа эффект на всю комнату"
+local PCDescPt_Br = "{{Pill}} Gere uma pílula aleatória quando pego#{{Pill}} Almente a taxa de queda de pílulas# Consome a pílula segurada e aplique um efeito na sala inteira dependendo no tipo de pílula"
 
 EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDesc, "Pill Crusher", "en_us")
 EID:addCollectible(LostItemsPack.CollectibleType.PILL_CRUSHER, PCDescSpa, "Triturador de Pildoras", "spa")
@@ -129,8 +129,8 @@ EID:addCollectible(LostItemsPack.CollectibleType.SAFETY_BOMBS, SBDescRu, "Без
 --Voodoo Pin
 local VDPdesc = "Isaac holds up a voodoo pin that can be thrown into enemy#If the pin hits a monster, its hitbox will swap with Isaac's hitbox. Lasts until enemy is dead#Hitting bosses makes it last for 5 seconds"
 local VDPdescRu = "Исаак достает булавку, которую можно бросить во врага#Если булавка попала в монстра, то его хитбокс поменяется местами с хитбоксом Исаака#При подании в босса действует 5 секунды"
-local VDPdescSpa = "Isaac sostiene un alfiler de vudú que puede ser lanzado al enemigo#Si el alfiler golpea a un monstruo, su hitbox será intercambiada por la de Isaac hasta que muera#Si golpea a un jefe si golpea a un jefe, durará 5 segundos"
+local VDPdescSpa = "Isaac sostiene un pin de vudú que puede ser lanzado al enemigo#Si el pin golpea a un monstruo, su hitbox será intercambiada por la de Isaac hasta que muera#Si golpea a un jefe si golpea a un jefe, durará 5 segundos"
 
 EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdesc, "Voodoo Pin")
 EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescRu, "Вуду булавка", "ru")
-EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescSpa, "Alfiler de vudú", "spa")
+EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescSpa, "Pin de vudú", "spa")
