@@ -16,17 +16,17 @@ local itemTranslations = {
     },
 
     ru = {
-        [LostItemsPack.CollectibleType.ANCIENT_REVELATION] = {"Древнее откровение", "Recuerda lo que solía haber"},
-        [LostItemsPack.CollectibleType.BETHS_HEART] = {"Сердце Вифании", "Acumulador de fe"},
-        [LostItemsPack.CollectibleType.BLANK_BOMBS] = {"Пустые бомбы", "Entra al sótano"},
-        [LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS] = {"Книга иллюзий", "Un ejército de ti"},
-        [LostItemsPack.CollectibleType.CHECKED_MATE] = {"Checked Mate", "Amigo ajedrezado"},
-        [LostItemsPack.CollectibleType.KEEPERS_ROPE] = {"Веревка Хранителя", "¡Sácales todo el dinero!"},
-        [LostItemsPack.CollectibleType.LUCKY_SEVEN] = {"Счастливая семерка", "La suerte favorece a la audacia"},
-        [LostItemsPack.CollectibleType.PACIFIST] = {"Пацифист", "Haz el amor, no la guerra"},
-        [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Дробилка пилюль", "¡Dáselas a todos!"},
-        [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Безопасные бомбы", "Es por tu propio bien"},
-        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "¡Au!"}
+        [LostItemsPack.CollectibleType.ANCIENT_REVELATION] = {"Древнее откровение", "Помни, что было раньше"},
+        [LostItemsPack.CollectibleType.BETHS_HEART] = {"Сердце Вифании", "Аккумулятор веры"},
+        [LostItemsPack.CollectibleType.BLANK_BOMBS] = {"Пустые бомбы", "Спускаемся в подвал"},
+        [LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS] = {"Книга иллюзий", "Армия тебя"},
+        [LostItemsPack.CollectibleType.CHECKED_MATE] = {"Шахматная фигура", "Шахматный друг"},
+        [LostItemsPack.CollectibleType.KEEPERS_ROPE] = {"Веревка Хранителя", "Выбей деньги из них!"},
+        [LostItemsPack.CollectibleType.LUCKY_SEVEN] = {"Счастливая семерка", "Удача благоволит смелым"},
+        [LostItemsPack.CollectibleType.PACIFIST] = {"Пацифист", "Неси любовь, а не войну"},
+        [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Дробилка пилюль", "Раздай их всем!"},
+        [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Безопасные бомбы", "Для твоего блага"},
+        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "Ай!"}
     }
 }
 
