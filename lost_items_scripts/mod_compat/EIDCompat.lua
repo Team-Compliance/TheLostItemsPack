@@ -60,6 +60,14 @@ EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateENG, "
 EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateRU, "Checked Mate", "ru")
 EID:addCollectible(LostItemsPack.CollectibleType.CHECKED_MATE, CheckedMateSPA, "Rey en jaque", "spa")
 
+if Sewn_API then
+    Sewn_API:AddFamiliarDescription(
+        LostItemsPack.Entities.CHECKED_MATE.variant,
+        "Increases damage",
+        "Increases damage further and range"
+    )
+end
+
 
 --Illusion Hearts - Book Of Illusions
 local BOIDesc = "Spawns an illusion clone when used#Illusion clones are the same character as you and die in one hit"

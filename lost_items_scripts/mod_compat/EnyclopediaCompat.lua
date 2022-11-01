@@ -174,6 +174,13 @@ Encyclopedia.AddItem({
     Class = "Lost Items Pack",
     ModName = "Lost Items Pack"
 })
+if Sewn_API then
+    Sewn_API:AddEncyclopediaUpgrade(
+        LostItemsPack.Entities.CHECKED_MATE.variant,
+        "Increases damage",
+        "Increases damage further and range"
+    )
+end
 
 
 --Illusion Hearts - Book Of Illusions

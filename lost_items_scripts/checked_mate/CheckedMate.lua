@@ -21,6 +21,59 @@ local States = {
 	Land = 3
 }
 
+local SewingMachineJumpCrownOffsets = {
+	0,
+	-1,
+	-1,
+	-2,
+	-2,
+	-3,
+	-3,
+	-3,
+	10,
+	10,
+	20,
+	30,
+	32,
+	36,
+	37,
+	38,
+	38
+}
+
+local SewingMachineLandCrownOffsets = {
+	46,
+	47,
+	48,
+	49,
+	50,
+	30,
+	20,
+	16,
+	10,
+	-6,
+	-6,
+	-6,
+	-6,
+	-6,
+	-6,
+	-5,
+	-4,
+	-3
+	-3,
+	-2,
+	-2
+	-1,
+	0,
+	0
+}
+
+
+if Sewn_API then
+	Sewn_API:MakeFamiliarAvailable(LostItemsPack.Entities.CHECKED_MATE.variant, LostItemsPack.CollectibleType.CHECKED_MATE)
+end
+
+
 local function ShouldGetNewTargetPosition(entity)
 	local data = entity:GetData()
 	local room = game:GetRoom()
@@ -161,6 +214,10 @@ function CheckedMateMod:checkedMateUpdate(entity)
 			sprite:Play("Jump", true)
 		end
 
+		if Sewn_API then
+			Sewn_API:AddCrownOffset(entity, Vector(0, SewingMachineJumpCrownOffsets[sprite:GetFrame()+1]))
+		end
+
 		if sprite:IsEventTriggered("Jump") then
 			entity.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			entity.GridCollisionClass = GridCollisionClass.COLLISION_NONE
@@ -265,12 +322,22 @@ function CheckedMateMod:checkedMateUpdate(entity)
 			sprite:Play("Land", true)
 		end
 
+		if Sewn_API then
+			Sewn_API:AddCrownOffset(entity, Vector(0, SewingMachineLandCrownOffsets[sprite:GetFrame()+1]))
+		end
+
 		if sprite:IsEventTriggered("Land") then
 			entity.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ENEMIES
 			entity.GridCollisionClass = GridCollisionClass.COLLISION_SOLID
 			SFXManager():Play(SoundEffect.SOUND_FETUS_FEET, 1.2, 0, false, 0.8, 0)
 
 			-- Stomp
+			local range = 80
+
+			if Sewn_API and Sewn_API:IsUltra(entity:GetData()) then
+				range = range * 1.5
+			end
+
 			for _,v in pairs(Isaac.GetRoomEntities()) do
 				if v.Type > 9 and v.Type < 1000 and v.EntityCollisionClass ~= EntityCollisionClass.ENTCOLL_NONE and v:IsActiveEnemy()
 				and room:GetGridPosition(room:GetGridIndex(entity.Position)):Distance(room:GetGridPosition(room:GetGridIndex(v.Position))) <= 80 then
@@ -282,7 +349,17 @@ function CheckedMateMod:checkedMateUpdate(entity)
 						multiplier = multiplier * Settings.SameSpaceMultiplier
 					end
 
-					v:TakeDamage(Settings.Damage * multiplier, DamageFlag.DAMAGE_CRUSH | DamageFlag.DAMAGE_IGNORE_ARMOR, EntityRef(entity), 0)
+					local damage = Settings.Damage
+
+					if Sewn_API then
+						if Sewn_API:IsSuper(entity:GetData()) then
+							damage = damage * 1.25
+						elseif Sewn_API:IsUltra(entity:GetData()) then
+							damage = damage * 1.5
+						end
+					end
+
+					v:TakeDamage(damage * multiplier, DamageFlag.DAMAGE_CRUSH | DamageFlag.DAMAGE_IGNORE_ARMOR, EntityRef(entity), 0)
 					if v:HasMortalDamage() then
 						v:AddEntityFlags(EntityFlag.FLAG_EXTRA_GORE)
 					end
