@@ -717,7 +717,7 @@ return function(DSSModName, DSSCoreVersion, MenuProvider)
                         widestInRow = rowDrawing.width
                     end
 
-                    bselInRow = bselInRow or rowDrawing.bselinrow or rowDrawing.selectted
+                    bselInRow = bselInRow or rowDrawing.bselinrow or rowDrawing.selected
                 end
 
                 for _, rowDrawing in ipairs(rowDrawings) do
