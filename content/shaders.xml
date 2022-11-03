@@ -29,7 +29,7 @@
                 TexCoord0 = TexCoord;
                 gl_Position = Transform * vec4(Position.xyz, 1.0);
             }
-        ]]></vertex>
+        ]]>        </vertex>
         <fragment><![CDATA[#version 150
             varying lowp vec4 Color0;
             varying mediump vec2 TexCoord0;
@@ -53,13 +53,13 @@
                 }
                 gl_FragColor += vec4(result, 1.0) * BloomAmountOut;
             }
-        ]]></fragment>
+        ]]>        </fragment>
     </shader>
 
     <shader name="LostItemsPackNothingShader">
-		<parameters>
-		</parameters>
-		<vertex><![CDATA[
+        <parameters>
+        </parameters>
+        <vertex><![CDATA[
 			attribute vec3 Position;
 			attribute vec4 Color;
 			attribute vec2 TexCoord;
@@ -73,8 +73,8 @@
 				TexCoord0 = TexCoord;
 				gl_Position = Transform * vec4(Position.xyz, 1.0);
 			}
-		]]></vertex>
-		<fragment><![CDATA[
+		]]>        </vertex>
+        <fragment><![CDATA[
 			varying lowp vec4 Color0;
 			varying mediump vec2 TexCoord0;
 			uniform sampler2D Texture0;
@@ -84,6 +84,6 @@
 				vec4 col = texture2D(Texture0, TexCoord0);
 				gl_FragColor = Color0 * col;
 			}
-		]]></fragment>
-	</shader>
+		]]>        </fragment>
+    </shader>
 </shaders>
