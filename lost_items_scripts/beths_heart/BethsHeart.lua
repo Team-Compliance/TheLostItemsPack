@@ -1,8 +1,33 @@
-local BethsHeart = {}
+BethsHeart = {}
+local BethsHeartLocal = {}
 local Helpers = require("lost_items_scripts.Helpers")
 local bethsheartdesc = Isaac.GetItemConfig():GetCollectible(LostItemsPack.CollectibleType.BETHS_HEART)
 
-function BethsHeart:GetSlot(player,slot)
+
+BethsHeart.HeartCharges = {
+	[HeartSubType.HEART_BLACK] = 3,
+	[HeartSubType.HEART_SOUL] = 2,
+	[HeartSubType.HEART_HALF_SOUL] = 1,
+	[HeartSubType.HEART_ETERNAL] = 4
+}
+
+local redRibbonTrinket
+if FiendFolio then
+	BethsHeart.HeartCharges[1022] = 2 --Half black hearts
+	redRibbonTrinket = Isaac.GetTrinketIdByName("Red Ribbon")
+end
+
+if ComplianceImmortal then
+	BethsHeart.HeartCharges[902] = 6 --Immortal hearts
+end
+
+---@param heartSubtype HeartSubType|integer
+---@param chargeAmount integer
+function BethsHeart:AddHeartCharge(heartSubtype, chargeAmount)
+	BethsHeart.HeartCharges[heartSubtype] = chargeAmount
+end
+
+function BethsHeartLocal:GetSlot(player,slot)
 	local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 	local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY)
 	local item = Isaac:GetItemConfig():GetCollectible(player:GetActiveItem(slot))
@@ -13,13 +38,13 @@ function BethsHeart:GetSlot(player,slot)
 	elseif player:GetActiveItem(slot) > 0 and charge < item.MaxCharges * (battery and 2 or 1) and player:GetActiveItem(slot) ~= CollectibleType.COLLECTIBLE_ERASER then
 		return slot
 	elseif slot < ActiveSlot.SLOT_POCKET then
-		slot = BethsHeart:GetSlot(player,slot + 1)
+		slot = BethsHeartLocal:GetSlot(player,slot + 1)
 		return slot
 	end
 	return nil
 end
 
-function BethsHeart:OverCharge(player,slot,item)
+function BethsHeartLocal:OverCharge(player,slot,item)
     ---@diagnostic disable-next-line: param-type-mismatch
 	local effect = Isaac.Spawn(1000,49,1, player.Position+Vector(0,1),Vector.Zero,nil)
 	effect:GetSprite().Offset = Vector(0,-22)
@@ -34,19 +59,21 @@ local DIRECTION_VECTOR = {
 }
 
 
-function BethsHeart:HeartCollectibleUpdate(player)
+function BethsHeartLocal:HeartCollectibleUpdate(player)
 	local numFamiliars = player:GetCollectibleNum(LostItemsPack.CollectibleType.BETHS_HEART) +
 	player:GetEffects():GetCollectibleEffectNum(LostItemsPack.CollectibleType.BETHS_HEART)
 
 	player:CheckFamiliar(LostItemsPack.Entities.BETHS_HEART.variant, numFamiliars, player:GetCollectibleRNG(LostItemsPack.CollectibleType.BETHS_HEART), bethsheartdesc)	
 end
 
-function BethsHeart:BethsHeartInit(heart)
+function BethsHeartLocal:BethsHeartInit(heart)
 	heart:AddToFollowers()
 	heart.State = 0
 end
 
-function BethsHeart:BethsHeartUpdate(heart)
+
+---@param heart EntityFamiliar
+function BethsHeartLocal:BethsHeartUpdate(heart)
 	local player = heart.Player
 	local bff = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and 2 or 1
 	if heart.Hearts > 6 * bff then
@@ -71,15 +98,17 @@ function BethsHeart:BethsHeartUpdate(heart)
 	if heart.State == 1 then
 		for _,soulheart in pairs(Isaac.FindInRadius(heart.Position,15 + 5 * (bff-1),EntityPartition.PICKUP)) do
 			if soulheart.Variant == PickupVariant.PICKUP_HEART and not soulheart:GetSprite():IsPlaying("Collect") then
-				local restoreamount=0
-				if soulheart.SubType == 902 then
-					restoreamount=6
-				elseif soulheart.SubType == HeartSubType.HEART_BLACK then
-					restoreamount=3
-				elseif soulheart.SubType == HeartSubType.HEART_SOUL then
-					restoreamount=2
-				elseif soulheart.SubType == HeartSubType.HEART_HALF_SOUL then
-					restoreamount=1
+				local restoreamount = BethsHeart.HeartCharges[soulheart.SubType]
+				if not restoreamount then restoreamount = 0 end
+
+				if redRibbonTrinket and soulheart.SubType == HeartSubType.HEART_ETERNAL then
+					local multiplier = heart.Player:GetTrinketMultiplier(redRibbonTrinket)
+
+					if multiplier == 1 then
+						restoreamount = restoreamount * 2
+					elseif multiplier > 1 then
+						restoreamount = restoreamount * 4
+					end
 				end
 				if (not soulheart:ToPickup():IsShopItem()) and restoreamount>0 then
 					if player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY then
@@ -107,6 +136,7 @@ function BethsHeart:BethsHeartUpdate(heart)
 			for _,king in ipairs(Isaac.FindByType(3,FamiliarVariant.KING_BABY)) do
 				local baby = king:ToFamiliar()
 				if GetPtrHash(baby.Player) == GetPtrHash(player) then
+					---@diagnostic disable-next-line: cast-local-type
 					target = baby
 				end
 			end
@@ -118,14 +148,14 @@ function BethsHeart:BethsHeartUpdate(heart)
 	end
 end
 
-function BethsHeart:BethInputUpdate(player)
+function BethsHeartLocal:BethInputUpdate(player)
 	for _,heart in ipairs(Isaac.FindByType(3, LostItemsPack.Entities.BETHS_HEART.variant)) do
 		if GetPtrHash(player) == GetPtrHash(heart:ToFamiliar().Player) then
 			heart = heart:ToFamiliar()
 			local heartData = Helpers.GetData(heart)
 			local idx = player.ControllerIndex
 			if Input.IsActionTriggered(ButtonAction.ACTION_DROP, idx) and heart.Hearts > 0 then
-				local slot = BethsHeart:GetSlot(player,ActiveSlot.SLOT_PRIMARY)
+				local slot = BethsHeartLocal:GetSlot(player,ActiveSlot.SLOT_PRIMARY)
 				local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 				local item = Isaac:GetItemConfig():GetCollectible(player:GetActiveItem(slot))
 				local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1
@@ -142,7 +172,7 @@ function BethsHeart:BethInputUpdate(player)
 					end
 					player:SetActiveCharge(charging, slot)
 					SFXManager():Play(SoundEffect.SOUND_BATTERYCHARGE)
-					BethsHeart:OverCharge(player)
+					BethsHeartLocal:OverCharge(player)
 				elseif item.ChargeType == 1 and charge < item.MaxCharges * battery then
 					for i = 1,battery do
 						if heart.Hearts > 0 and charge < item.MaxCharges * battery then
@@ -153,7 +183,7 @@ function BethsHeart:BethInputUpdate(player)
 							break
 						end
 					end
-					BethsHeart:OverCharge(player)
+					BethsHeartLocal:OverCharge(player)
 				end
 			end
 
@@ -200,7 +230,7 @@ function BethsHeart:BethInputUpdate(player)
 	end
 end
 
-LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BethsHeart.BethsHeartInit, LostItemsPack.Entities.BETHS_HEART.variant)
-LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BethsHeart.BethsHeartUpdate, LostItemsPack.Entities.BETHS_HEART.variant)
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, BethsHeart.BethInputUpdate)
-LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, BethsHeart.HeartCollectibleUpdate,CacheFlag.CACHE_FAMILIARS)
+LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BethsHeartLocal.BethsHeartInit, LostItemsPack.Entities.BETHS_HEART.variant)
+LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BethsHeartLocal.BethsHeartUpdate, LostItemsPack.Entities.BETHS_HEART.variant)
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, BethsHeartLocal.BethInputUpdate)
+LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, BethsHeartLocal.HeartCollectibleUpdate,CacheFlag.CACHE_FAMILIARS)
