@@ -17,9 +17,9 @@
 
     <active id="9" name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 
-    <passive id="10" name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
+    <passive id="10" name="Safety Bombs" description="For your own good +5 Bombs" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
 
-    <active id="11" name="Voodoo Pin" description="Ow!" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
+    <active id="11" name="Voodoo Pin" description="Share your pain" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
 
     <passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
     <passive name="Mom transform" description="Counts towards mom" hidden="true" tags="mom"/>
