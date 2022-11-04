@@ -16,7 +16,7 @@
     <entity anm2path="005.01b_heart (illusion).anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Heart (illusion)" numGridCollisionPoints="24" shadowSize="17" stageHP="0" variant="10" subtype="9000" />
 
     <!-- KEEPER'S ROPE -->
-    <entity anm2path="characters/keepers rope.anm2" baseHP="10" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="0" id="1000" name="Hanging rope" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="">
+    <entity anm2path="characters/keepers rope.anm2" baseHP="10" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="0" id="1000" name="Hanging rope" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="4125">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
 
