@@ -1,8 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<name>The Lost Items Pack</name>
-	<directory>thelostitemspack</directory>
-	<description/>
-	<version>1.0</version>
-	<visibility/>
+    <name>TC - The Lost Items Pack</name>
+    <directory>thelostitemspack</directory>
+    <id>2884282812</id>
+    <description></description>
+    <version>1.1</version>
+    <visibility>Friends Only</visibility>
+    <tag id="Lua"/>
+    <tag id="Items"/>
+    <tag id="Active Items"/>
+    <tag id="Pickups"/>
+    <tag id="Familiars"/>
+    <tag id="Graphics"/>
+    <tag id="Shaders"/>
+    <tag id="Sound Effects"/>
 </metadata>
 
