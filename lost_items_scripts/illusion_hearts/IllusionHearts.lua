@@ -8,6 +8,7 @@ local Helpers = require("lost_items_scripts.Helpers")
 
 LostItemsPack.CallOnNewSaveData[#LostItemsPack.CallOnNewSaveData+1] = function ()
     LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs = false
+    LostItemsPack.RunPersistentData.IllusionHeartSpawnChance = 20
 end
 
 LostItemsPack.CallOnLoad[#LostItemsPack.CallOnLoad+1] = function ()
@@ -371,7 +372,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION, IllusionModLocal
 function IllusionModLocal:postPickupInit(pickup)
 	local rng = pickup:GetDropRNG()
 	if pickup.SubType == HeartSubType.HEART_GOLDEN and pickup:GetSprite():GetAnimation() == "Appear" then
-		if rng:RandomFloat() >= 0.5 then
+		if rng:RandomFloat() > (1 - LostItemsPack.RunPersistentData.IllusionHeartSpawnChance*0.01) then
 			pickup:Morph(pickup.Type, pickup.Variant, LostItemsPack.Entities.ILLUSION_HEART.subtype)
 		end
 	end

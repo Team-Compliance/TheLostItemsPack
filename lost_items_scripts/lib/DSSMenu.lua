@@ -283,6 +283,37 @@ local exampledirectory = {
             {str = '', nosel = true},
 
             {
+                strset = {'illusion hearts','spawn chance'},
+                fsize = 2,
+
+                -- If "min" and "max" are set without "slider", you've got yourself a number option!
+                -- It will allow you to scroll through the entire range of numbers from "min" to "max", incrementing by "increment"
+                min = 0,
+                max = 100,
+                increment = 1,
+
+                -- You can also specify a prefix or suffix that will be applied to the number, which is especially useful for percentages!
+                --pref = 'hi! ',
+                suf = '%',
+
+                setting = 20,
+
+                variable = "IllusionHeartSpawnChance",
+
+                load = function()
+                    if LostItemsPack.RunPersistentData.IllusionHeartSpawnChance then
+                        return LostItemsPack.RunPersistentData.IllusionHeartSpawnChance
+                    end
+                    return 20
+                end,
+                store = function(newOption)
+                    LostItemsPack.RunPersistentData.IllusionHeartSpawnChance = newOption
+                end,
+
+                tooltip = {strset = {'how often', 'illusion hearts', 'can spawn?'}},
+            },
+            {str = '', nosel = true},
+            {
                 strset = {'illusions can', 'place bombs'},
                 fsize = 2,
                 choices = {'no', 'yes'},
@@ -300,8 +331,8 @@ local exampledirectory = {
                     LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs = newOption == 2
                 end,
 
-                tooltip = {strset = {'Can illusions', 'place bombs?'}}
-            }
+                tooltip = {strset = {'can illusions', 'place bombs?'}}
+            },
         }
     },
 
