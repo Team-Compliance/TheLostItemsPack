@@ -335,7 +335,7 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 		local d = GetIllusionData(player)
         if not d then return end
 		if d.IsIllusion or player.Parent then
-			return pickup:IsShopItem()
+			return d.IsIllusion and true or pickup:IsShopItem()
 		else
 			d = nil
 		end
