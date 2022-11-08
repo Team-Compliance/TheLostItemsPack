@@ -11,8 +11,8 @@ local itemTranslations = {
         [LostItemsPack.CollectibleType.LUCKY_SEVEN] = {"7 de la suerte", "La suerte favorece a la audacia"},
         [LostItemsPack.CollectibleType.PACIFIST] = {"Pacifista", "Haz el amor, no la guerra"},
         [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Triturador de píldoras", "¡Dáselas a todos!"},
-        [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Bombas de seguridad", "Es por tu propio bien"},
-        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Pin de vudú", "¡Au!"}
+        [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Bombas de seguridad", "Por tu propio bien, +5 bombas"},
+        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Pin de vudú", "Comparte tu dolor"}
     },
 
     ru = {
@@ -30,22 +30,21 @@ local itemTranslations = {
     }
 }
 
+local queueLastFrame
+local queueNow
 function Translations:onUpdate(player)
-	if player.Parent then return end
-    local data = player:GetData()
+	queueNow = player.QueuedItem.Item
 
-    if data.queueNow == nil and player.QueuedItem.Item then
-        data.queueNow = player.QueuedItem.Item
+    if queueNow then
         local translations = itemTranslations[Options.Language]
         if translations then
-            local translation = translations[data.queueNow.ID]
-            if translation and data.queueNow:IsCollectible() then
+            local translation = translations[queueNow.ID]
+            if translation and queueNow:IsCollectible() and queueLastFrame == nil then
                 Game():GetHUD():ShowItemText(translation[1], translation[2])
             end
         end
-    elseif data.queueNow ~= nil and player.QueuedItem.Item == nil then
-        data.queueNow = nil
     end
 
+	queueLastFrame = queueNow
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Translations.onUpdate)
