@@ -30,21 +30,20 @@ local itemTranslations = {
     }
 }
 
-local queueLastFrame
-local queueNow
 function Translations:onUpdate(player)
-	queueNow = player.QueuedItem.Item
-
-    if queueNow then
+	if player.Parent then return end
+    local data = player:GetData()
+    if data.queueNow == nil and player.QueuedItem.Item then
+        data.queueNow = player.QueuedItem.Item
         local translations = itemTranslations[Options.Language]
         if translations then
-            local translation = translations[queueNow.ID]
-            if translation and queueNow:IsCollectible() and queueLastFrame == nil then
+            local translation = translations[data.queueNow.ID]
+            if translation and data.queueNow:IsCollectible() then
                 Game():GetHUD():ShowItemText(translation[1], translation[2])
             end
         end
+    elseif data.queueNow ~= nil and player.QueuedItem.Item == nil then
+        data.queueNow = nil
     end
-
-	queueLastFrame = queueNow
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, Translations.onUpdate)
