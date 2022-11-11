@@ -136,6 +136,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, BlankBombsMod.OnNewRoom
 ---@param bomb EntityBomb
 function BlankBombsMod:OnBombInitLate(bomb)
 	if bomb.Variant == BombVariant.BOMB_GIGA then return end
+	if Helpers.GetData(bomb).IsBlankBombInstaDetonating then return end
 
 	local sprite = bomb:GetSprite()
 
@@ -168,12 +169,20 @@ function BlankBombsMod:OnBombInitLate(bomb)
 		if not player:HasEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK) then
 			player:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
 			player:GetData().AddNoKnockBackFlag = 2
+
+			local holyMantleNum = player:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+			player:GetData().AddHolyMantles = holyMantleNum
+			player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, holyMantleNum)
 		end
 
 		if player.Parent and player.Parent.Type == EntityType.ENTITY_PLAYER then
 			local playerParent = player.Parent:ToPlayer()
 			playerParent:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
 			playerParent:GetData().AddNoKnockBackFlag = 2
+
+			local holyMantleNum = playerParent:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+			playerParent:GetData().AddHolyMantles = holyMantleNum
+			playerParent:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, holyMantleNum)
 		end
 
 		local playerIndex = Helpers.GetPlayerIndex(player)
@@ -186,6 +195,10 @@ function BlankBombsMod:OnBombInitLate(bomb)
 				if playerIndex == otherPlayerParentIndex then
 					otherPlayer:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
 					otherPlayer:GetData().AddNoKnockBackFlag = 2
+
+					local holyMantleNum = otherPlayer:GetEffects():GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+					otherPlayer:GetData().AddHolyMantles = holyMantleNum
+					otherPlayer:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, holyMantleNum)
 				end
 			end
 		end
@@ -195,6 +208,8 @@ function BlankBombsMod:OnBombInitLate(bomb)
 		bomb:SetExplosionCountdown(0)
 
 		Helpers.GetData(bomb).IsBlankBombInstaDetonating = true
+
+		bomb:Update()
 	end
 end
 
@@ -208,7 +223,7 @@ function BlankBombsMod:BombUpdate(bomb)
 	end
 
 	local sprite = bomb:GetSprite()
-	if sprite:IsPlaying("Explode") then
+	if sprite:IsPlaying("Explode") or Helpers.GetData(bomb).IsBlankBombInstaDetonating then
         ---@diagnostic disable-next-line: param-type-mismatch
 		if bomb:HasTearFlags(TearFlags.TEAR_SCATTER_BOMB) then
 			for _, scatterBomb in ipairs(Isaac.FindByType(EntityType.ENTITY_BOMB)) do
@@ -305,6 +320,12 @@ LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, BlankBombsMod.OnPlaye
 
 ---@param player EntityPlayer
 function BlankBombsMod:OnPlayerUpdate(player)
+	if player:GetData().AddHolyMantles then
+		local holyMantleNum = player:GetData().AddHolyMantles
+		player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, true, holyMantleNum)
+		player:GetData().AddHolyMantles = nil
+	end
+
 	if not player:GetData().AddNoKnockBackFlag then return end
 
 	player:AddEntityFlags(EntityFlag.FLAG_NO_KNOCKBACK)
@@ -313,9 +334,12 @@ function BlankBombsMod:OnPlayerUpdate(player)
 
 	if player:GetData().AddNoKnockBackFlag == 0 then
 		player:GetData().AddNoKnockBackFlag = nil
+		if player:GetData().RemoveHostHat then
+			player:RemoveCollectible(CollectibleType.COLLECTIBLE_HOST_HAT)
+		end
 	end
 end
-LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, BlankBombsMod.OnPlayerUpdate)
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, BlankBombsMod.OnPlayerUpdate)
 
 
 ---@param effect EntityEffect
