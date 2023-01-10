@@ -263,6 +263,11 @@ LostItemsPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, BlankBombsMod.OnMonstroUpd
 
 ---@param rocket EntityEffect
 function BlankBombsMod:OnEpicFetusRocketUpdate(rocket)
+	local player = rocket.SpawnerEntity
+	if not player then return end
+	if not player:ToPlayer() then return end
+	if not player:ToPlayer():HasCollectible(LostItemsPack.CollectibleType.BLANK_BOMBS) then return end
+
 	if rocket.Timeout ~= 0 then return end
 
 	local ptrHash = GetPtrHash(rocket)
