@@ -74,7 +74,7 @@ local function CanBeRevived(pType,withItem)
 end
 
 
-local function GetIllusionData(entity,forgottenB)
+function IllusionMod:GetIllusionData(entity,forgottenB)
     if not entity then return end
 
 	forgottenB = forgottenB or false
@@ -137,7 +137,7 @@ local function RemoveIllusionData(entity, forgottenB)
 end
 
 function IllusionModLocal:UpdateClones(p)
-	local data = GetIllusionData(p)
+	local data = IllusionMod:GetIllusionData(p)
     if not data then return end
 	if data.IsIllusion then
 		if p:IsDead()  then
@@ -183,7 +183,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, IllusionModLocal.U
 function IllusionModLocal:CloneRoomUpdate()
 	for i = 0, game:GetNumPlayers()-1 do
 		local p = Isaac.GetPlayer(i)
-		local data = GetIllusionData(p)
+		local data = IllusionMod:GetIllusionData(p)
         if not data then return end
 		if data.IsIllusion and p:IsDead() then
 			p:GetSprite():SetFrame(70)
@@ -194,7 +194,7 @@ function IllusionModLocal:CloneRoomUpdate()
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, IllusionModLocal.CloneRoomUpdate)
 
-function IllusionModLocal:addIllusion(player, isIllusion)
+function IllusionMod:addIllusion(player, isIllusion)
 	local id = game:GetNumPlayers() - 1
 	local playerType = player:GetPlayerType()
 	if playerType == PlayerType.PLAYER_JACOB then
@@ -209,7 +209,7 @@ function IllusionModLocal:addIllusion(player, isIllusion)
 	end
 	Isaac.ExecuteCommand('addplayer 15 '..player.ControllerIndex)
 	local _p = Isaac.GetPlayer(id + 1)
-	local d = GetIllusionData(_p)
+	local d = IllusionMod:GetIllusionData(_p)
     if not d then return end
 	if playerType == PlayerType.PLAYER_LAZARUS_B or playerType == PlayerType.PLAYER_LAZARUS2_B then
 		_p:ChangePlayerType(0)
@@ -273,7 +273,7 @@ function IllusionModLocal:addIllusion(player, isIllusion)
 
 		d.IsIllusion = true
 		if playerType == PlayerType.PLAYER_THEFORGOTTEN_B then
-			local dl = GetIllusionData(_p:GetOtherTwin())
+			local dl = IllusionMod:GetIllusionData(_p:GetOtherTwin())
             if not dl then return end
 			dl.IsIllusion = true
 			_p:GetOtherTwin().Parent = player:GetOtherTwin()
@@ -292,7 +292,7 @@ function IllusionModLocal:addIllusion(player, isIllusion)
 end
 
 function IllusionModLocal:CloneCache(p, _)
-	local d = GetIllusionData(p)
+	local d = IllusionMod:GetIllusionData(p)
     if not d then return end
 	if d.IsIllusion then
 		--local color = Color(0.518, 0.22, 1, 0.45)
@@ -307,7 +307,7 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, IllusionModLocal.CloneCache)
 
 function IllusionModLocal:HackyLazWorkAround(player,cache)
-	local d = GetIllusionData(player)
+	local d = IllusionMod:GetIllusionData(player)
     if not d then return end
 	if d.IsIllusion then
 		if d.TaintedLazA == true then
@@ -332,7 +332,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, IllusionModLocal.Hacky
 function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 	local player = collider:ToPlayer()
 	if player then
-		local d = GetIllusionData(player)
+		local d = IllusionMod:GetIllusionData(player)
         if not d then return end
 		if d.IsIllusion or player.Parent then
 			return d.IsIllusion and true or pickup:IsShopItem()
@@ -344,7 +344,7 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 			pickup.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			pickup:GetSprite():Play("Collect", true)
 			pickup:Die()
-			IllusionModLocal:addIllusion(player, true)
+			IllusionMod:addIllusion(player, true)
 			sfxManager:Play(LostItemsPack.SFX.PICKUP_ILLUSION,1,0,false)
 			return true
 		end
@@ -354,7 +354,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, IllusionModLocal
 
 function IllusionModLocal:preIllusionWhiteFlame(p, collider)
 	if collider.Type == EntityType.ENTITY_FIREPLACE and collider.Variant == 4 then
-		local d = GetIllusionData(p)
+		local d = IllusionMod:GetIllusionData(p)
         if not d then return end
 		if d.IsIllusion or p.Parent then
 			p:Kill()
@@ -379,18 +379,23 @@ function IllusionModLocal:postPickupInit(pickup)
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, IllusionModLocal.postPickupInit, PickupVariant.PICKUP_HEART)
 
-function IllusionModLocal:onUseBookOfIllusions(_, _, player)
+function IllusionModLocal:onUseBookOfIllusions(_, _, player, flags)
 	if GiantBookAPI then
 		GiantBookAPI.playGiantBook("Appear", "Illusions.png", Color(0.2, 0.1, 0.3, 1, 0, 0, 0), Color(0.117, 0.0117, 0.2, 1, 0, 0, 0), Color(0, 0, 0, 0.8, 0, 0, 0), SoundEffect.SOUND_BOOK_PAGE_TURN_12)
 	end
 	sfxManager:Play(SoundEffect.SOUND_BOOK_PAGE_TURN_12, 1, 0, false, 1)
-	IllusionModLocal:addIllusion(player, true)
-	return true
+
+	IllusionMod:addIllusion(player, true)
+
+	-- returning any values interrupts any callbacks that come after it
+	if flags & UseFlag.USE_NOANIM == 0 then
+		player:AnimateCollectible(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, "UseItem", "PlayerPickupSparkle")
+	end
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, IllusionModLocal.onUseBookOfIllusions, LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS)
 
 function IllusionModLocal:onEntityTakeDamage(tookDamage)
-	local data = GetIllusionData(tookDamage)
+	local data = IllusionMod:GetIllusionData(tookDamage)
     if not data then return end
 	if data.IsIllusion then
         tookDamage:Kill() --doples always die in one hit, so the hud looks nicer. ideally i'd just get rid of the hud but that doesnt seem possible
@@ -417,7 +422,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, IllusionModLocal.A
 function IllusionModLocal:DarkEsau(e)
 	if e.SpawnerEntity and e.SpawnerEntity:ToPlayer() then
 		local p = e.SpawnerEntity:ToPlayer()
-		local d = GetIllusionData(p)
+		local d = IllusionMod:GetIllusionData(p)
         if not d then return end
 		if d.IsIllusion then
 			local s = e:GetSprite().Color
@@ -432,7 +437,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, IllusionModLocal.Dark
 function IllusionModLocal:ClonesControls(entity,hook,action)
 	if entity ~= nil and entity.Type == EntityType.ENTITY_PLAYER and not LostItemsPack.RunPersistentData.IllusionClonesPlaceBombs then
 		local p = entity:ToPlayer()
-		local d = GetIllusionData(p)
+		local d = IllusionMod:GetIllusionData(p)
         if not d then return end
 		if d.IsIllusion then
 			if (hook == InputHook.GET_ACTION_VALUE or hook == InputHook.IS_ACTION_PRESSED) and p:GetSprite():IsPlaying("Appear") then

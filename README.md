@@ -42,3 +42,4 @@ Items included:
 
 (To-do) Misc:
 - MCM or DSS options to allow people to disable items they don't like
+- Make things global so that other modders can use them
