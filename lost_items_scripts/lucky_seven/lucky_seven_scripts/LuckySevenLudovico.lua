@@ -8,8 +8,21 @@ local function CheckForLudoTear(entity, tear)
     ---@diagnostic disable-next-line: param-type-mismatch
     if not tear:HasTearFlags(TearFlags.TEAR_LUDOVICO) then return end
 
-    if tear.SpawnerType ~= EntityType.ENTITY_PLAYER and not tear.Parent then return end
-    local player = tear.Parent:ToPlayer()
+    if (tear.SpawnerType ~= EntityType.ENTITY_PLAYER and tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR) and not tear.Parent then return end
+    local player
+    
+    if tear.Parent:ToPlayer() then
+        player = tear.Parent:ToPlayer()
+    elseif tear.Parent:ToFamiliar() then
+        local familiar = tear.Parent:ToFamiliar()
+        if familiar.Variant == FamiliarVariant.INCUBUS or familiar.Variant == FamiliarVariant.TWISTED_BABY then
+            player = familiar.Player
+        else
+            return
+        end
+    else
+        return
+    end
 
     if not player:HasCollectible(LostItemsPack.CollectibleType.LUCKY_SEVEN) then return end
     if not Helpers.DoesPlayerHaveRightAmountOfPickups(player) then return end
