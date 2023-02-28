@@ -1,0 +1,5 @@
+<data>
+	<group Name="Hearts">
+		<entity ID="5" Image="icons/Illusion Heart.png" Kind="Pickups" Name="Illusion Heart" Subtype="9000" Variant="10" />
+	</group>
+</data>
