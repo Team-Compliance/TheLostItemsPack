@@ -42,12 +42,21 @@ local ForbiddenItems = {
 	CollectibleType.COLLECTIBLE_JUDAS_SHADOW,
 }
 
+local ForbiddenTrinkets = {
+	TrinketType.TRINKET_MISSING_POSTER,
+	TrinketType.TRINKET_BROKEN_ANKH
+}
+
 local ForbiddenPCombos = {
 	{PlayerType = PlayerType.PLAYER_THELOST_B, Item = CollectibleType.COLLECTIBLE_BIRTHRIGHT},
 }
 
 function IllusionMod.AddForbiddenItem(i)
 	table.insert(ForbiddenItems,i)
+end
+
+function IllusionMod.AddForbiddenTrinket(i)
+	table.insert(ForbiddenTrinkets,i)
 end
 
 function IllusionMod.AddForbiddenCharItem(type, i)
@@ -58,6 +67,15 @@ end
 local function BlackList(collectible)
 	for _,i in ipairs(ForbiddenItems) do
 		if i == collectible then
+			return true
+		end
+	end
+	return false
+end
+
+local function BlackListTrinket(trinket)
+	for _,i in ipairs(ForbiddenTrinkets) do
+		if i == trinket then
 			return true
 		end
 	end
@@ -224,9 +242,7 @@ function IllusionMod:addIllusion(player, isIllusion)
 		_p:ChangePlayerType(playerType)
 	end
 	if isIllusion then
-		_p.Parent = player
-		hud:AssignPlayerHUDs()
-		
+	
 		for i=1, Isaac.GetItemConfig():GetCollectibles().Size - 1 do
 			if not BlackList(i) and not CanBeRevived(playerType,i) then
 				local itemConfig = Isaac.GetItemConfig()
@@ -250,6 +266,23 @@ function IllusionMod:addIllusion(player, isIllusion)
 			if c > 0 then
                 ---@diagnostic disable-next-line: param-type-mismatch
 				_p:RemoveCollectible(c,false,i)
+			end
+		end
+
+		for i=1, Isaac.GetItemConfig():GetTrinkets().Size - 1 do
+			if not BlackListTrinket(i) then
+				local itemConfig = Isaac.GetItemConfig()
+				local itemTrinket = itemConfig:GetTrinket(i)
+				if itemTrinket then
+                    ---@diagnostic disable-next-line: param-type-mismatch
+					if not _p:HasTrinket(i) and player:HasTrinket(i) then
+						for j=1, player:GetTrinketMultiplier(i) do
+							---@diagnostic disable-next-line: param-type-mismatch
+							_p:AddTrinket(i,false)
+							_p:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false)
+						end
+					end
+				end
 			end
 		end
 
@@ -288,6 +321,8 @@ function IllusionMod:addIllusion(player, isIllusion)
 	_p:PlayExtraAnimation("Appear")
 	_p:AddCacheFlags(CacheFlag.CACHE_ALL)
 	_p:EvaluateItems()
+	_p.Parent = player
+	hud:AssignPlayerHUDs()
 	return _p
 end
 
