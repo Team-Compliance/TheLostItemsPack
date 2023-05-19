@@ -10,21 +10,32 @@ BethsHeart.HeartCharges = {
 	[HeartSubType.HEART_HALF_SOUL] = 1,
 	[HeartSubType.HEART_ETERNAL] = 4
 }
+BethsHeart.HeartNotifType = {
+	[HeartSubType.HEART_BLACK] = "black",
+	[HeartSubType.HEART_SOUL] = "soul",
+	[HeartSubType.HEART_HALF_SOUL] = "soul",
+	[HeartSubType.HEART_ETERNAL] = "eternal"
+}
 
 local redRibbonTrinket
 if FiendFolio then
 	BethsHeart.HeartCharges[1022] = 2 --Half black hearts
+	BethsHeart.HeartNotifType[1022] = "black"
 	redRibbonTrinket = Isaac.GetTrinketIdByName("Red Ribbon")
 end
 
 if ComplianceImmortal then
 	BethsHeart.HeartCharges[902] = 6 --Immortal hearts
+	BethsHeart.HeartNotifType[902] = "eternal"
 end
 
 ---@param heartSubtype HeartSubType|integer
 ---@param chargeAmount integer
-function BethsHeart:AddHeartCharge(heartSubtype, chargeAmount)
+---@param heartNotifType? "soul" | "black" | "eternal" 
+function BethsHeart:AddHeartCharge(heartSubtype, chargeAmount, heartNotifType)
+	if not heartNotifType then heartNotifType = "soul" end
 	BethsHeart.HeartCharges[heartSubtype] = chargeAmount
+	BethsHeart.HeartNotifType[heartSubtype] = heartNotifType
 end
 
 function BethsHeartLocal:GetSlot(player,slot)
@@ -92,7 +103,7 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 		heart.GridCollisionClass = EntityGridCollisionClass.GRIDCOLL_NONE
 	else
 		heart:RemoveFromFollowers()
-		heart.GridCollisionClass = EntityGridCollisionClass.GRIDCOLL_NOPITS
+		heart.GridCollisionClass = EntityGridCollisionClass.GRIDCOLL_WALLS
 	end
 
 	if heart.State == 1 then
@@ -114,8 +125,22 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 					if player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY then
 						if heart.Hearts < 6 * bff then
 							heart.Hearts=heart.Hearts+restoreamount
-							local effect = Isaac.Spawn(1000,49,4,heart.Position,Vector.Zero,heart)
-							effect:GetSprite().Offset = Vector(0,-11)
+							local heartNotifType = BethsHeart.HeartNotifType[soulheart.SubType]
+							if heartNotifType == "soul" then
+								local effect = Isaac.Spawn(1000,49,4,heart.Position,Vector.Zero,heart)
+								effect:GetSprite().Offset = Vector(0,-11)
+							elseif heartNotifType == "black" then
+								local effect = Isaac.Spawn(1000,49,5,heart.Position,Vector.Zero,heart)
+								effect:GetSprite().Offset = Vector(0,-11)
+							elseif heartNotifType == "eternal" then
+								local effect = Isaac.Spawn(1000,49,0,heart.Position,Vector.Zero,heart)
+								effect:GetSprite():Load("gfx/1000.049_heart.anm2", false)
+								effect:GetSprite():ReplaceSpritesheet(0, "gfx/effects/eternal_heart_notif.png")
+								effect:GetSprite():LoadGraphics()
+
+								effect:GetSprite():Play("Heart", true)
+								effect:GetSprite().Offset = Vector(0,-11)
+							end
 							SFXManager():Play(171,1)
 							soulheart:GetSprite():Play("Collect")
 							soulheart:Die()
@@ -159,7 +184,7 @@ function BethsHeartLocal:BethInputUpdate(player)
 				local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 				local item = Isaac:GetItemConfig():GetCollectible(player:GetActiveItem(slot))
 				local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1
-				if charge < item.MaxCharges * battery and item.ChargeType ~= 1 then
+				if item and charge < item.MaxCharges * battery and item.ChargeType ~= 1 then
 					---@diagnostic disable-next-line: param-type-mismatch
 					Game():GetHUD():FlashChargeBar(player, slot)
 					local charging
@@ -173,7 +198,7 @@ function BethsHeartLocal:BethInputUpdate(player)
 					player:SetActiveCharge(charging, slot)
 					SFXManager():Play(SoundEffect.SOUND_BATTERYCHARGE)
 					BethsHeartLocal:OverCharge(player)
-				elseif item.ChargeType == 1 and charge < item.MaxCharges * battery then
+				elseif item and item.ChargeType == 1 and charge < item.MaxCharges * battery then
 					for i = 1,battery do
 						if heart.Hearts > 0 and charge < item.MaxCharges * battery then
 							player:FullCharge(slot)
