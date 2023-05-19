@@ -13,7 +13,7 @@ LostItemsPack.CallOnLoad[#LostItemsPack.CallOnLoad+1] = function ()
 end
 
 
-local NoCoinList = {
+KeepersRope.NoCoinList = {
 	{EntityType.ENTITY_STONEHEAD},
 	{EntityType.ENTITY_POKY},
 	{EntityType.ENTITY_MASK},
@@ -124,7 +124,7 @@ local function DontGiveCoins(npc)
 	if npc:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) or npc:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) or npc:HasEntityFlags(EntityFlag.FLAG_PERSISTENT) then
 		return true
 	end
-	for _,entity in pairs(NoCoinList) do
+	for _,entity in pairs(KeepersRope.NoCoinList) do
 		if entity[1] == npc.Type then
 			if entity[2] then
 				if entity[2] == npc.Variant then

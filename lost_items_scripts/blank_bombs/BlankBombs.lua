@@ -47,25 +47,6 @@ local function CanBombInstaDetonate(bomb)
 end
 
 
-function ScreenWobble(position)
-	local abusedMonstro = Isaac.Spawn(EntityType.ENTITY_MONSTRO, 0, 0, position, Vector.Zero, nil)
-	abusedMonstro = abusedMonstro:ToNPC()
-
-	abusedMonstro.Visible = false
-	abusedMonstro.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
-	abusedMonstro.GridCollisionClass = GridCollisionClass.COLLISION_NONE
-	abusedMonstro:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
-	abusedMonstro:AddEntityFlags(EntityFlag.FLAG_HIDE_HP_BAR | EntityFlag.FLAG_FRIENDLY)
-	abusedMonstro.State = NpcState.STATE_STOMP
-
-	local monstroSpr = abusedMonstro:GetSprite()
-	monstroSpr:Play("JumpDown", true)
-	monstroSpr:SetFrame(32)
-
-	abusedMonstro:GetData().IsAbusedMonstro = true
-end
-
-
 ---@param center Vector
 ---@param radius number
 local function DoBlankEffect(center, radius)
@@ -77,7 +58,7 @@ local function DoBlankEffect(center, radius)
 	blankExplosion.Color = Color(1, 1, 1, math.min(1, radius/90))
 
 	--Do screen wobble
-	ScreenWobble(center)
+	Game():MakeShockwave(center, .035, .025, 10)
 
 	--Remove projectiles in radius
 	for _, projectile in ipairs(Isaac.FindByType(EntityType.ENTITY_PROJECTILE)) do
