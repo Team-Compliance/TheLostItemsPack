@@ -40,6 +40,7 @@ local ForbiddenItems = {
 	CollectibleType.COLLECTIBLE_LAZARUS_RAGS,
 	CollectibleType.COLLECTIBLE_ANKH,
 	CollectibleType.COLLECTIBLE_JUDAS_SHADOW,
+	CollectibleType.COLLECTIBLE_STRAW_MAN
 }
 
 local ForbiddenTrinkets = {
@@ -136,7 +137,7 @@ local function RemoveIllusionData(entity, forgottenB)
 
     if entity.Type == EntityType.ENTITY_PLAYER then
         local player = entity:ToPlayer()
-        if player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B and forgottenB then
+        if player and player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B and forgottenB then
             player = player:GetOtherTwin()
         end
 
