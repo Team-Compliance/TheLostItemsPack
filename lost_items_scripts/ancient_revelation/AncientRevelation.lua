@@ -42,16 +42,14 @@ function AncientRevelation:postPlayerUpdate(player)
 	if player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B then
 		player = player:GetMainTwin()
 	end
-	if player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN then
-		player = player:GetSubPlayer()
-	end
+	local p = player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and player:GetSubPlayer() or player
 
 	if player:GetCollectibleNum(LostItemsPack.CollectibleType.ANCIENT_REVELATION) == data.AncientCount then
-		data.lastSoulHearts = player:GetSoulHearts()
+		data.lastSoulHearts = CustomHealthAPI.PersistentData.OverriddenFunctions.GetSoulHearts(p)
 	end
 	data.AncientCount = player:GetCollectibleNum(LostItemsPack.CollectibleType.ANCIENT_REVELATION)
 
-	if player:GetSoulHearts() > data.lastSoulHearts then
+	if CustomHealthAPI.PersistentData.OverriddenFunctions.GetSoulHearts(p) > data.lastSoulHearts then
 		player:AddSoulHearts(-4)
 
 		ComplianceImmortal.AddImmortalHearts(player, 4)

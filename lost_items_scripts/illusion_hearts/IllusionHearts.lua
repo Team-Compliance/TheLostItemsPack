@@ -40,6 +40,7 @@ local ForbiddenItems = {
 	CollectibleType.COLLECTIBLE_LAZARUS_RAGS,
 	CollectibleType.COLLECTIBLE_ANKH,
 	CollectibleType.COLLECTIBLE_JUDAS_SHADOW,
+	CollectibleType.COLLECTIBLE_STRAW_MAN
 }
 
 local ForbiddenTrinkets = {
@@ -136,7 +137,7 @@ local function RemoveIllusionData(entity, forgottenB)
 
     if entity.Type == EntityType.ENTITY_PLAYER then
         local player = entity:ToPlayer()
-        if player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B and forgottenB then
+        if player and player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B and forgottenB then
             player = player:GetOtherTwin()
         end
 
@@ -431,12 +432,12 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 	if player then
 		local d = IllusionMod:GetIllusionData(player)
         if not d then return end
-		if d.IsIllusion or player.Parent then
+		if d.IsIllusion then
 			return d.IsIllusion and true or pickup:IsShopItem()
 		else
 			d = nil
 		end
-		if pickup.Variant == PickupVariant.PICKUP_HEART and pickup.SubType == LostItemsPack.Entities.ILLUSION_HEART.subtype then
+		if pickup.Variant == PickupVariant.PICKUP_HEART and pickup.SubType == LostItemsPack.Entities.ILLUSION_HEART.subtype and not player.Parent then
 			pickup.Velocity = Vector.Zero
 			pickup.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			pickup:GetSprite():Play("Collect", true)
