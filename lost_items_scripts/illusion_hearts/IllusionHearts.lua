@@ -92,7 +92,7 @@ local function CanBeRevived(pType,withItem)
 end
 
 
-function IllusionMod:GetIllusionData(entity,forgottenB)
+function IllusionMod:GetIllusionData(entity, forgottenB)
     if not entity then return end
 
 	forgottenB = forgottenB or false
@@ -212,118 +212,180 @@ function IllusionModLocal:CloneRoomUpdate()
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, IllusionModLocal.CloneRoomUpdate)
 
-function IllusionMod:addIllusion(player, isIllusion)
-	local id = game:GetNumPlayers() - 1
+
+---@param player EntityPlayer
+---@param illusionPlayer EntityPlayer
+---@param playerType PlayerType
+local function AddItemsToIllusion(player, illusionPlayer, playerType)
+	for i=1, Isaac.GetItemConfig():GetCollectibles().Size - 1 do
+		if not BlackList(i) and not CanBeRevived(playerType, i) then
+			local itemConfig = Isaac.GetItemConfig()
+			local itemCollectible = itemConfig:GetCollectible(i)
+			if itemCollectible then
+				if not illusionPlayer:HasCollectible(i) and player:HasCollectible(i) and
+				itemCollectible.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST then
+					if itemCollectible.Type ~= ItemType.ITEM_ACTIVE then
+						for _ = 1, player:GetCollectibleNum(i) do
+							illusionPlayer:AddCollectible(i, 0, false)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+---@param illusionPlayer EntityPlayer
+local function RemoveActiveItemsFromIllusion(illusionPlayer)
+	for i = 2, 0, -1 do
+		local c = illusionPlayer:GetActiveItem(i)
+		if c > 0 then
+			illusionPlayer:RemoveCollectible(c,false,i)
+		end
+	end
+end
+
+---@param player EntityPlayer
+---@param illusionPlayer EntityPlayer
+local function AddTrinketsToIllusion(player, illusionPlayer)
+	for i=1, Isaac.GetItemConfig():GetTrinkets().Size - 1 do
+		if not BlackListTrinket(i) then
+			local itemConfig = Isaac.GetItemConfig()
+			local itemTrinket = itemConfig:GetTrinket(i)
+			if itemTrinket then
+				if not illusionPlayer:HasTrinket(i) and player:HasTrinket(i) then
+					for _ = 1, player:GetTrinketMultiplier(i) do
+						illusionPlayer:AddTrinket(i,false)
+						illusionPlayer:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false)
+					end
+				end
+			end
+		end
+	end
+end
+
+local function AddTransformationsToIllusion(player, illusionPlayer)
+	for transformation, transformationItem in pairs(TransformationItems) do
+		if player:HasPlayerForm(transformation) and not illusionPlayer:HasPlayerForm(transformation) then
+			for _ = 1, 3, 1 do
+				illusionPlayer:AddCollectible(transformationItem)
+			end
+		end
+	end
+end
+
+---@param illusionPlayer EntityPlayer
+local function SetIllusionHealth(illusionPlayer)
+	illusionPlayer:AddMaxHearts(-illusionPlayer:GetMaxHearts())
+	illusionPlayer:AddSoulHearts(-illusionPlayer:GetSoulHearts())
+	illusionPlayer:AddBoneHearts(-illusionPlayer:GetBoneHearts())
+	illusionPlayer:AddGoldenHearts(-illusionPlayer:GetGoldenHearts())
+	illusionPlayer:AddEternalHearts(-illusionPlayer:GetEternalHearts())
+	illusionPlayer:AddHearts(-illusionPlayer:GetHearts())
+
+	illusionPlayer:AddMaxHearts(2)
+	illusionPlayer:AddHearts(2)
+end
+
+---@param illusionPlayer EntityPlayer
+local function SpawnIllusionPoof(illusionPlayer)
+	local poof = Isaac.Spawn(
+		EntityType.ENTITY_EFFECT,
+		EffectVariant.POOF01,
+		-1,
+		illusionPlayer.Position,
+		Vector.Zero,
+		illusionPlayer
+	)
+
+	local sColor = poof:GetSprite().Color
+	local color = Color(sColor.R, sColor.G, sColor.B, 0.7, 0.518, 0.15, 0.8)
+	local sprite = poof:GetSprite()
+	sprite.Color = color
+end
+
+---@param player EntityPlayer
+---@param isIllusion boolean
+---@param addWisp boolean
+---@return EntityPlayer?
+function IllusionMod:addIllusion(player, isIllusion, addWisp)
+	if addWisp == nil then addWisp = false end
+
 	local playerType = player:GetPlayerType()
+
 	if playerType == PlayerType.PLAYER_JACOB then
 		player = player:GetOtherTwin()
 		playerType = PlayerType.PLAYER_ESAU
-	end
-	if playerType == PlayerType.PLAYER_THESOUL_B then
+	elseif playerType == PlayerType.PLAYER_THESOUL_B then
 		playerType = PlayerType.PLAYER_THEFORGOTTEN_B
-	end
-	if playerType == PlayerType.PLAYER_THESOUL then
+	elseif playerType == PlayerType.PLAYER_THESOUL then
 		playerType = PlayerType.PLAYER_THEFORGOTTEN
 	end
-	Isaac.ExecuteCommand('addplayer 15 '..player.ControllerIndex)
-	local _p = Isaac.GetPlayer(id + 1)
-	local d = IllusionMod:GetIllusionData(_p)
-    if not d then return end
+
+	Isaac.ExecuteCommand("addplayer 15 " .. player.ControllerIndex)
+
+	local newPlayerIndex = game:GetNumPlayers() - 1
+	local illusionPlayer = Isaac.GetPlayer(newPlayerIndex)
+
+	local data = IllusionMod:GetIllusionData(illusionPlayer)
+	if not data then return nil end
+
 	if playerType == PlayerType.PLAYER_LAZARUS_B or playerType == PlayerType.PLAYER_LAZARUS2_B then
-		_p:ChangePlayerType(0)
+		playerType = PlayerType.PLAYER_ISAAC
+		local costume
+
 		if playerType == PlayerType.PLAYER_LAZARUS_B then
-			d.TaintedLazA = true
+			data.TaintedLazA = true
+			costume = NullItemID.ID_LAZARUS_B
 		else
-			d.TaintedLazB = true
+			data.TaintedLazB = true
+			costume = NullItemID.ID_LAZARUS2_B
 		end
-		local costume = playerType == PlayerType.PLAYER_LAZARUS_B and NullItemID.ID_LAZARUS_B or NullItemID.ID_LAZARUS2_B
-		_p:AddNullCostume(costume)
-	else
-		_p:ChangePlayerType(playerType)
+
+		illusionPlayer:AddNullCostume(costume)
 	end
+
+	illusionPlayer:ChangePlayerType(playerType)
+
 	if isIllusion then
-	
-		for i=1, Isaac.GetItemConfig():GetCollectibles().Size - 1 do
-			if not BlackList(i) and not CanBeRevived(playerType,i) then
-				local itemConfig = Isaac.GetItemConfig()
-				local itemCollectible = itemConfig:GetCollectible(i)
-				if itemCollectible then
-                    ---@diagnostic disable-next-line: param-type-mismatch
-					if not _p:HasCollectible(i) and player:HasCollectible(i) and itemCollectible.Tags & ItemConfig.TAG_QUEST ~= ItemConfig.TAG_QUEST then
-						if itemCollectible.Type ~= ItemType.ITEM_ACTIVE then
-							for j=1, player:GetCollectibleNum(i) do
-                                ---@diagnostic disable-next-line: param-type-mismatch
-								_p:AddCollectible(i,0,false)
-							end
-						end
-					end
-				end
-			end
-		end
-		for i = 2, 0, -1 do
-            ---@diagnostic disable-next-line: param-type-mismatch
-			local c = _p:GetActiveItem(i)
-			if c > 0 then
-                ---@diagnostic disable-next-line: param-type-mismatch
-				_p:RemoveCollectible(c,false,i)
-			end
-		end
+		AddItemsToIllusion(player, illusionPlayer, playerType)
 
-		for i=1, Isaac.GetItemConfig():GetTrinkets().Size - 1 do
-			if not BlackListTrinket(i) then
-				local itemConfig = Isaac.GetItemConfig()
-				local itemTrinket = itemConfig:GetTrinket(i)
-				if itemTrinket then
-                    ---@diagnostic disable-next-line: param-type-mismatch
-					if not _p:HasTrinket(i) and player:HasTrinket(i) then
-						for j=1, player:GetTrinketMultiplier(i) do
-							---@diagnostic disable-next-line: param-type-mismatch
-							_p:AddTrinket(i,false)
-							_p:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER,false)
-						end
-					end
-				end
-			end
-		end
+		RemoveActiveItemsFromIllusion(illusionPlayer)
 
-		for transformation, transformationItem in pairs(TransformationItems) do
-			if player:HasPlayerForm(transformation) then
-				for _ = 1, 3, 1 do
-					_p:AddCollectible(transformationItem)
-				end
-			end
-		end
-		
-		_p:AddMaxHearts(-_p:GetMaxHearts())
-		_p:AddSoulHearts(-_p:GetSoulHearts())
-		_p:AddBoneHearts(-_p:GetBoneHearts())
-		_p:AddGoldenHearts(-_p:GetGoldenHearts())
-		_p:AddEternalHearts(-_p:GetEternalHearts())
-		_p:AddHearts(-_p:GetHearts())
+		AddTrinketsToIllusion(player, illusionPlayer)
 
-		_p:AddMaxHearts(2)
-		_p:AddHearts(2)
+		AddTransformationsToIllusion(player, illusionPlayer)
 
-		d.IsIllusion = true
+		SetIllusionHealth(illusionPlayer)
+
+		data.IsIllusion = true
+
 		if playerType == PlayerType.PLAYER_THEFORGOTTEN_B then
-			local dl = IllusionMod:GetIllusionData(_p:GetOtherTwin())
-            if not dl then return end
-			dl.IsIllusion = true
-			_p:GetOtherTwin().Parent = player:GetOtherTwin()
-		end
-		local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, -1, _p.Position, Vector.Zero, _p)
+			local twinData = IllusionMod:GetIllusionData(illusionPlayer:GetOtherTwin())
+            if not twinData then return end
 
-		local sColor = poof:GetSprite().Color
-		local color = Color(sColor.R, sColor.G, sColor.B, 0.7, 0.518, 0.15, 0.8)
-		local s = poof:GetSprite()
-		s.Color = color
+			twinData.IsIllusion = true
+			illusionPlayer:GetOtherTwin().Parent = player:GetOtherTwin()
+		end
+
+		SpawnIllusionPoof(illusionPlayer)
 	end
-	_p:PlayExtraAnimation("Appear")
-	_p:AddCacheFlags(CacheFlag.CACHE_ALL)
-	_p:EvaluateItems()
-	_p.Parent = player
+
+	if addWisp then
+		local wisp = player:AddWisp(LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS, player.Position)
+		local wispData = IllusionMod:GetIllusionData(wisp)
+
+		wispData.isIllusion = true
+		wispData.illusionId = illusionPlayer:GetCollectibleRNG(1):GetSeed()
+		data.hasWisp = true
+	end
+
+	illusionPlayer:PlayExtraAnimation("Appear")
+	illusionPlayer:AddCacheFlags(CacheFlag.CACHE_ALL)
+	illusionPlayer:EvaluateItems()
+	illusionPlayer.Parent = player
 	hud:AssignPlayerHUDs()
-	return _p
+	return illusionPlayer
 end
 
 function IllusionModLocal:CloneCache(p, _)
@@ -332,7 +394,7 @@ function IllusionModLocal:CloneCache(p, _)
 	if d.IsIllusion then
 		--local color = Color(0.518, 0.22, 1, 0.45)
 		local sColor = p:GetSprite().Color
-		local color = Color(sColor.R, sColor.G, sColor.B, 0.45,0.518, 0.15, 0.8)
+		local color = Color(sColor.R, sColor.G, sColor.B, 0.45, 0.518, 0.15, 0.8)
 		local s = p:GetSprite()
 		s.Color = color
 	else
@@ -379,7 +441,7 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 			pickup.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			pickup:GetSprite():Play("Collect", true)
 			pickup:Die()
-			IllusionMod:addIllusion(player, true)
+			IllusionMod:addIllusion(player, true, true)
 			sfxManager:Play(LostItemsPack.SFX.PICKUP_ILLUSION,1,0,false)
 			return true
 		end
@@ -420,7 +482,7 @@ function IllusionModLocal:onUseBookOfIllusions(_, _, player, flags)
 	end
 	sfxManager:Play(SoundEffect.SOUND_BOOK_PAGE_TURN_12, 1, 0, false, 1)
 
-	IllusionMod:addIllusion(player, true)
+	IllusionMod:addIllusion(player, true, true)
 
 	-- returning any values interrupts any callbacks that come after it
 	if flags & UseFlag.USE_NOANIM == 0 then
@@ -429,18 +491,26 @@ function IllusionModLocal:onUseBookOfIllusions(_, _, player, flags)
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, IllusionModLocal.onUseBookOfIllusions, LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS)
 
+---@param player EntityPlayer
+local function KillIllusion(player)
+	player:Kill()
+
+	player:AddMaxHearts(-player:GetMaxHearts())
+	player:AddSoulHearts(-player:GetSoulHearts())
+	player:AddBoneHearts(-player:GetBoneHearts())
+	player:AddGoldenHearts(-player:GetGoldenHearts())
+	player:AddEternalHearts(-player:GetEternalHearts())
+	player:AddHearts(-player:GetHearts())
+end
+
 function IllusionModLocal:onEntityTakeDamage(tookDamage)
 	local data = IllusionMod:GetIllusionData(tookDamage)
     if not data then return end
 	if data.IsIllusion then
-        tookDamage:Kill() --doples always die in one hit, so the hud looks nicer. ideally i'd just get rid of the hud but that doesnt seem possible
-        local p = tookDamage:ToPlayer()
-        p:AddMaxHearts(-p:GetMaxHearts())
-        p:AddSoulHearts(-p:GetSoulHearts())
-        p:AddBoneHearts(-p:GetBoneHearts())
-        p:AddGoldenHearts(-p:GetGoldenHearts())
-        p:AddEternalHearts(-p:GetEternalHearts())
-        p:AddHearts(-p:GetHearts())
+		if data.hasWisp then return false end
+        --doples always die in one hit, so the hud looks nicer. ideally i'd just get rid of the hud but that doesnt seem possible
+        local player = tookDamage:ToPlayer()
+       	KillIllusion(player)
 	else
 		RemoveIllusionData(tookDamage)
 	end
@@ -486,3 +556,70 @@ function IllusionModLocal:ClonesControls(entity,hook,action)
 	end
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_INPUT_ACTION, IllusionModLocal.ClonesControls)
+
+
+---@param familiar EntityFamiliar
+function IllusionModLocal:OnIllusionWispUpdate(familiar)
+	local data = IllusionMod:GetIllusionData(familiar)
+	if not data then return end
+	if not data.isIllusion then return end
+
+	local healthRatio = familiar.HitPoints / familiar.MaxHitPoints
+	local spriteScale = Vector(0.75, 0.75) + Vector(0.25, 0.25) * healthRatio
+	familiar.SpriteScale = spriteScale
+end
+LostItemsPack:AddCallback(
+	ModCallbacks.MC_FAMILIAR_UPDATE,
+	IllusionModLocal.OnIllusionWispUpdate,
+	FamiliarVariant.WISP
+)
+
+---@param entity Entity
+function IllusionModLocal:OnIllusionWispRemove(entity)
+	local familiar = entity:ToFamiliar()
+	if familiar.Variant ~= FamiliarVariant.WISP then return end
+
+	local data = IllusionMod:GetIllusionData(familiar)
+	if not data then return end
+	if not data.isIllusion then return end
+
+	for i = 0, game:GetNumPlayers() - 1, 1 do
+		local player = game:GetPlayer(i)
+		local playerIndex = player:GetCollectibleRNG(1):GetSeed()
+
+		if data.illusionId == playerIndex then
+			local illusionData = IllusionMod:GetIllusionData(player)
+			if illusionData and illusionData.IsIllusion then
+				illusionData.hasWisp = false
+			end
+
+			player:TakeDamage(2, 0, EntityRef(familiar), -1)
+		end
+	end
+end
+LostItemsPack:AddCallback(
+	ModCallbacks.MC_POST_ENTITY_REMOVE,
+	IllusionModLocal.OnIllusionWispRemove,
+	EntityType.ENTITY_FAMILIAR
+)
+
+---@param tear EntityTear
+function IllusionModLocal:OnTearInit(tear)
+	local spawner = tear.SpawnerEntity
+	if not spawner then return end
+
+	local familiar = spawner:ToFamiliar()
+	if not familiar then return end
+
+	if familiar.Variant ~= FamiliarVariant.WISP then return end
+
+	local data = IllusionMod:GetIllusionData(familiar)
+	if not data then return end
+	if not data.isIllusion then return end
+
+	tear:Remove()
+end
+LostItemsPack:AddCallback(
+	ModCallbacks.MC_POST_TEAR_INIT,
+	IllusionModLocal.OnTearInit
+)

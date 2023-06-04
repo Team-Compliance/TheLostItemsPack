@@ -29,7 +29,6 @@ function BlockDisabledItems:PostGetCollectible(selectedItem, poolType, decrease,
 
     if not isDisabledItem then return end
 
-
     local itemPool = Game():GetItemPool()
 
     local rng = RNG()
