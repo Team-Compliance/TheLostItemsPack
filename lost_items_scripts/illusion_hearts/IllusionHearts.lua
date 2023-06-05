@@ -442,7 +442,7 @@ function IllusionModLocal:preIllusionHeartPickup(pickup, collider)
 			pickup.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
 			pickup:GetSprite():Play("Collect", true)
 			pickup:Die()
-			IllusionMod:addIllusion(player, true, true)
+			IllusionMod:addIllusion(player, true, false)
 			sfxManager:Play(LostItemsPack.SFX.PICKUP_ILLUSION,1,0,false)
 			return true
 		end
@@ -483,7 +483,7 @@ function IllusionModLocal:onUseBookOfIllusions(_, _, player, flags)
 	end
 	sfxManager:Play(SoundEffect.SOUND_BOOK_PAGE_TURN_12, 1, 0, false, 1)
 
-	IllusionMod:addIllusion(player, true, true)
+	IllusionMod:addIllusion(player, true, player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES))
 
 	-- returning any values interrupts any callbacks that come after it
 	if flags & UseFlag.USE_NOANIM == 0 then
@@ -563,7 +563,10 @@ LostItemsPack:AddCallback(ModCallbacks.MC_INPUT_ACTION, IllusionModLocal.ClonesC
 function IllusionModLocal:OnIllusionWispUpdate(familiar)
 	local data = IllusionMod:GetIllusionData(familiar)
 	if not data then return end
-	if not data.isIllusion then return end
+	if not data.isIllusion then
+		familiar:Remove()
+		return
+	end
 
 	local healthRatio = familiar.HitPoints / familiar.MaxHitPoints
 	local spriteScale = Vector(0.75, 0.75) + Vector(0.25, 0.25) * healthRatio
