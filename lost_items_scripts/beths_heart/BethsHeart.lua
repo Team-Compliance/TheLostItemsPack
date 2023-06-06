@@ -31,14 +31,14 @@ end
 
 ---@param heartSubtype HeartSubType|integer
 ---@param chargeAmount integer
----@param heartNotifType? "soul" | "black" | "eternal" 
+---@param heartNotifType? "soul" | "black" | "eternal"
 function BethsHeart:AddHeartCharge(heartSubtype, chargeAmount, heartNotifType)
 	if not heartNotifType then heartNotifType = "soul" end
 	BethsHeart.HeartCharges[heartSubtype] = chargeAmount
 	BethsHeart.HeartNotifType[heartSubtype] = heartNotifType
 end
 
-function BethsHeartLocal:GetSlot(player,slot)
+function BethsHeartLocal:GetSlot(player, slot)
 	local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 	local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY)
 	local item = Isaac:GetItemConfig():GetCollectible(player:GetActiveItem(slot))
@@ -49,20 +49,20 @@ function BethsHeartLocal:GetSlot(player,slot)
 	elseif player:GetActiveItem(slot) > 0 and charge < item.MaxCharges * (battery and 2 or 1) and player:GetActiveItem(slot) ~= CollectibleType.COLLECTIBLE_ERASER then
 		return slot
 	elseif slot < ActiveSlot.SLOT_POCKET then
-		slot = BethsHeartLocal:GetSlot(player,slot + 1)
+		slot = BethsHeartLocal:GetSlot(player, slot + 1)
 		return slot
 	end
 	return nil
 end
 
-function BethsHeartLocal:OverCharge(player,slot,item)
-    ---@diagnostic disable-next-line: param-type-mismatch
-	local effect = Isaac.Spawn(1000,49,1, player.Position+Vector(0,1),Vector.Zero,nil)
-	effect:GetSprite().Offset = Vector(0,-22)
+function BethsHeartLocal:OverCharge(player, slot, item)
+	---@diagnostic disable-next-line: param-type-mismatch
+	local effect = Isaac.Spawn(1000, 49, 1, player.Position + Vector(0, 1), Vector.Zero, nil)
+	effect:GetSprite().Offset = Vector(0, -22)
 end
 
 local DIRECTION_VECTOR = {
-	[Direction.NO_DIRECTION] = Vector(0, 1),	-- when you don't shoot or move, you default to HeadDown
+	[Direction.NO_DIRECTION] = Vector(0, 1), -- when you don't shoot or move, you default to HeadDown
 	[Direction.LEFT] = Vector(-1, 0),
 	[Direction.UP] = Vector(0, -1),
 	[Direction.RIGHT] = Vector(1, 0),
@@ -72,16 +72,16 @@ local DIRECTION_VECTOR = {
 
 function BethsHeartLocal:HeartCollectibleUpdate(player)
 	local numFamiliars = player:GetCollectibleNum(LostItemsPack.CollectibleType.BETHS_HEART) +
-	player:GetEffects():GetCollectibleEffectNum(LostItemsPack.CollectibleType.BETHS_HEART)
+		player:GetEffects():GetCollectibleEffectNum(LostItemsPack.CollectibleType.BETHS_HEART)
 
-	player:CheckFamiliar(LostItemsPack.Entities.BETHS_HEART.variant, numFamiliars, player:GetCollectibleRNG(LostItemsPack.CollectibleType.BETHS_HEART), bethsheartdesc)	
+	player:CheckFamiliar(LostItemsPack.Entities.BETHS_HEART.variant, numFamiliars,
+		player:GetCollectibleRNG(LostItemsPack.CollectibleType.BETHS_HEART), bethsheartdesc)
 end
 
 function BethsHeartLocal:BethsHeartInit(heart)
 	heart:AddToFollowers()
 	heart.State = 0
 end
-
 
 ---@param heart EntityFamiliar
 function BethsHeartLocal:BethsHeartUpdate(heart)
@@ -90,12 +90,12 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 	if heart.Hearts > 6 * bff then
 		heart.Hearts = 6 * bff
 	end
-	local heartspr=heart:GetSprite()
-	if not heartspr:IsPlaying("Idle"..heart.Hearts) then
-		heartspr:Play("Idle"..heart.Hearts,false)
+	local heartspr = heart:GetSprite()
+	if not heartspr:IsPlaying("Idle" .. heart.Hearts) then
+		heartspr:Play("Idle" .. heart.Hearts, false)
 	end
-	if not heartspr:IsOverlayPlaying("Charge"..heart.Hearts) then
-		heartspr:PlayOverlay("Charge"..heart.Hearts,false)
+	if not heartspr:IsOverlayPlaying("Charge" .. heart.Hearts) then
+		heartspr:PlayOverlay("Charge" .. heart.Hearts, false)
 	end
 
 	if heart.State ~= 1 then
@@ -107,7 +107,7 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 	end
 
 	if heart.State == 1 then
-		for _,soulheart in pairs(Isaac.FindInRadius(heart.Position,15 + 5 * (bff-1),EntityPartition.PICKUP)) do
+		for _, soulheart in pairs(Isaac.FindInRadius(heart.Position, 15 + 5 * (bff - 1), EntityPartition.PICKUP)) do
 			if soulheart.Variant == PickupVariant.PICKUP_HEART and not soulheart:GetSprite():IsPlaying("Collect") then
 				local restoreamount = BethsHeart.HeartCharges[soulheart.SubType]
 				if not restoreamount then restoreamount = 0 end
@@ -121,31 +121,29 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 						restoreamount = restoreamount * 4
 					end
 				end
-				if (not soulheart:ToPickup():IsShopItem()) and restoreamount>0 then
-					if player:GetPlayerType() ~= PlayerType.PLAYER_BETHANY then
-						if heart.Hearts < 6 * bff then
-							heart.Hearts=heart.Hearts+restoreamount
-							local heartNotifType = BethsHeart.HeartNotifType[soulheart.SubType]
-							if heartNotifType == "soul" then
-								local effect = Isaac.Spawn(1000,49,4,heart.Position,Vector.Zero,heart)
-								effect:GetSprite().Offset = Vector(0,-11)
-							elseif heartNotifType == "black" then
-								local effect = Isaac.Spawn(1000,49,5,heart.Position,Vector.Zero,heart)
-								effect:GetSprite().Offset = Vector(0,-11)
-							elseif heartNotifType == "eternal" then
-								local effect = Isaac.Spawn(1000,49,0,heart.Position,Vector.Zero,heart)
-								effect:GetSprite():Load("gfx/1000.049_heart.anm2", false)
-								effect:GetSprite():ReplaceSpritesheet(0, "gfx/effects/eternal_heart_notif.png")
-								effect:GetSprite():LoadGraphics()
+				if (not soulheart:ToPickup():IsShopItem()) and restoreamount > 0 then
+					if heart.Hearts < 6 * bff then
+						heart.Hearts = heart.Hearts + restoreamount
+						local heartNotifType = BethsHeart.HeartNotifType[soulheart.SubType]
+						if heartNotifType == "soul" then
+							local effect = Isaac.Spawn(1000, 49, 4, heart.Position, Vector.Zero, heart)
+							effect:GetSprite().Offset = Vector(0, -11)
+						elseif heartNotifType == "black" then
+							local effect = Isaac.Spawn(1000, 49, 5, heart.Position, Vector.Zero, heart)
+							effect:GetSprite().Offset = Vector(0, -11)
+						elseif heartNotifType == "eternal" then
+							local effect = Isaac.Spawn(1000, 49, 0, heart.Position, Vector.Zero, heart)
+							effect:GetSprite():Load("gfx/1000.049_heart.anm2", false)
+							effect:GetSprite():ReplaceSpritesheet(0, "gfx/effects/eternal_heart_notif.png")
+							effect:GetSprite():LoadGraphics()
 
-								effect:GetSprite():Play("Heart", true)
-								effect:GetSprite().Offset = Vector(0,-11)
-							end
-							SFXManager():Play(171,1)
-							soulheart:GetSprite():Play("Collect")
-							soulheart:Die()
-							soulheart.EntityCollisionClass=0
+							effect:GetSprite():Play("Heart", true)
+							effect:GetSprite().Offset = Vector(0, -11)
 						end
+						SFXManager():Play(171, 1)
+						soulheart:GetSprite():Play("Collect")
+						soulheart:Die()
+						soulheart.EntityCollisionClass = 0
 					end
 				end
 			end
@@ -158,7 +156,7 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 	if heart.State == 2 then
 		local target = player
 		if player:HasCollectible(CollectibleType.COLLECTIBLE_KING_BABY) then
-			for _,king in ipairs(Isaac.FindByType(3,FamiliarVariant.KING_BABY)) do
+			for _, king in ipairs(Isaac.FindByType(3, FamiliarVariant.KING_BABY)) do
 				local baby = king:ToFamiliar()
 				if GetPtrHash(baby.Player) == GetPtrHash(player) then
 					---@diagnostic disable-next-line: cast-local-type
@@ -174,13 +172,13 @@ function BethsHeartLocal:BethsHeartUpdate(heart)
 end
 
 function BethsHeartLocal:BethInputUpdate(player)
-	for _,heart in ipairs(Isaac.FindByType(3, LostItemsPack.Entities.BETHS_HEART.variant)) do
+	for _, heart in ipairs(Isaac.FindByType(3, LostItemsPack.Entities.BETHS_HEART.variant)) do
 		if GetPtrHash(player) == GetPtrHash(heart:ToFamiliar().Player) then
 			heart = heart:ToFamiliar()
 			local heartData = Helpers.GetData(heart)
 			local idx = player.ControllerIndex
 			if Input.IsActionTriggered(ButtonAction.ACTION_DROP, idx) and heart.Hearts > 0 then
-				local slot = BethsHeartLocal:GetSlot(player,ActiveSlot.SLOT_PRIMARY)
+				local slot = BethsHeartLocal:GetSlot(player, ActiveSlot.SLOT_PRIMARY)
 				local charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
 				local item = Isaac:GetItemConfig():GetCollectible(player:GetActiveItem(slot))
 				local battery = player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 2 or 1
@@ -199,7 +197,7 @@ function BethsHeartLocal:BethInputUpdate(player)
 					SFXManager():Play(SoundEffect.SOUND_BATTERYCHARGE)
 					BethsHeartLocal:OverCharge(player)
 				elseif item and item.ChargeType == 1 and charge < item.MaxCharges * battery then
-					for i = 1,battery do
+					for i = 1, battery do
 						if heart.Hearts > 0 and charge < item.MaxCharges * battery then
 							player:FullCharge(slot)
 							charge = player:GetActiveCharge(slot) + player:GetBatteryCharge(slot)
@@ -214,9 +212,9 @@ function BethsHeartLocal:BethInputUpdate(player)
 
 			if not heartData.ShootButtonState and heart.State == 0 then
 				if Input.IsActionTriggered(4, idx) then
-				heartData.ShootButtonPressed = 4
-				heartData.ShootButtonState = "listening for second tap"
-				heartData.PressFrame = Game():GetFrameCount()
+					heartData.ShootButtonPressed = 4
+					heartData.ShootButtonState = "listening for second tap"
+					heartData.PressFrame = Game():GetFrameCount()
 				elseif Input.IsActionTriggered(5, idx) then
 					heartData.ShootButtonPressed = 5
 					heartData.ShootButtonState = "listening for second tap"
@@ -236,11 +234,11 @@ function BethsHeartLocal:BethInputUpdate(player)
 				if not Input.IsActionTriggered(heartData.ShootButtonPressed, idx) and heartData.ShootButtonState == "listening for second tap" then
 					heartData.ShootButtonState = "button released"
 				end
-				
+
 				if heartData.ShootButtonState == "button released" and Input.IsActionTriggered(heartData.ShootButtonPressed, idx) then
 					heart.State = 1
 					---@diagnostic disable-next-line: assign-type-mismatch
-					heart.Velocity =  DIRECTION_VECTOR[player:GetFireDirection()]:Resized(12) + heart.Velocity / 2
+					heart.Velocity = DIRECTION_VECTOR[player:GetFireDirection()]:Resized(12) + heart.Velocity / 2
 					heartData.ShootButtonState = nil
 					heartData.ShootButtonPressed = nil
 					heartData.PressFrame = nil
@@ -250,12 +248,14 @@ function BethsHeartLocal:BethInputUpdate(player)
 				heartData.ShootButtonPressed = nil
 				heartData.PressFrame = nil
 			end
-
 		end
 	end
 end
 
-LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BethsHeartLocal.BethsHeartInit, LostItemsPack.Entities.BETHS_HEART.variant)
-LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BethsHeartLocal.BethsHeartUpdate, LostItemsPack.Entities.BETHS_HEART.variant)
+LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BethsHeartLocal.BethsHeartInit,
+	LostItemsPack.Entities.BETHS_HEART.variant)
+LostItemsPack:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BethsHeartLocal.BethsHeartUpdate,
+	LostItemsPack.Entities.BETHS_HEART.variant)
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, BethsHeartLocal.BethInputUpdate)
-LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, BethsHeartLocal.HeartCollectibleUpdate,CacheFlag.CACHE_FAMILIARS)
+LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, BethsHeartLocal.HeartCollectibleUpdate,
+	CacheFlag.CACHE_FAMILIARS)
