@@ -164,6 +164,7 @@ function PacifistMod:PickupsDrop() -- Spawn pickups every level after pickup
 
 	if not pacifistPlayer then return end
 
+	local helperPennies = {}
 	for _, pickupVariant in ipairs(PickupsToSpawn) do
 		local subtype = ChestSubType.CHEST_CLOSED
 
@@ -173,10 +174,78 @@ function PacifistMod:PickupsDrop() -- Spawn pickups every level after pickup
 
 		local spawningPos = game:GetRoom():FindFreePickupSpawnPosition(pacifistPlayer.Position, 0, true)
 
-		Isaac.Spawn(EntityType.ENTITY_PICKUP, pickupVariant, subtype, spawningPos, Vector.Zero, pacifistPlayer)
+		local lightRay = Isaac.Spawn(
+			EntityType.ENTITY_EFFECT,
+			EffectVariant.CRACK_THE_SKY,
+			0,
+			spawningPos,
+			Vector.Zero,
+			pacifistPlayer
+		)
+		lightRay.Visible = false
+		--lightRay:GetSprite():Stop()
+		local data = Helpers.GetData(lightRay)
+		data.IsPacifistLightRay = true
+		data.PickupToSpawn = {variant = pickupVariant, subtype = subtype}
+		data.Delay = math.ceil(spawningPos:Distance(pacifistPlayer.Position) / 20)
+
+		--We spawn a temporary penny so the FindFreePickupSpawnPosition function works properly
+		helperPennies[#helperPennies+1] = Isaac.Spawn(
+			EntityType.ENTITY_PICKUP,
+			PickupVariant.PICKUP_COIN,
+			CoinSubType.COIN_PENNY,
+			spawningPos,
+			Vector.Zero,
+			nil
+		)
+	end
+
+	for _, penny in ipairs(helperPennies) do
+		penny:Remove()
 	end
 
 	PickupsToSpawn = {}
 	HasSelectedPickups = false
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, PacifistMod.PickupsDrop)
+
+---@param source EntityRef
+function PacifistMod:OnEntityDMG(_, _, _, source)
+	local entity = source.Entity
+
+	if not entity then return end
+	if entity.Type ~= EntityType.ENTITY_EFFECT then return end
+	if entity.Variant ~= EffectVariant.CRACK_THE_SKY then return end
+
+	local data = Helpers.GetData(entity)
+	if not data.IsPacifistLightRay then return end
+
+	return false
+end
+LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, PacifistMod.OnEntityDMG)
+
+---@param effect EntityEffect
+function PacifistMod:OnLightRayUpdate(effect)
+	local data = Helpers.GetData(effect)
+	if not data.IsPacifistLightRay then return end
+
+	local sprite = effect:GetSprite()
+	print("Hello!")
+	if data.Delay then
+		if effect.FrameCount > data.Delay then
+			--So they're not visible while the game is paused in the getting up anim
+			effect.Visible = true
+			sprite:Play(sprite:GetAnimation(), true)
+			data.Delay = nil
+		end
+
+		return
+	end
+
+	if sprite:IsEventTriggered("Hit") then
+		local variant = data.PickupToSpawn.variant
+		local subtype = data.PickupToSpawn.subtype
+		Isaac.Spawn(EntityType.ENTITY_PICKUP, variant, subtype, effect.Position, Vector.Zero, effect)
+	end
+end
+LostItemsPack:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, PacifistMod.OnLightRayUpdate, EffectVariant.CRACK_THE_SKY)
