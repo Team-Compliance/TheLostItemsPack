@@ -14,6 +14,7 @@
 
 	<Pool Name="secret">
 		<Item Name="Keeper's Rope" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="ultraSecret">
@@ -30,11 +31,10 @@
 	</Pool>
 
 	<Pool Name="devil">
-		<Item Name="Book of Illusions" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="library">
-		<Item Name="Book of Illusions" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
+		<Item Name="Book of Illusions" Weight="0.2" DecreaseBy="0.2" RemoveOn="0.02"/>
 	</Pool>
 
 	<Pool Name="greedTreasure">
