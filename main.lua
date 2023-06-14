@@ -19,6 +19,7 @@ LostItemsPack.CollectibleType = {
     BLANK_BOMBS = Isaac.GetItemIdByName("Blank Bombs"),
     BOOK_OF_ILLUSIONS = Isaac.GetItemIdByName("Book of Illusions"),
     CHECKED_MATE = Isaac.GetItemIdByName("Checked Mate"),
+    DICE_BOMBS = Isaac.GetItemIdByName("Dice Bombs"),
     KEEPERS_ROPE = Isaac.GetItemIdByName("Keeper's Rope"),
     LUCKY_SEVEN = Isaac.GetItemIdByName("Lucky Seven"),
     PACIFIST = Isaac.GetItemIdByName("Pacifist"),
@@ -200,6 +201,8 @@ require("lost_items_scripts.pacifist.Pacifist")
 require("lost_items_scripts.pill_crusher.PillCrusher")
 require("lost_items_scripts.safety_bombs.SafetyBombs")
 require("lost_items_scripts.voodo_pin.VoodooPin")
+
+require("lost_items_scripts.dice_bombs.DiceBombs")
 
 --Other mods compat
 require("lost_items_scripts.mod_compat.EIDCompat")
