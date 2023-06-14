@@ -4,21 +4,47 @@ local Helpers = require("lost_items_scripts.Helpers")
 
 ---@param bomb EntityBomb
 function DiceBombs:D1BombExplode(bomb)
-    print("D1")
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
+			
+    local pickup
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
+        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then
+           pickup = entity
+        end
+    end
+    if pickup then
+        if pickup.Variant ~= PickupVariant.PICKUP_BOMB then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, pickup.Variant, 0, bomb.Position, Vector.Zero, nil)
+        else 
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, BombSubType.BOMB_NORMAL, bomb.Position, Vector.Zero, nil)
+        end
+    end
 end
 
 ---@param bomb EntityBomb
 function DiceBombs:D4BombExplode(bomb)
-    print("D4")
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
+			
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
+        if entity.Type == EntityType.ENTITY_PLAYER and entity.Variant == 0 then
+            entity:ToPlayer():UseActiveItem(CollectibleType.COLLECTIBLE_D4, 1)
+        end
+    end
 end
 
 ---@param bomb EntityBomb
 function DiceBombs:D6BombExplode(bomb)
-    local radius = bomb.RadiusMultiplier
-
-    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius * 40)) do
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
+			
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-            if 1 + 1 == 2 then --todo: check if item is not in blacklist
+            if not DiceBombItemBlacklist[entity.SubType] then --todo: check if item is not in blacklist
                 entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, 0)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
             end
@@ -28,15 +54,25 @@ end
 
 ---@param bomb EntityBomb
 function DiceBombs:D8BombExplode(bomb)
-    print("D8")
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
+
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
+        if entity.Type == EntityType.ENTITY_PLAYER and entity.Variant == 0 then
+            entity:ToPlayer():UseActiveItem(CollectibleType.COLLECTIBLE_D8, 1)
+        end
+    end
 end
 
 ---@param bomb EntityBomb
 function DiceBombs:D20BombExplode(bomb)
-    local radius = bomb.RadiusMultiplier
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
 
-    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius * 40)) do
-        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant < PickupVariant.PICKUP_COLLECTIBLE then
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
+        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then
             entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, 0, 0)
         end
     end
@@ -44,7 +80,18 @@ end
 
 ---@param bomb EntityBomb
 function DiceBombs:SpindownBombExplode(bomb)
-    print("Spindown")
+    local player = Helpers.GetPlayerFromTear(bomb)
+    local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
+    local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
+    
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
+        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
+            if not DiceBombItemBlacklist[entity.SubType - 1] then --todo: check if item is not in blacklist
+                entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, entity.SubType - 1)
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
+            end
+        end
+    end
 end
 
 ---@param bomb EntityBomb
@@ -56,17 +103,21 @@ DiceBombSynergies = {
 	[CollectibleType.COLLECTIBLE_D1] = {
         DiceBombs.D1BombExplode,
         DiceBombs.D6BombExplode,
-        DiceBombs.D20BombExplode
     },
 	[CollectibleType.COLLECTIBLE_D4] = {
         DiceBombs.D4BombExplode,
         DiceBombs.D6BombExplode,
-        DiceBombs.D20BombExplode
+    },
+    [CollectibleType.COLLECTIBLE_D6] = {
+        DiceBombs.D6BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D8] = {
         DiceBombs.D6BombExplode,
         DiceBombs.D8BombExplode,
-        DiceBombs.D20BombExplode
+    },
+    [CollectibleType.COLLECTIBLE_D20] = {
+        DiceBombs.D6BombExplode,
+        DiceBombs.D20BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D100] = {
         DiceBombs.D1BombExplode,
@@ -75,12 +126,7 @@ DiceBombSynergies = {
         DiceBombs.D8BombExplode,
         DiceBombs.D20BombExplode
     },
-    [CollectibleType.COLLECTIBLE_ETERNAL_D6] = {
-        DiceBombs.D20BombExplode,
-        DiceBombs.SpindownBombExplode
-    },
     [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = {
-        DiceBombs.D20BombExplode,
         DiceBombs.SpindownBombExplode
     },
 }
@@ -88,17 +134,18 @@ DiceBombSynergies = {
 DiceBombSpritesheets = {
     [CollectibleType.COLLECTIBLE_D1] = "",
     [CollectibleType.COLLECTIBLE_D4] = "",
+    [CollectibleType.COLLECTIBLE_D6] = "",
     [CollectibleType.COLLECTIBLE_D8] = "",
+    [CollectibleType.COLLECTIBLE_D20] = "",
     [CollectibleType.COLLECTIBLE_D100] = "",
     [CollectibleType.COLLECTIBLE_ETERNAL_D6] = "",
     [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "",
 }
 
 DiceBombItemBlacklist = {
-    CollectibleType.COLLECTIBLE_DADS_NOTE
+    [CollectibleType.COLLECTIBLE_DADS_NOTE] = true
 }
 
-local dicebombsprite = ""
 local png = ".png"
 local goldpng = "_gold.png"
 
@@ -124,6 +171,10 @@ function DiceBombs:BombUpdate(bomb)
 	if data.DiceBombVariant then
 		local sprite = bomb:GetSprite()
 
+        if not DiceBombSynergies[data.DiceBombVariant] then
+            data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
+        end
+
 		if bomb.FrameCount == 1 then
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
@@ -138,13 +189,8 @@ function DiceBombs:BombUpdate(bomb)
 		end
 		
 		if sprite:IsPlaying("Explode") then
-            if DiceBombSynergies[data.DiceBombVariant] then
-                for i, func in pairs(DiceBombSynergies[data.DiceBombVariant]) do
-                    func(bomb)
-                end
-            else 
-                DiceBombs:D6BombExplode(bomb)
-                DiceBombs:D20BombExplode(bomb)
+            for i, func in pairs(DiceBombSynergies[data.DiceBombVariant]) do
+                func(bomb, bomb)
             end
 		end
 	end
