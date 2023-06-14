@@ -45,7 +45,7 @@ function DiceBombs:D6BombExplode(bomb)
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
             if not DiceBombItemBlacklist[entity.SubType] then
-                entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, 0)
+                entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, 0, true)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
             end
         end
@@ -86,11 +86,11 @@ function DiceBombs:SpindownBombExplode(bomb)
     
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-            if not DiceBombItemBlacklist[entity.SubType] then --todo: check if item is not in blacklist
+            if not DiceBombItemBlacklist[entity.SubType] then
                 local itemshift = entity.SubType - 1
                 while true do
                     if (ItemConfig.Config.IsValidCollectible(itemshift) and Isaac.GetItemConfig():GetCollectible(itemshift):IsAvailable()) or itemshift <= 1 then
-                        entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemshift)
+                        entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemshift, true)
                         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
                         break
                     end
@@ -178,12 +178,13 @@ function DiceBombs:BombUpdate(bomb)
 					if player:HasCollectible(mod.CollectibleType.DICE_BOMBS) then
 						if data.DiceBombVariant == nil then
                             data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
-							for i = 1, 4 do
+							for i = 0, 3 do
                                 if DiceBombSynergies[player:GetActiveItem(i)] then
                                     data.DiceBombVariant = player:GetActiveItem(i)
                                     break
                                 end
                             end
+                            print(data.DiceBombVariant)
 						end
 					end
 				end
