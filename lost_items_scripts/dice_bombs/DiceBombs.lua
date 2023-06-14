@@ -101,11 +101,6 @@ function DiceBombs:SpindownBombExplode(bomb)
     end
 end
 
----@param bomb EntityBomb
-function DiceBombs:EternalBombExplode(bomb)
-    print("Eternal")
-end
-
 DiceBombSynergies = {
 	[CollectibleType.COLLECTIBLE_D1] = {
         DiceBombs.D1BombExplode,
@@ -176,18 +171,15 @@ function DiceBombs:BombUpdate(bomb)
 	if player then
 		if bomb.FrameCount == 1 then
 			if bomb.Type == EntityType.ENTITY_BOMB then
-				if bomb.Variant ~= BombVariant.BOMB_THROWABLE then
-					if player:HasCollectible(mod.CollectibleType.DICE_BOMBS) then
-						if data.DiceBombVariant == nil then
-                            data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
-							for i = 0, 3 do
-                                if DiceBombSynergies[player:GetActiveItem(i)] then
-                                    data.DiceBombVariant = player:GetActiveItem(i)
-                                    break
-                                end
+				if player:HasCollectible(mod.CollectibleType.DICE_BOMBS) then
+					if data.DiceBombVariant == nil then
+                        data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
+						for i = 0, 3 do
+                            if DiceBombSynergies[player:GetActiveItem(i)] then
+                                data.DiceBombVariant = player:GetActiveItem(i)
+                                break
                             end
-                            print(data.DiceBombVariant)
-						end
+                        end
 					end
 				end
 			end
@@ -200,10 +192,10 @@ function DiceBombs:BombUpdate(bomb)
 		if bomb.FrameCount == 1 then
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
-					if bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
-						--sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..goldpng or dicebombsprite..goldpng)
+					if not bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
+						--sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..png)
 					else
-						--sprite:ReplaceSpritesheet(0, sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..png or dicebombsprite..png))
+						--sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..goldpng)
 					end
 					sprite:LoadGraphics()
 				end
@@ -212,7 +204,7 @@ function DiceBombs:BombUpdate(bomb)
 		
 		if sprite:IsPlaying("Explode") then
             for i, func in pairs(DiceBombSynergies[data.DiceBombVariant]) do
-                func(bomb, bomb)
+                func(_, bomb)
             end
 		end
 	end
