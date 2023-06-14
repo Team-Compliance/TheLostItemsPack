@@ -14,7 +14,16 @@ end
 
 ---@param bomb EntityBomb
 function DiceBombs:D6BombExplode(bomb)
-    print("D6")
+    local radius = bomb.RadiusMultiplier
+
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius * 40)) do
+        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
+            if 1 + 1 == 2 then --todo: check if item is not in blacklist
+                entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, 0)
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
+            end
+        end
+    end
 end
 
 ---@param bomb EntityBomb
@@ -24,7 +33,13 @@ end
 
 ---@param bomb EntityBomb
 function DiceBombs:D20BombExplode(bomb)
-    print("D20")
+    local radius = bomb.RadiusMultiplier
+
+    for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius * 40)) do
+        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant < PickupVariant.PICKUP_COLLECTIBLE then
+            entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, 0, 0)
+        end
+    end
 end
 
 ---@param bomb EntityBomb
