@@ -2,30 +2,37 @@ local DiceBombs = {}
 local mod = LostItemsPack
 local Helpers = require("lost_items_scripts.Helpers")
 
+---@param bomb EntityBomb
 function DiceBombs:D1BombExplode(bomb)
     print("D1")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:D4BombExplode(bomb)
     print("D4")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:D6BombExplode(bomb)
     print("D6")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:D8BombExplode(bomb)
     print("D8")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:D20BombExplode(bomb)
     print("D20")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:SpindownBombExplode(bomb)
     print("Spindown")
 end
 
+---@param bomb EntityBomb
 function DiceBombs:EternalBombExplode(bomb)
     print("Eternal")
 end
@@ -80,6 +87,7 @@ local dicebombsprite = ""
 local png = ".png"
 local goldpng = "_gold.png"
 
+---@param bomb EntityBomb
 function DiceBombs:BombUpdate(bomb)
 	local player = Helpers.GetPlayerFromTear(bomb)
 	local data = Helpers.GetData(bomb)
