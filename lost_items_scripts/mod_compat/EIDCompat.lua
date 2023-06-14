@@ -142,3 +142,12 @@ local VDPdescSpa = "Isaac sostiene un pin de vudú que puede ser lanzado al enem
 EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdesc, "Voodoo Pin")
 EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescRu, "Вуду булавка", "ru")
 EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescSpa, "Pin de vudú", "spa")
+
+--Update 2
+
+--Dice Bombs
+local DBdesc = "{{Bomb}} +5 Bombs#Explosions will reroll pedestal items within its explosion radius#Holding certain dice actives will add additional effects"
+local SBDescSpa = "{{Bomb}} +5 Bombas#Las bombas que coloques no explotarán hasta que te alejes de su radio de explosión"
+local SBDescRu = "{{Bomb}} +5 бомб#Размещенные бомбы не взорвутся, пока игрок не покинет радиус взрыва"
+
+EID:addCollectible(LostItemsPack.CollectibleType.DICE_BOMBS, DBdesc, "Dice Bombs")

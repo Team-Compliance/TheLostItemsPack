@@ -66,6 +66,7 @@
 	<Pool Name="bombBum">
 		<Item Name="Blank Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Safety Bombs" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Dice Bombs" Weight="0.2" DecreaseBy="0.2" RemoveOn="0.02"/>
 	</Pool>
 
 	<Pool Name="craneGame">

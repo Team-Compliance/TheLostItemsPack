@@ -10,8 +10,8 @@ function DiceBombs:D1BombExplode(bomb)
 			
     local pickup
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
-        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then
-           pickup = entity
+        if entity.Type == EntityType.ENTITY_PICKUP and not DiceBombPickupBlacklist[entity.Variant] then
+        pickup = entity
         end
     end
     if pickup then
@@ -44,7 +44,7 @@ function DiceBombs:D6BombExplode(bomb)
 			
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-            if not DiceBombItemBlacklist[entity.SubType] then --todo: check if item is not in blacklist
+            if not DiceBombItemBlacklist[entity.SubType] then
                 entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, 0)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
             end
@@ -72,7 +72,7 @@ function DiceBombs:D20BombExplode(bomb)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
 
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
-        if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant ~= PickupVariant.PICKUP_COLLECTIBLE then
+        if entity.Type == EntityType.ENTITY_PICKUP and not DiceBombPickupBlacklist[entity.Variant] then
             entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, 0, 0)
         end
     end
@@ -154,6 +154,15 @@ DiceBombItemBlacklist = {
     [CollectibleType.COLLECTIBLE_NULL] = true
 }
 
+DiceBombPickupBlacklist = {
+    [PickupVariant.PICKUP_BED] = true,
+    [PickupVariant.PICKUP_BIGCHEST] = true,
+    [PickupVariant.PICKUP_MOMSCHEST] = true,
+    [PickupVariant.PICKUP_SHOPITEM] = true,
+    [PickupVariant.PICKUP_THROWABLEBOMB] = true,
+    [PickupVariant.PICKUP_TROPHY] = true
+}
+
 local png = ".png"
 local goldpng = "_gold.png"
 
@@ -168,7 +177,13 @@ function DiceBombs:BombUpdate(bomb)
 				if bomb.Variant ~= BombVariant.BOMB_THROWABLE then
 					if player:HasCollectible(mod.CollectibleType.DICE_BOMBS) then
 						if data.DiceBombVariant == nil then
-							data.DiceBombVariant = player:GetActiveItem()
+                            data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
+							for i = 1, 4 do
+                                if DiceBombSynergies[player:GetActiveItem(i)] then
+                                    data.DiceBombVariant = player:GetActiveItem(i)
+                                    break
+                                end
+                            end
 						end
 					end
 				end
@@ -178,10 +193,6 @@ function DiceBombs:BombUpdate(bomb)
 	
 	if data.DiceBombVariant then
 		local sprite = bomb:GetSprite()
-
-        if not DiceBombSynergies[data.DiceBombVariant] then
-            data.DiceBombVariant = CollectibleType.COLLECTIBLE_D6
-        end
 
 		if bomb.FrameCount == 1 then
 			if bomb.Variant == BombVariant.BOMB_NORMAL then

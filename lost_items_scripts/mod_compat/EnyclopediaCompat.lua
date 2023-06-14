@@ -489,3 +489,43 @@ Encyclopedia.AddItem({
     Class = "Lost Items Pack",
     ModName = "Lost Items Pack"
 })
+
+--Update 2
+
+--Safety Bombs
+Wiki.DiceBombs = {
+    { -- Effect
+        { str = "Effect", fsize = 2, clr = 3, halign = 0 },
+        { str = "+5 bombs." },
+        { str = "Collectibles within the explosion radius will be rerolled." },
+        { str = "Holding dice active items will add additional effects." },
+    },
+    { -- Synergies
+        { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
+        { str = "D1 - Duplicates one pickup within the explosion radius." },
+        { str = "D4 - Rerolls the items of any player within the explosion radius." },
+        { str = "D8 - Rerolls the stats of any player within the explosion radius." },
+        { str = "D20 - Rerolls pickups within the explosion radius." },
+        { str = "D100 - Combines the effects of D1, D4, D8 and D20." },
+        { str = "Spindown Dice - collectibles will be replaced with the previous internal ID collectible." },
+    },
+    { -- Trivia
+        { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
+        { str = "Dice Bombs was an unused idea from Repentance. The concept was mentioned in an AMA by _kilburn." },
+    },
+    { -- Credits
+        { str = "Credits", fsize = 2, clr = 3, halign = 0 },
+        { str = "Coded by ratratrat!" },
+        { str = "Spritework by Demi!" },
+    },
+}
+Encyclopedia.AddItem({
+    ID = LostItemsPack.CollectibleType.DICE_BOMBS,
+    WikiDesc = Wiki.DiceBombs,
+    Pools = {
+        Encyclopedia.ItemPools.POOL_SECRET,
+        Encyclopedia.ItemPools.POOL_BOMB_BUM,
+    },
+    Class = "Lost Items Pack",
+    ModName = "Lost Items Pack"
+})
