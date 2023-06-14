@@ -138,18 +138,9 @@ DiceBombSynergies = {
     },
 }
 
-DiceBombSpritesheets = {
-    [CollectibleType.COLLECTIBLE_D1] = "",
-    [CollectibleType.COLLECTIBLE_D4] = "",
-    [CollectibleType.COLLECTIBLE_D6] = "",
-    [CollectibleType.COLLECTIBLE_D8] = "",
-    [CollectibleType.COLLECTIBLE_D20] = "",
-    [CollectibleType.COLLECTIBLE_D100] = "",
-    [CollectibleType.COLLECTIBLE_ETERNAL_D6] = "",
-    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "",
-}
-
 DiceBombItemBlacklist = {
+    [CollectibleType.COLLECTIBLE_POLAROID] = true,
+    [CollectibleType.COLLECTIBLE_NEGATIVE] = true,
     [CollectibleType.COLLECTIBLE_DADS_NOTE] = true,
     [CollectibleType.COLLECTIBLE_NULL] = true
 }
@@ -161,6 +152,17 @@ DiceBombPickupBlacklist = {
     [PickupVariant.PICKUP_SHOPITEM] = true,
     [PickupVariant.PICKUP_THROWABLEBOMB] = true,
     [PickupVariant.PICKUP_TROPHY] = true
+}
+
+DiceBombSpritesheets = {
+    [CollectibleType.COLLECTIBLE_D1] = "",
+    [CollectibleType.COLLECTIBLE_D4] = "",
+    [CollectibleType.COLLECTIBLE_D6] = "",
+    [CollectibleType.COLLECTIBLE_D8] = "",
+    [CollectibleType.COLLECTIBLE_D20] = "",
+    [CollectibleType.COLLECTIBLE_D100] = "",
+    [CollectibleType.COLLECTIBLE_ETERNAL_D6] = "",
+    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "",
 }
 
 local png = ".png"
