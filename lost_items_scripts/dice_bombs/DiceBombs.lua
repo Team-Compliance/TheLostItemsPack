@@ -86,9 +86,16 @@ function DiceBombs:SpindownBombExplode(bomb)
     
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PICKUP and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-            if not DiceBombItemBlacklist[entity.SubType - 1] then --todo: check if item is not in blacklist
-                entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, entity.SubType - 1)
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
+            if not DiceBombItemBlacklist[entity.SubType] then --todo: check if item is not in blacklist
+                local itemshift = entity.SubType - 1
+                while true do
+                    if (ItemConfig.Config.IsValidCollectible(itemshift) and Isaac.GetItemConfig():GetCollectible(itemshift):IsAvailable()) or itemshift <= 1 then
+                        entity:ToPickup():Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemshift)
+                        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, nil)
+                        break
+                    end
+                    itemshift = itemshift - 1
+                end
             end
         end
     end
@@ -143,7 +150,8 @@ DiceBombSpritesheets = {
 }
 
 DiceBombItemBlacklist = {
-    [CollectibleType.COLLECTIBLE_DADS_NOTE] = true
+    [CollectibleType.COLLECTIBLE_DADS_NOTE] = true,
+    [CollectibleType.COLLECTIBLE_NULL] = true
 }
 
 local png = ".png"
