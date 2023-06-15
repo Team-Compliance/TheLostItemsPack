@@ -150,18 +150,14 @@ DiceBombPickupBlacklist = {
 }
 
 DiceBombSpritesheets = {
-    [CollectibleType.COLLECTIBLE_D1] = "",
-    [CollectibleType.COLLECTIBLE_D4] = "",
-    [CollectibleType.COLLECTIBLE_D6] = "",
-    [CollectibleType.COLLECTIBLE_D8] = "",
-    [CollectibleType.COLLECTIBLE_D20] = "",
-    [CollectibleType.COLLECTIBLE_D100] = "",
-    [CollectibleType.COLLECTIBLE_ETERNAL_D6] = "",
-    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "",
+    [CollectibleType.COLLECTIBLE_D1] = "dice_d1",
+    [CollectibleType.COLLECTIBLE_D4] = "dice_d4",
+    [CollectibleType.COLLECTIBLE_D6] = "dice_d6",
+    [CollectibleType.COLLECTIBLE_D8] = "dice_d8",
+    [CollectibleType.COLLECTIBLE_D20] = "dice_d20",
+    [CollectibleType.COLLECTIBLE_D100] = "dice_d100",
+    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "dice_spindown",
 }
-
-local png = ".png"
-local goldpng = "_gold.png"
 
 ---@param bomb EntityBomb
 function DiceBombs:BombUpdate(bomb)
@@ -193,9 +189,9 @@ function DiceBombs:BombUpdate(bomb)
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
 					if not bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
-						--sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..png)
+						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/"..DiceBombSpritesheets[data.DiceBombVariant]..".png")
 					else
-						--sprite:ReplaceSpritesheet(0, DiceBombSpritesheets[data.DiceBombVariant]..goldpng)
+						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/"..DiceBombSpritesheets[data.DiceBombVariant].."_gold.png")
 					end
 					sprite:LoadGraphics()
 				end

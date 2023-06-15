@@ -27,7 +27,7 @@
 
     <!--Update 2-->
 
-	<passive id="12" name="Dice Bombs" description="Reroll items +5 bombs" gfx="collectibles_dicebombs.png" bombs="5" quality="4" tags="summonable offensive noeden"/>
+	<passive id="12" name="Dice Bombs" description="Reroll items +5 bombs" gfx="dice_bombs.png" bombs="5" quality="4" tags="summonable offensive"/>
 
     <!--Reimplemented Transformations-->
 
