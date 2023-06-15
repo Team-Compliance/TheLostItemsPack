@@ -1,9 +1,27 @@
 local DiceBombs = {}
+DiceBombEffects = {}
+
 local mod = LostItemsPack
 local Helpers = require("lost_items_scripts.Helpers")
 
+local DiceBombItemBlacklist = {
+    [CollectibleType.COLLECTIBLE_POLAROID] = true,
+    [CollectibleType.COLLECTIBLE_NEGATIVE] = true,
+    [CollectibleType.COLLECTIBLE_DADS_NOTE] = true,
+    [CollectibleType.COLLECTIBLE_NULL] = true
+}
+
+local DiceBombPickupBlacklist = {
+    [PickupVariant.PICKUP_BED] = true,
+    [PickupVariant.PICKUP_BIGCHEST] = true,
+    [PickupVariant.PICKUP_MOMSCHEST] = true,
+    [PickupVariant.PICKUP_SHOPITEM] = true,
+    [PickupVariant.PICKUP_THROWABLEBOMB] = true,
+    [PickupVariant.PICKUP_TROPHY] = true
+}
+
 ---@param bomb EntityBomb
-function DiceBombs:D1BombExplode(bomb)
+function DiceBombEffects:D1BombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -24,7 +42,7 @@ function DiceBombs:D1BombExplode(bomb)
 end
 
 ---@param bomb EntityBomb
-function DiceBombs:D4BombExplode(bomb)
+function DiceBombEffects:D4BombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -37,7 +55,7 @@ function DiceBombs:D4BombExplode(bomb)
 end
 
 ---@param bomb EntityBomb
-function DiceBombs:D6BombExplode(bomb)
+function DiceBombEffects:D6BombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -53,7 +71,7 @@ function DiceBombs:D6BombExplode(bomb)
 end
 
 ---@param bomb EntityBomb
-function DiceBombs:D8BombExplode(bomb)
+function DiceBombEffects:D8BombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -66,7 +84,7 @@ function DiceBombs:D8BombExplode(bomb)
 end
 
 ---@param bomb EntityBomb
-function DiceBombs:D20BombExplode(bomb)
+function DiceBombEffects:D20BombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -79,7 +97,7 @@ function DiceBombs:D20BombExplode(bomb)
 end
 
 ---@param bomb EntityBomb
-function DiceBombs:SpindownBombExplode(bomb)
+function DiceBombEffects:SpindownBombExplode(bomb)
     local player = Helpers.GetPlayerFromTear(bomb)
     local isBomber = player and player:HasCollectible(CollectibleType.COLLECTIBLE_BOMBER_BOY)
     local radius = Helpers.GetBombRadiusFromDamage(bomb.ExplosionDamage,isBomber)
@@ -101,55 +119,39 @@ function DiceBombs:SpindownBombExplode(bomb)
     end
 end
 
-DiceBombSynergies = {
+local DiceBombSynergies = {
 	[CollectibleType.COLLECTIBLE_D1] = {
-        DiceBombs.D1BombExplode,
-        DiceBombs.D6BombExplode,
+        DiceBombEffects.D1BombExplode,
+        DiceBombEffects.D6BombExplode,
     },
 	[CollectibleType.COLLECTIBLE_D4] = {
-        DiceBombs.D4BombExplode,
-        DiceBombs.D6BombExplode,
+        DiceBombEffects.D4BombExplode,
+        DiceBombEffects.D6BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D6] = {
-        DiceBombs.D6BombExplode,
+        DiceBombEffects.D6BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D8] = {
-        DiceBombs.D6BombExplode,
-        DiceBombs.D8BombExplode,
+        DiceBombEffects.D6BombExplode,
+        DiceBombEffects.D8BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D20] = {
-        DiceBombs.D6BombExplode,
-        DiceBombs.D20BombExplode,
+        DiceBombEffects.D6BombExplode,
+        DiceBombEffects.D20BombExplode,
     },
     [CollectibleType.COLLECTIBLE_D100] = {
-        DiceBombs.D1BombExplode,
-        DiceBombs.D4BombExplode,
-        DiceBombs.D6BombExplode,
-        DiceBombs.D8BombExplode,
-        DiceBombs.D20BombExplode
+        DiceBombEffects.D1BombExplode,
+        DiceBombEffects.D4BombExplode,
+        DiceBombEffects.D6BombExplode,
+        DiceBombEffects.D8BombExplode,
+        DiceBombEffects.D20BombExplode
     },
     [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = {
-        DiceBombs.SpindownBombExplode
+        DiceBombEffects.SpindownBombExplode
     },
 }
 
-DiceBombItemBlacklist = {
-    [CollectibleType.COLLECTIBLE_POLAROID] = true,
-    [CollectibleType.COLLECTIBLE_NEGATIVE] = true,
-    [CollectibleType.COLLECTIBLE_DADS_NOTE] = true,
-    [CollectibleType.COLLECTIBLE_NULL] = true
-}
-
-DiceBombPickupBlacklist = {
-    [PickupVariant.PICKUP_BED] = true,
-    [PickupVariant.PICKUP_BIGCHEST] = true,
-    [PickupVariant.PICKUP_MOMSCHEST] = true,
-    [PickupVariant.PICKUP_SHOPITEM] = true,
-    [PickupVariant.PICKUP_THROWABLEBOMB] = true,
-    [PickupVariant.PICKUP_TROPHY] = true
-}
-
-DiceBombSpritesheets = {
+local DiceBombSpritesheets = {
     [CollectibleType.COLLECTIBLE_D1] = "dice_d1",
     [CollectibleType.COLLECTIBLE_D4] = "dice_d4",
     [CollectibleType.COLLECTIBLE_D6] = "dice_d6",
