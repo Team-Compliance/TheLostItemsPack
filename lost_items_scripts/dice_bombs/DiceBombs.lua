@@ -129,9 +129,6 @@ function DiceBombs.AddDice(diceID, gfx)
     end
 end
 
-DiceBombs.GetPlayerFromTear = Helpers.GetPlayerFromTear
-DiceBombs.GetBombRadiusFromDamage = Helpers.GetBombRadiusFromDamage
-
 ---@param bomb EntityBomb
 function DiceBombsLocal:BombUpdate(bomb)
 	local player = Helpers.GetPlayerFromTear(bomb)
