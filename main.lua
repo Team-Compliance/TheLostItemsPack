@@ -28,6 +28,10 @@ LostItemsPack.CollectibleType = {
     VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin")
 }
 
+LostItemsPack.Callbacks = {
+    ON_DICE_BOMB_EXPLOSION = "ON_DICE_BOMB_EXPLOSION"
+}
+
 LostItemsPack.Entities = {
     BETHS_HEART = {
         type = EntityType.ENTITY_FAMILIAR,
