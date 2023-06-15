@@ -114,18 +114,18 @@ mod:AddCallback(LostItemsPack.Callbacks.ON_DICE_BOMB_EXPLOSION, function(_, bomb
 end, CollectibleType.COLLECTIBLE_D100)
 
 local DiceBombSpritesheets = {
-    [CollectibleType.COLLECTIBLE_D1] = "dice_d1",
-    [CollectibleType.COLLECTIBLE_D4] = "dice_d4",
-    [CollectibleType.COLLECTIBLE_D6] = "dice_d6",
-    [CollectibleType.COLLECTIBLE_D8] = "dice_d8",
-    [CollectibleType.COLLECTIBLE_D20] = "dice_d20",
-    [CollectibleType.COLLECTIBLE_D100] = "dice_d100",
-    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "dice_spindown",
+    [CollectibleType.COLLECTIBLE_D1] = "gfx/items/pick ups/bombs/costumes/dice_d1",
+    [CollectibleType.COLLECTIBLE_D4] = "gfx/items/pick ups/bombs/costumes/dice_d4",
+    [CollectibleType.COLLECTIBLE_D6] = "gfx/items/pick ups/bombs/costumes/dice_d6",
+    [CollectibleType.COLLECTIBLE_D8] = "gfx/items/pick ups/bombs/costumes/dice_d8",
+    [CollectibleType.COLLECTIBLE_D20] = "gfx/items/pick ups/bombs/costumes/dice_d20",
+    [CollectibleType.COLLECTIBLE_D100] = "gfx/items/pick ups/bombs/costumes/dice_d100",
+    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "gfx/items/pick ups/bombs/costumes/dice_spindown",
 }
 
 function DiceBombs.AddDice(diceID, gfx)
     if diceID and type(diceID) == "number" and not DiceBombSpritesheets[diceID] then
-        DiceBombSpritesheets[diceID] = gfx and "dice_"..gfx or "dice_modded"
+        DiceBombSpritesheets[diceID] = gfx or "gfx/items/pick ups/bombs/costumes/dice_modded"
     end
 end
 
@@ -163,9 +163,9 @@ function DiceBombsLocal:BombUpdate(bomb)
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
 					if not bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
-						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/"..diceBombGFX..".png")
+						sprite:ReplaceSpritesheet(0, diceBombGFX..".png")
 					else
-						sprite:ReplaceSpritesheet(0, "gfx/items/pick ups/bombs/costumes/"..diceBombGFX.."_gold.png")
+						sprite:ReplaceSpritesheet(0, diceBombGFX.."_gold.png")
 					end
 					sprite:LoadGraphics()
 				end
