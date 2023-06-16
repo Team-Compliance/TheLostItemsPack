@@ -114,18 +114,22 @@ mod:AddCallback(LostItemsPack.Callbacks.ON_DICE_BOMB_EXPLOSION, function(_, bomb
 end, CollectibleType.COLLECTIBLE_D100)
 
 local DiceBombSpritesheets = {
-    [CollectibleType.COLLECTIBLE_D1] = "gfx/items/pick ups/bombs/costumes/dice_d1",
-    [CollectibleType.COLLECTIBLE_D4] = "gfx/items/pick ups/bombs/costumes/dice_d4",
-    [CollectibleType.COLLECTIBLE_D6] = "gfx/items/pick ups/bombs/costumes/dice_d6",
-    [CollectibleType.COLLECTIBLE_D8] = "gfx/items/pick ups/bombs/costumes/dice_d8",
-    [CollectibleType.COLLECTIBLE_D20] = "gfx/items/pick ups/bombs/costumes/dice_d20",
-    [CollectibleType.COLLECTIBLE_D100] = "gfx/items/pick ups/bombs/costumes/dice_d100",
-    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = "gfx/items/pick ups/bombs/costumes/dice_spindown",
+    [CollectibleType.COLLECTIBLE_D1] = {"gfx/items/pick ups/bombs/costumes/dice_d1.png", "gfx/items/pick ups/bombs/costumes/dice_d1_gold.png"},
+    [CollectibleType.COLLECTIBLE_D4] = {"gfx/items/pick ups/bombs/costumes/dice_d4.png", "gfx/items/pick ups/bombs/costumes/dice_d4_gold.png"},
+    [CollectibleType.COLLECTIBLE_D6] = {"gfx/items/pick ups/bombs/costumes/dice_d6.png", "gfx/items/pick ups/bombs/costumes/dice_d6_gold.png"},
+    [CollectibleType.COLLECTIBLE_D8] = {"gfx/items/pick ups/bombs/costumes/dice_d8.png", "gfx/items/pick ups/bombs/costumes/dice_d8_gold.png"},
+    [CollectibleType.COLLECTIBLE_D20] = {"gfx/items/pick ups/bombs/costumes/dice_d20.png", "gfx/items/pick ups/bombs/costumes/dice_d20_gold.png"},
+    [CollectibleType.COLLECTIBLE_D100] = {"gfx/items/pick ups/bombs/costumes/dice_d100.png", "gfx/items/pick ups/bombs/costumes/dice_d100_gold.png"},
+    [CollectibleType.COLLECTIBLE_SPINDOWN_DICE] = {"gfx/items/pick ups/bombs/costumes/dice_spindown.png", "gfx/items/pick ups/bombs/costumes/dice_spindown_gold.png"},
 }
 
-function DiceBombs.AddDice(diceID, gfx)
+function DiceBombs.AddDice(diceID, gfxNormal, gfxGolden)
     if diceID and type(diceID) == "number" and not DiceBombSpritesheets[diceID] then
-        DiceBombSpritesheets[diceID] = gfx or "gfx/items/pick ups/bombs/costumes/dice_modded"
+        local normalBombGFX = "gfx/items/pick ups/bombs/costumes/dice_modded.png"
+        local goldenBombGFX = "gfx/items/pick ups/bombs/costumes/dice_modded_gold.png"
+        if gfxNormal and type(gfxNormal) == "string" then normalBombGFX = gfxNormal end
+        if gfxGolden and type(gfxGolden) == "string" then goldenBombGFX = gfxGolden end
+        DiceBombSpritesheets[diceID] = {normalBombGFX, goldenBombGFX}
     end
 end
 
@@ -163,9 +167,9 @@ function DiceBombsLocal:BombUpdate(bomb)
 			if bomb.Variant == BombVariant.BOMB_NORMAL then
 				if not bomb:HasTearFlags(TearFlags.TEAR_BRIMSTONE_BOMB) then
 					if not bomb:HasTearFlags(TearFlags.TEAR_GOLDEN_BOMB) then
-						sprite:ReplaceSpritesheet(0, diceBombGFX..".png")
+						sprite:ReplaceSpritesheet(0, diceBombGFX[1])
 					else
-						sprite:ReplaceSpritesheet(0, diceBombGFX.."_gold.png")
+						sprite:ReplaceSpritesheet(0, diceBombGFX[2])
 					end
 					sprite:LoadGraphics()
 				end
