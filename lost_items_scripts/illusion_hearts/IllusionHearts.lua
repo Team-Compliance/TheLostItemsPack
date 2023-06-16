@@ -563,7 +563,7 @@ LostItemsPack:AddCallback(ModCallbacks.MC_INPUT_ACTION, IllusionModLocal.ClonesC
 function IllusionModLocal:OnIllusionWispUpdate(familiar)
 	local data = IllusionMod:GetIllusionData(familiar)
 	if not data then return end
-	if not data.isIllusion then
+	if not data.isIllusion and familiar.SubType == LostItemsPack.CollectibleType.BOOK_OF_ILLUSIONS then
 		familiar:Remove()
 		return
 	end
