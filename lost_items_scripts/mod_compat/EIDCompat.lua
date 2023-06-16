@@ -147,7 +147,7 @@ EID:addCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, VDPdescSpa, "Pin de
 
 --Dice Bombs
 local DBdesc = "{{Bomb}} +5 Bombs#Explosions will reroll pedestal items within its explosion radius#Holding certain dice actives will add additional effects"
-local DBdescSpa = "{{Bomb}} +5 Bombas#Las bombas que coloques no explotarán hasta que te alejes de su radio de explosión"
+local DBdescSpa = "{{Bomb}} +5 Bombas#Las explosiones cambiarán los pedestales de objetos que se encuentren dentro de su radio de explosión#Poseer objetos activos de dados otorgará efectos adicionales"
 local DBdescRu = "{{Bomb}} +5 бомб#Артефакты на пьедесталах меняются, если они в радиусе взрыва#Имея определенные кубики, добавляются дополнительные еффекты"
 
 EID:addCollectible(LostItemsPack.CollectibleType.DICE_BOMBS, DBdesc, "Dice Bombs")
