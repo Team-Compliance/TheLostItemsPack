@@ -28,7 +28,7 @@ local itemTranslations = {
         [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Дробилка пилюль", "Раздай их всем!"},
         [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Безопасные бомбы", "Для твоего блага"},
         [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "Ай!"},
-		-- [LostItemsPack.CollectibleType.DICE_BOMBS] = {"missing russian translation"}
+		 [LostItemsPack.CollectibleType.DICE_BOMBS] = {"Бомбы-кубики", "+5 бомб, рероль предметы"}
     }
 }
 
