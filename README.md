@@ -12,11 +12,32 @@ Items included:
 - Pill Crusher --done
 - Safety Bombs --done
 - Voodoo Pin --done
+- Dice Bombs --done
   - Salt Shaker?
   - Lunch Box?
 
 ? = maybe
 
+Dice Bombs API:
+- First, check if The Lost Items Pack are enabled:
+  - if LostItemsPack then
+      --your code
+    end
+- Second, you need to add your dice using DiceBombs.AddDice(diceID, gfxNormal, gfxGolden)
+  - diceID - ID of dice
+  - gfxNormal (optional) - full path to gfx for that dice bomb
+  - gfxGolden (optional) - full path to gfx for that dice bomb when player has golden bomb
+  - if gfxNormal and gfxGolden are empty or not string value, bomb will use default modded bomb gfx
+- Then you add ON_DICE_BOMB_EXPLOSION callback:
+  - yourmod:AddCallback(LostItemsPack.Callbacks.ON_DICE_BOMB_EXPLOSION, function(_, bomb, player, radius)
+          --your code
+    end, diceID)
+      - bomb - bomb entity
+      - player - player, that placed that bomb
+      - radius - supposed area of effect (you can ignore and set your area of effect)
+  - you HAVE TO add diceID or that callback won't run
+  - returning true will also activate D6 effect
+  
 (To-do) Item tweaks:
 - Safety Bombs = synergies
   - Abyss synergy
