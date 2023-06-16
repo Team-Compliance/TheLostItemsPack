@@ -12,7 +12,8 @@ local itemTranslations = {
         [LostItemsPack.CollectibleType.PACIFIST] = {"Pacifista", "Haz el amor, no la guerra"},
         [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Triturador de píldoras", "¡Dáselas a todos!"},
         [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Bombas de seguridad", "Por tu propio bien, +5 bombas"},
-        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Pin de vudú", "Comparte tu dolor"}
+        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Pin de vudú", "Comparte tu dolor"},
+		[LostItemsPack.CollectibleType.DICE_BOMBS] = {"Bombas de dado", "+5 bombas, cambia tus objetos"}
     },
 
     ru = {
@@ -26,7 +27,8 @@ local itemTranslations = {
         [LostItemsPack.CollectibleType.PACIFIST] = {"Пацифист", "Неси любовь, а не войну"},
         [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Дробилка пилюль", "Раздай их всем!"},
         [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Безопасные бомбы", "Для твоего блага"},
-        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "Ай!"}
+        [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "Ай!"},
+		-- [LostItemsPack.CollectibleType.DICE_BOMBS] = {"missing russian translation"}
     }
 }
 
