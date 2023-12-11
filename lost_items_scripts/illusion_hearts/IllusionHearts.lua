@@ -512,8 +512,6 @@ function IllusionModLocal:onEntityTakeDamage(tookDamage)
         --doples always die in one hit, so the hud looks nicer. ideally i'd just get rid of the hud but that doesnt seem possible
         local player = tookDamage:ToPlayer()
        	KillIllusion(player)
-	else
-		RemoveIllusionData(tookDamage)
 	end
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, IllusionModLocal.onEntityTakeDamage, EntityType.ENTITY_PLAYER)
