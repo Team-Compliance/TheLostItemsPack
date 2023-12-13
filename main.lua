@@ -25,7 +25,8 @@ LostItemsPack.CollectibleType = {
     PACIFIST = Isaac.GetItemIdByName("Pacifist"),
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
     SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs"),
-    VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin")
+    VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin"),
+    OL_LOOPER = Isaac.GetItemIdByName("Ol' Looper"),
 }
 
 LostItemsPack.Callbacks = {
@@ -102,6 +103,18 @@ LostItemsPack.Entities = {
     VOODOO_PIN_SHATTER = {
         type = EntityType.ENTITY_EFFECT,
         variant = Isaac.GetEntityVariantByName("Voodoo Pin Shatter"),
+        subtype = 0
+    },
+
+    OL_LOOPER_HEAD_HELPER = {
+        type = Isaac.GetEntityTypeByName("Ol Looper Head"),
+        variant = Isaac.GetEntityVariantByName("Ol Looper Head"),
+        subtype = 0
+    },
+
+    OL_LOOPER_NECK = {
+        type = Isaac.GetEntityTypeByName("Ol Looper Neck"),
+        variant = Isaac.GetEntityVariantByName("Ol Looper Neck"),
         subtype = 0
     }
 }
@@ -187,28 +200,30 @@ LostItemsPack:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, LostItemsPack.OnGameExi
 
 
 --Libs
-require("lost_items_scripts.lib.DSSMenu")
+include("lost_items_scripts.lib.DSSMenu")
 
 --Require main generic scripts
-require("lost_items_scripts.BlockDisabledItems")
-require("lost_items_scripts.Translations")
+include("lost_items_scripts.BlockDisabledItems")
+include("lost_items_scripts.Translations")
 
 --Require main item scripts
-require("lost_items_scripts.ancient_revelation.AncientRevelation")
-require("lost_items_scripts.beths_heart.BethsHeart")
-require("lost_items_scripts.blank_bombs.BlankBombs")
-require("lost_items_scripts.checked_mate.CheckedMate")
-require("lost_items_scripts.illusion_hearts.IllusionHearts")
-require("lost_items_scripts.keepers_rope.KeepersRope")
-require("lost_items_scripts.lucky_seven.LuckySeven")
-require("lost_items_scripts.pacifist.Pacifist")
-require("lost_items_scripts.pill_crusher.PillCrusher")
-require("lost_items_scripts.safety_bombs.SafetyBombs")
-require("lost_items_scripts.voodo_pin.VoodooPin")
+include("lost_items_scripts.ancient_revelation.AncientRevelation")
+include("lost_items_scripts.beths_heart.BethsHeart")
+include("lost_items_scripts.blank_bombs.BlankBombs")
+include("lost_items_scripts.checked_mate.CheckedMate")
+include("lost_items_scripts.illusion_hearts.IllusionHearts")
+include("lost_items_scripts.keepers_rope.KeepersRope")
+include("lost_items_scripts.lucky_seven.LuckySeven")
+include("lost_items_scripts.pacifist.Pacifist")
+include("lost_items_scripts.pill_crusher.PillCrusher")
+include("lost_items_scripts.safety_bombs.SafetyBombs")
+include("lost_items_scripts.voodo_pin.VoodooPin")
 
-require("lost_items_scripts.dice_bombs.DiceBombs")
+include("lost_items_scripts.dice_bombs.DiceBombs")
+
+include("lost_items_scripts.ol_looper.OlLooper")
 
 --Other mods compat
-require("lost_items_scripts.mod_compat.EIDCompat")
-require("lost_items_scripts.mod_compat.EnyclopediaCompat")
-require("lost_items_scripts.mod_compat.MinimapiCompat")
+include("lost_items_scripts.mod_compat.EIDCompat")
+include("lost_items_scripts.mod_compat.EnyclopediaCompat")
+include("lost_items_scripts.mod_compat.MinimapiCompat")

@@ -148,6 +148,8 @@ local function RemoveIllusionData(entity, forgottenB)
         data = LostItemsPack.PersistentData.IllusionFamiliarsData
     end
 
+	if not data then return end
+
     for i, value in ipairs(data) do
         if value.index == index then
             table.remove(data, i)

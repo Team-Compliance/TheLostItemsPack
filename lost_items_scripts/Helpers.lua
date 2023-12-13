@@ -295,4 +295,39 @@ function Helpers.GetCharge(player,slot)
 end
 
 
+---@param x number
+---@return number
+function Helpers.EaseOutBack(x)
+    local c1 = 1.70158
+	local c3 = c1 + 1
+
+	return 1 + c3 * (x - 1)^3 + c1 * (x - 1)^2
+end
+
+---@param vec1 Vector
+---@param vec2 Vector
+---@param percent number
+---@return Vector
+function Helpers.Lerp(vec1, vec2, percent)
+    return vec1 * (1 - percent) + vec2 * percent
+end
+
+
+---@param player EntityPlayer
+---@return boolean
+function Helpers.IsPlayingExtraAnimation(player)
+    local sprite = player:GetSprite()
+    local anim = sprite:GetAnimation()
+
+    local normalAnims = {
+        ["WalkUp"] = true,
+        ["WalkDown"] = true,
+        ["WalkLeft"] = true,
+        ["WalkRight"] = true
+    }
+
+    return not normalAnims[anim]
+end
+
+
 return Helpers
