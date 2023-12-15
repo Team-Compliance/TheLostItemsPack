@@ -14,11 +14,11 @@
 
     <passive id="6" name="Keeper's Rope" description="Beat the money out of them" gfx="keepers_rope.png" achievement="251" cache="flying luck" quality="3" tags="summonable offensive" />
 
-    <passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png" quality="2" cache="luck" />
+    <passive id="7" name="Lucky Seven" description="Fortune favors the bold" gfx="Collectibles_077x_LuckySeven.png" quality="2" cache="luck" tags="summonable offensive"/>
 
     <passive id="8" name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
 
-    <active id="9" name="Pill Crusher" description="Give them to everyone!" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
+    <active id="9" name="Pill Crusher" description="Pill dealer" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
 
     <passive id="10" name="Safety Bombs" description="For your own good +5 Bombs" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
 
@@ -31,7 +31,7 @@
 
     <!--Update 3-->
 
-    <passive id="13" name="Ol' Looper" description="wip" gfx="ol_looper.png" quality="1" />
+    <passive id="13" name="Ol' Lopper" description="A new point of view" gfx="ol_lopper.png" quality="1" tags="summonable offensive"/>
 
     <!--Reimplemented Transformations-->
 

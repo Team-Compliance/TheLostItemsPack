@@ -1,32 +1,32 @@
-local OlLooper = {}
+local OlLopper = {}
 local Helpers = require("lost_items_scripts.Helpers")
-OlLooper.ID = LostItemsPack.CollectibleType.OL_LOOPER
-OlLooper.HEAD_HELPER = LostItemsPack.Entities.OL_LOOPER_HEAD_HELPER
-OlLooper.NECK = LostItemsPack.Entities.OL_LOOPER_NECK
+OlLopper.ID = LostItemsPack.CollectibleType.OL_LOPPER
+OlLopper.HEAD_HELPER = LostItemsPack.Entities.OL_LOPPER_HEAD_HELPER
+OlLopper.NECK = LostItemsPack.Entities.OL_LOPPER_NECK
 
 --The head can move without speed limitation within the free range.
 --When it exits the free range it will be slowed (like forgotten's soul)
 --until it reaches the allowed range.
-OlLooper.HEAD_FREE_RANGE = 120
-OlLooper.HEAD_ALLOWED_RANGE = 250
-OlLooper.HEAD_VELOCITY = 8
-OlLooper.HEAD_ACCEL = 0.3
-OlLooper.HEAD_RETURN_VELOCITY = 0.07
+OlLopper.HEAD_FREE_RANGE = 120
+OlLopper.HEAD_ALLOWED_RANGE = 250
+OlLopper.HEAD_VELOCITY = 8
+OlLopper.HEAD_ACCEL = 0.3
+OlLopper.HEAD_RETURN_VELOCITY = 0.07
 
-OlLooper.NUM_NECK_PIECES = 10
+OlLopper.NUM_NECK_PIECES = 10
 
-OlLooper.CONTACT_DAMAGE_RANGE = 20
+OlLopper.CONTACT_DAMAGE_RANGE = 20
 --Directly multiplies player's damage
-OlLooper.CONTACT_DAMAGE_MULT = 1.5
+OlLopper.CONTACT_DAMAGE_MULT = 1.5
 --Deal damage every x frames
-OlLooper.CONTACT_DAMAGE_FREQUENCY = 4
+OlLopper.CONTACT_DAMAGE_FREQUENCY = 4
 
 
 ---@param player EntityPlayer
 ---@return Entity?
 local function GetHeadHelper(player)
     ---@type EntityRef?
-    local headHelper = Helpers.GetData(player).OlLooperHeadHelper
+    local headHelper = Helpers.GetData(player).OlLopperHeadHelper
 
     if not headHelper then
         return
@@ -44,9 +44,9 @@ end
 ---@return Entity
 local function CreateHeadHelper(player)
     local headHelper = Isaac.Spawn(
-        OlLooper.HEAD_HELPER.type,
-        OlLooper.HEAD_HELPER.variant,
-        OlLooper.HEAD_HELPER.subtype,
+        OlLopper.HEAD_HELPER.type,
+        OlLopper.HEAD_HELPER.variant,
+        OlLopper.HEAD_HELPER.subtype,
         player.Position,
         Vector.Zero,
         player
@@ -55,7 +55,7 @@ local function CreateHeadHelper(player)
 
     headHelper.DepthOffset = 10
 
-    Helpers.GetData(player).OlLooperHeadHelper = EntityRef(headHelper)
+    Helpers.GetData(player).OlLopperHeadHelper = EntityRef(headHelper)
     return headHelper
 end
 
@@ -65,7 +65,7 @@ local function RemoveHeadHelper(player)
     local headHelper = GetHeadHelper(player)
 
     if headHelper then
-        Helpers.GetData(player).OlLooperHeadHelper = nil
+        Helpers.GetData(player).OlLopperHeadHelper = nil
         headHelper:Remove()
     end
 end
@@ -75,7 +75,7 @@ end
 local function TrySpawnLight(player)
     local data = Helpers.GetData(player)
     ---@type EntityRef
-    local lightRef = data.OlLooperLight
+    local lightRef = data.OlLopperLight
 
     if not lightRef or not lightRef.Entity or not lightRef.Entity:Exists() then
         local light = Isaac.Spawn(
@@ -95,8 +95,8 @@ local function TrySpawnLight(player)
         light.Color = Color(1, 1, 1, 1, 1, 1, 1)
         light.SpriteScale = Vector(3, 3)
 
-        data.OlLooperLight = EntityRef(light)
-        lightRef = data.OlLooperLight
+        data.OlLopperLight = EntityRef(light)
+        lightRef = data.OlLopperLight
     end
 
     local light = lightRef.Entity:ToEffect()
@@ -108,7 +108,7 @@ end
 ---@return EntityEffect[]?
 local function GetNeckPieces(player)
     ---@type EntityRef[]?
-    local neck = Helpers.GetData(player).OlLooperNeckPieces
+    local neck = Helpers.GetData(player).OlLopperNeckPieces
 
     if not neck then
         return
@@ -138,7 +138,7 @@ local function RemoveNeckPieces(player)
             neckPiece:Remove()
         end
 
-        Helpers.GetData(player).OlLooperNeckPieces = nil
+        Helpers.GetData(player).OlLopperNeckPieces = nil
     end
 end
 
@@ -151,11 +151,11 @@ local function CreateNeckPieces(player)
     local entityRefs = {}
     local effects = {}
 
-    for i = 1, OlLooper.NUM_NECK_PIECES, 1 do
+    for i = 1, OlLopper.NUM_NECK_PIECES, 1 do
         local neckPiece = Isaac.Spawn(
-            OlLooper.NECK.type,
-            OlLooper.NECK.variant,
-            OlLooper.NECK.subtype,
+            OlLopper.NECK.type,
+            OlLopper.NECK.variant,
+            OlLopper.NECK.subtype,
             player.Position,
             Vector.Zero,
             player
@@ -165,14 +165,14 @@ local function CreateNeckPieces(player)
         effects[#effects+1] = neckPiece
     end
 
-    Helpers.GetData(player).OlLooperNeckPieces = entityRefs
+    Helpers.GetData(player).OlLopperNeckPieces = entityRefs
     return effects
 end
 
 
 ---@param player EntityPlayer
-function OlLooper:OnPlayerRender(player)
-    if not player:HasCollectible(OlLooper.ID) then return end
+function OlLopper:OnPlayerRender(player)
+    if not player:HasCollectible(OlLopper.ID) then return end
 
     TrySpawnLight(player)
 
@@ -190,13 +190,13 @@ function OlLooper:OnPlayerRender(player)
 end
 LostItemsPack:AddCallback(
     ModCallbacks.MC_POST_PLAYER_RENDER,
-    OlLooper.OnPlayerRender
+    OlLopper.OnPlayerRender
 )
 
 
 ---@param player EntityPlayer
-function OlLooper:OnPeffectUpdate(player)
-    if player:HasCollectible(OlLooper.ID) then
+function OlLopper:OnPeffectUpdate(player)
+    if player:HasCollectible(OlLopper.ID) then
         local headHelper = GetHeadHelper(player)
         if not headHelper then
             headHelper = CreateHeadHelper(player)
@@ -210,7 +210,7 @@ function OlLooper:OnPeffectUpdate(player)
 end
 LostItemsPack:AddCallback(
     ModCallbacks.MC_POST_PEFFECT_UPDATE,
-    OlLooper.OnPeffectUpdate
+    OlLopper.OnPeffectUpdate
 )
 
 
@@ -244,23 +244,23 @@ local function HandleHeadMovement(headHelper, player)
             local t = Helpers.EaseOutBack(movementProgress)
             newPos = Helpers.Lerp(data.StartMovementPos, player.Position, t)
 
-            data.MovementProgress = math.min(movementProgress + OlLooper.HEAD_RETURN_VELOCITY, 1)
+            data.MovementProgress = math.min(movementProgress + OlLopper.HEAD_RETURN_VELOCITY, 1)
         end
 
         headHelper.Velocity = newPos - headHelper.Position
     else
         local shootingInput = player:GetShootingInput()
-        local targetVelocity = shootingInput:Resized(OlLooper.HEAD_VELOCITY)
-        local newVelocity = Helpers.Lerp(headHelper.Velocity, targetVelocity, OlLooper.HEAD_ACCEL)
+        local targetVelocity = shootingInput:Resized(OlLopper.HEAD_VELOCITY)
+        local newVelocity = Helpers.Lerp(headHelper.Velocity, targetVelocity, OlLopper.HEAD_ACCEL)
 
         local distanceToPlayer = headHelper.Position:Distance(player.Position)
 
-        if distanceToPlayer > OlLooper.HEAD_FREE_RANGE then
-            local max = OlLooper.HEAD_ALLOWED_RANGE - OlLooper.HEAD_FREE_RANGE
-            local current = distanceToPlayer - OlLooper.HEAD_FREE_RANGE
+        if distanceToPlayer > OlLopper.HEAD_FREE_RANGE then
+            local max = OlLopper.HEAD_ALLOWED_RANGE - OlLopper.HEAD_FREE_RANGE
+            local current = distanceToPlayer - OlLopper.HEAD_FREE_RANGE
             local ratio = current / max
 
-            local resistance = (headHelper.Position - player.Position):Resized(OlLooper.HEAD_VELOCITY * ratio)
+            local resistance = (headHelper.Position - player.Position):Resized(OlLopper.HEAD_VELOCITY * ratio)
             newVelocity = newVelocity - resistance
         end
 
@@ -272,16 +272,16 @@ end
 ---@param headHelper Entity
 ---@param player EntityPlayer
 local function DealContactDamage(headHelper, player)
-    if headHelper:IsFrame(OlLooper.CONTACT_DAMAGE_FREQUENCY, headHelper.InitSeed) then
+    if headHelper:IsFrame(OlLopper.CONTACT_DAMAGE_FREQUENCY, headHelper.InitSeed) then
         local enemies = Isaac.FindInRadius(
             headHelper.Position,
-            OlLooper.CONTACT_DAMAGE_RANGE,
+            OlLopper.CONTACT_DAMAGE_RANGE,
             EntityPartition.ENEMY
         )
         for _, enemy in ipairs(enemies) do
             local ref = EntityRef(enemy)
             if not ref.IsFriendly then
-                local damage = player:GetTearPoisonDamage() * OlLooper.CONTACT_DAMAGE_MULT
+                local damage = player:GetTearPoisonDamage() * OlLopper.CONTACT_DAMAGE_MULT
                 enemy:TakeDamage(damage, 0, EntityRef(player), 0)
             end
         end
@@ -290,7 +290,7 @@ end
 
 
 ---@param headHelper Entity
-function OlLooper:OnHeadHelperUpdate(headHelper)
+function OlLopper:OnHeadHelperUpdate(headHelper)
     local spawner = headHelper.SpawnerEntity
     if not spawner then
         headHelper:Remove()
@@ -308,8 +308,8 @@ function OlLooper:OnHeadHelperUpdate(headHelper)
 end
 LostItemsPack:AddCallback(
     ModCallbacks.MC_FAMILIAR_UPDATE,
-    OlLooper.OnHeadHelperUpdate,
-    OlLooper.HEAD_HELPER.variant
+    OlLopper.OnHeadHelperUpdate,
+    OlLopper.HEAD_HELPER.variant
 )
 
 
@@ -346,7 +346,7 @@ end
 
 
 ---@param headHelper Entity
-function OlLooper:OnHeadHelperRender(headHelper)
+function OlLopper:OnHeadHelperRender(headHelper)
     local spawner = headHelper.SpawnerEntity
     if not spawner then
         headHelper:Remove()
@@ -364,6 +364,6 @@ function OlLooper:OnHeadHelperRender(headHelper)
 end
 LostItemsPack:AddCallback(
     ModCallbacks.MC_POST_FAMILIAR_RENDER,
-    OlLooper.OnHeadHelperRender,
-    OlLooper.HEAD_HELPER.variant
+    OlLopper.OnHeadHelperRender,
+    OlLopper.HEAD_HELPER.variant
 )
