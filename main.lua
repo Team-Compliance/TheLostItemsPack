@@ -26,7 +26,7 @@ LostItemsPack.CollectibleType = {
     PILL_CRUSHER = Isaac.GetItemIdByName("Pill Crusher"),
     SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs"),
     VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin"),
-    OL_LOOPER = Isaac.GetItemIdByName("Ol' Looper"),
+    OL_LOPPER = Isaac.GetItemIdByName("Ol' Lopper"),
 }
 
 LostItemsPack.Callbacks = {
@@ -106,15 +106,15 @@ LostItemsPack.Entities = {
         subtype = 0
     },
 
-    OL_LOOPER_HEAD_HELPER = {
-        type = Isaac.GetEntityTypeByName("Ol Looper Head"),
-        variant = Isaac.GetEntityVariantByName("Ol Looper Head"),
+    OL_LOPPER_HEAD_HELPER = {
+        type = Isaac.GetEntityTypeByName("Ol Lopper Head"),
+        variant = Isaac.GetEntityVariantByName("Ol Lopper Head"),
         subtype = 0
     },
 
-    OL_LOOPER_NECK = {
-        type = Isaac.GetEntityTypeByName("Ol Looper Neck"),
-        variant = Isaac.GetEntityVariantByName("Ol Looper Neck"),
+    OL_LOPPER_NECK = {
+        type = Isaac.GetEntityTypeByName("Ol Lopper Neck"),
+        variant = Isaac.GetEntityVariantByName("Ol Lopper Neck"),
         subtype = 0
     }
 }
@@ -221,7 +221,7 @@ include("lost_items_scripts.voodo_pin.VoodooPin")
 
 include("lost_items_scripts.dice_bombs.DiceBombs")
 
-include("lost_items_scripts.ol_looper.OlLooper")
+include("lost_items_scripts.ol_lopper.OlLopper")
 
 --Other mods compat
 include("lost_items_scripts.mod_compat.EIDCompat")
