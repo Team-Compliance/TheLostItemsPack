@@ -330,4 +330,29 @@ function Helpers.IsPlayingExtraAnimation(player)
 end
 
 
+---@param num number
+---@param dp integer
+---@return number
+function Helpers.Round(num, dp)
+    local mult = 10^(dp or 0)
+    return math.floor(num * mult + 0.5)/mult
+end
+
+
+---By catinsurance
+---@param maxFireDelay number
+---@return number
+function Helpers.ToTearsPerSecond(maxFireDelay)
+    return 30 / (maxFireDelay + 1)
+end
+
+
+---By catinsurance
+---@param tearsPerSecond number
+---@return number
+function Helpers.ToMaxFireDelay(tearsPerSecond)
+    return (30 / tearsPerSecond) - 1
+end
+
+
 return Helpers

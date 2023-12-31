@@ -27,6 +27,7 @@ LostItemsPack.CollectibleType = {
     SAFETY_BOMBS = Isaac.GetItemIdByName("Safety Bombs"),
     VOODOO_PIN = Isaac.GetItemIdByName("Voodoo Pin"),
     OL_LOPPER = Isaac.GetItemIdByName("Ol' Lopper"),
+    MAXS_HEAD = Isaac.GetItemIdByName("Max's Head"),
 }
 
 LostItemsPack.Callbacks = {
@@ -222,6 +223,7 @@ include("lost_items_scripts.voodo_pin.VoodooPin")
 include("lost_items_scripts.dice_bombs.DiceBombs")
 
 include("lost_items_scripts.ol_lopper.OlLopper")
+include("lost_items_scripts.maxs_head.MaxsHead")
 
 --Other mods compat
 include("lost_items_scripts.mod_compat.EIDCompat")

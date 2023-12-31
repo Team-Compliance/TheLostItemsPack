@@ -33,6 +33,8 @@
 
     <passive id="13" name="Ol' Lopper" description="A new point of view" gfx="ol_lopper.png" quality="1" tags="summonable offensive"/>
 
+    <passive id="14" name="Max's Head" description="Wip" gfx="maxs_head.png" quality="1" cache="firedelay" tags="summonable offensive"/>
+
     <!--Reimplemented Transformations-->
 
     <passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
