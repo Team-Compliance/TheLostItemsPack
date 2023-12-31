@@ -30,6 +30,10 @@ LostItemsPack.CollectibleType = {
     MAXS_HEAD = Isaac.GetItemIdByName("Max's Head"),
 }
 
+LostItemsPack.TrinketType = {
+    GAME_SQUID = Isaac.GetTrinketIdByName("Game Squid"),
+}
+
 LostItemsPack.Callbacks = {
     ON_DICE_BOMB_EXPLOSION = "ON_DICE_BOMB_EXPLOSION"
 }
@@ -224,6 +228,7 @@ include("lost_items_scripts.dice_bombs.DiceBombs")
 
 include("lost_items_scripts.ol_lopper.OlLopper")
 include("lost_items_scripts.maxs_head.MaxsHead")
+include("lost_items_scripts.game_squid.GameSquid")
 
 --Other mods compat
 include("lost_items_scripts.mod_compat.EIDCompat")

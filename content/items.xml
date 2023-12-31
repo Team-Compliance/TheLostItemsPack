@@ -35,6 +35,8 @@
 
     <passive id="14" name="Max's Head" description="Wip" gfx="maxs_head.png" quality="1" cache="firedelay" tags="summonable offensive"/>
 
+    <trinket name="Game Squid" description="Wip" />
+
     <!--Reimplemented Transformations-->
 
     <passive name="Spun transform" description="Counts towards spun" hidden="true" tags="syringe"/>
