@@ -151,7 +151,7 @@ local function CreateNeckPieces(player)
     local entityRefs = {}
     local effects = {}
 
-    for i = 1, OlLooper.NUM_NECK_PIECES, 1 do
+    for _ = 1, OlLooper.NUM_NECK_PIECES, 1 do
         local neckPiece = Isaac.Spawn(
             OlLooper.NECK.type,
             OlLooper.NECK.variant,
@@ -160,6 +160,8 @@ local function CreateNeckPieces(player)
             Vector.Zero,
             player
         ):ToEffect()
+
+        neckPiece.DepthOffset = 20
 
         entityRefs[#entityRefs+1] = EntityRef(neckPiece)
         effects[#effects+1] = neckPiece
@@ -172,7 +174,21 @@ end
 
 ---@param player EntityPlayer
 function OlLooper:OnPlayerRender(player)
-    if not player:HasCollectible(OlLooper.ID) then return end
+    local data = Helpers.GetData(player)
+
+    if not player:HasCollectible(OlLooper.ID) then
+        if data.UsedToHaveOlLooper then
+            RemoveHeadHelper(player)
+            RemoveNeckPieces(player)
+            player.TearsOffset = Vector(0, 0)
+            player.PositionOffset = Vector(0, 0)
+            data.UsedToHaveOlLooper = nil
+        end
+
+        return
+    end
+
+    data.UsedToHaveOlLooper = true
 
     TrySpawnLight(player)
 
@@ -280,7 +296,7 @@ local function DealContactDamage(headHelper, player)
         )
         for _, enemy in ipairs(enemies) do
             local ref = EntityRef(enemy)
-            if not ref.IsFriendly then
+            if not ref.IsFriendly and enemy:IsActiveEnemy() and enemy:IsVulnerableEnemy() then
                 local damage = player:GetTearPoisonDamage() * OlLooper.CONTACT_DAMAGE_MULT
                 enemy:TakeDamage(damage, 0, EntityRef(player), 0)
             end
@@ -340,7 +356,9 @@ function RenderPlayerNeck(player, headPos)
     local distanceStep = distance/segments
 
     for i = 1, segments-1, 1 do
-        neckPieces[i].Position = playerPos + direction:Resized(i * distanceStep)
+        local neckPiece = neckPieces[i]
+        local targetPos = playerPos + direction:Resized(i * distanceStep)
+        neckPiece.Velocity = targetPos - neckPiece.Position
     end
 end
 
