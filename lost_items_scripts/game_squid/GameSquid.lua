@@ -4,8 +4,9 @@ GameSquid.ID = LostItemsPack.TrinketType.GAME_SQUID
 GameSquid.BASE_CHANCE = 0.05
 --This chance will be added for each multiplier
 GameSquid.EXTRA_CHANCE = 0.03
-GameSquid.BASE_LASER_CHANCE = 0.02
-GameSquid.EXTRA_LASER_CHANCE = 0.05
+--This stuff is used for things that deal on tick damage, like lasers or ludo
+GameSquid.BASE_ONTICK_CHANCE = 0.02
+GameSquid.EXTRA_ONTICK_CHANCE = 0.05
 GameSquid.LASER_SLOW_DURATION = 0.0
 GameSquid.TEAR_COLOR = Color(0.1, 0.1, 0.1, 1)
 
@@ -56,20 +57,17 @@ LostItemsPack:AddCallback(
 
 
 ---@param entity Entity
----@param flags DamageFlag
----@param source EntityRef
-function GameSquid:OnEntityDamage(entity, _, flags, source)
-    if not Helpers.IsTargetableEnemy(entity) then return end
-    if source.Type ~= EntityType.ENTITY_PLAYER then return end
-    local player = source.Entity:ToPlayer()
-    if not player:HasTrinket(GameSquid.ID) or
-    player:HasCollectible(CollectibleType.COLLECTIBLE_LUDOVICO_TECHNIQUE) then return end
-    if flags & DamageFlag.DAMAGE_LASER == 0 then return end
+---@param tear EntityTear
+local function CheckForLudoTear(entity, tear)
+    local player = Helpers.GetPlayerFromTear(tear)
+    if not player then return end
+    if not player:HasTrinket(GameSquid.ID) then return end
+    if not tear:HasTearFlags(TearFlags.TEAR_LUDOVICO) then return end
 
     local rng = player:GetTrinketRNG(GameSquid.ID)
 
-    local extraChance = GameSquid.EXTRA_LASER_CHANCE * player:GetTrinketMultiplier(GameSquid.ID)
-    local chance = GameSquid.BASE_LASER_CHANCE + extraChance
+    local extraChance = GameSquid.EXTRA_ONTICK_CHANCE * player:GetTrinketMultiplier(GameSquid.ID)
+    local chance = GameSquid.BASE_ONTICK_CHANCE + extraChance
 
     if rng:RandomFloat() < chance then
         entity:AddSlowing(EntityRef(player), 3, 1, Color(1, 1, 1, 1, 0.2, 0.2, 0.2))
@@ -82,6 +80,46 @@ function GameSquid:OnEntityDamage(entity, _, flags, source)
             Vector.Zero,
             player
         )
+    end
+end
+
+
+---@param entity Entity
+---@param player EntityPlayer
+local function CheckForLaser(entity, player)
+    if not player:HasTrinket(GameSquid.ID) then return end
+
+    local rng = player:GetTrinketRNG(GameSquid.ID)
+
+    local extraChance = GameSquid.EXTRA_ONTICK_CHANCE * player:GetTrinketMultiplier(GameSquid.ID)
+    local chance = GameSquid.BASE_ONTICK_CHANCE + extraChance
+
+    if rng:RandomFloat() < chance then
+        entity:AddSlowing(EntityRef(player), 3, 1, Color(1, 1, 1, 1, 0.2, 0.2, 0.2))
+
+        Isaac.Spawn(
+            EntityType.ENTITY_EFFECT,
+            EffectVariant.PLAYER_CREEP_BLACK,
+            0,
+            entity.Position,
+            Vector.Zero,
+            player
+        )
+    end
+end
+
+
+---@param entity Entity
+---@param flags DamageFlag
+---@param source EntityRef
+function GameSquid:OnEntityDamage(entity, _, flags, source)
+    if not Helpers.IsTargetableEnemy(entity) then return end
+    if not source.Entity then return end
+
+    if source.Entity:ToTear() then
+        CheckForLudoTear(entity, source.Entity:ToTear())
+    elseif source.Entity:ToPlayer() and flags & DamageFlag.DAMAGE_LASER ~= 0 then
+        CheckForLaser(entity, source.Entity:ToPlayer())
     end
 end
 LostItemsPack:AddCallback(
