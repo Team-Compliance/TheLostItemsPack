@@ -4,25 +4,33 @@ local Helpers = require("lost_items_scripts.Helpers")
 local MouseClick = {LEFT = 0, RIGHT = 1, WHEEL = 2, BACK = 3, FORWARD = 4}
 
 
-function VoodooPin:UseVoodooPin(_, _, player, _, slot)
+function VoodooPin:UseVoodooPin(collectible, _, player, _, slot)
 	local data = Helpers.GetData(player)
-	if data.HoldVooodooPin ~= slot then
-		data.HoldVooodooPin = slot
-		player:AnimateCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, "LiftItem", "PlayerPickup")
+	if LostItemsPack.CollectibleType.VOODOO_PIN == collectible then
+		if data.HoldVooodooPin ~= slot then
+			data.HoldVooodooPin = slot
+			player:AnimateCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, "LiftItem", "PlayerPickup")
+			data.VoodooWaitFrames = 20
+		else
+			data.HoldVooodooPin = nil
+			data.VoodooWaitFrames = 0
+			player:AnimateCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, "HideItem", "PlayerPickup")
+		end
+		local returntable = {Discharge = false, Remove = false, ShowAnim = false} --don't discharge, don't remove item, don't show animation
+		return returntable
 	else
 		data.HoldVooodooPin = nil
-		player:AnimateCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, "HideItem", "PlayerPickup")
+		data.VoodooWaitFrames = 0
 	end
-	local returntable = {Discharge = false, Remove = false, ShowAnim = false} --don't discharge, don't remove item, don't show animation
-	return returntable
 end
-LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, VoodooPin.UseVoodooPin, LostItemsPack.CollectibleType.VOODOO_PIN)
+LostItemsPack:AddCallback(ModCallbacks.MC_USE_ITEM, VoodooPin.UseVoodooPin)
 
 
 function VoodooPin:OnNewRoom()
     for playerNum = 0, Game():GetNumPlayers() - 1 do
         local player = Game():GetPlayer(playerNum)
         Helpers.GetData(player).HoldVooodooPin = nil
+        Helpers.GetData(player).VoodooWaitFrames = 0
     end
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, VoodooPin.OnNewRoom)
@@ -39,6 +47,7 @@ function VoodooPin:DamagedWithVoodoo(player,dmg,dmgFlags,dmgSource,dmgCountDownF
 		end
 	end
 	Helpers.GetData(player).HoldVooodooPin = nil
+	Helpers.GetData(player).VoodooWaitFrames = 0
 	return nil
 end
 LostItemsPack:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, VoodooPin.DamagedWithVoodoo, EntityType.ENTITY_PLAYER)
@@ -65,10 +74,11 @@ function VoodooPin:VoodooThrow(player)
 	local data = Helpers.GetData(player)
 	data.Timer = data.Timer or 0
 	if data.HoldVooodooPin ~= nil then
-		if player:GetActiveItem(ActiveSlot.SLOT_SECONDARY) == LostItemsPack.CollectibleType.VOODOO_PIN then
-			data.HoldVooodooPin = ActiveSlot.SLOT_SECONDARY
-		elseif player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == LostItemsPack.CollectibleType.VOODOO_PIN then
-			data.HoldVooodooPin = ActiveSlot.SLOT_PRIMARY
+		if not (player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == LostItemsPack.CollectibleType.VOODOO_PIN and data.HoldVooodooPin == 0
+		or player:GetActiveItem(ActiveSlot.SLOT_POCKET) == LostItemsPack.CollectibleType.VOODOO_PIN and data.HoldVooodooPin == 2) then
+			data.HoldVooodooPin = nil
+			player:AnimateCollectible(LostItemsPack.CollectibleType.VOODOO_PIN, "HideItem", "PlayerPickup")
+			data.VoodooWaitFrames = 0
 		end
 	end
 	if data.HoldVooodooPin then
@@ -78,7 +88,12 @@ function VoodooPin:VoodooThrow(player)
 		local up = Input.GetActionValue(ButtonAction.ACTION_SHOOTUP,idx)
 		local down = Input.GetActionValue(ButtonAction.ACTION_SHOOTDOWN,idx)
 		local mouseclick = Input.IsMouseBtnPressed(MouseClick.LEFT)
-		if left > 0 or right > 0 or down > 0 or up > 0 or mouseclick then
+		if data.VoodooWaitFrames then
+			data.VoodooWaitFrames = data.VoodooWaitFrames - 1
+		else
+			data.VoodooWaitFrames = 0
+		end
+		if (left > 0 or right > 0 or down > 0 or up > 0 or mouseclick) and data.VoodooWaitFrames <= 0 then
 			local shootVector
 			if mouseclick then
 				shootVector = (Input.GetMousePosition(true) - player.Position):Normalized()
@@ -90,8 +105,8 @@ function VoodooPin:VoodooThrow(player)
 			
 			local charge
 			if data.HoldVooodooPin ~= -1 then
-				if Helpers.GetCharge(player,data.HoldVooodooPin)-3 >= 0 then
-					charge = Helpers.GetCharge(player,data.HoldVooodooPin)-3
+				if Helpers.GetCharge(player,data.HoldVooodooPin)-4 >= 0 then
+					charge = Helpers.GetCharge(player,data.HoldVooodooPin)-4
 				else
 					charge = 0
 				end

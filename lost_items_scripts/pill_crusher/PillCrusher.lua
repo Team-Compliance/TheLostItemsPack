@@ -258,22 +258,31 @@ function PillCrusherLocal:UsePillCrusher(_, rng, player)
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, PillCrusherLocal.UsePillCrusher, LostItemsPack.CollectibleType.PILL_CRUSHER)
 
-
-function PillCrusherLocal:AddPill(player)
-    local data = Helpers.GetData(player)
-	if not data then return end
-
-    data.pilldrop = data.pilldrop or player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER)
-
-    if data.pilldrop < player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER) then
-		local room = Game():GetRoom()
-		local spawningPos = room:FindFreePickupSpawnPosition(player.Position, 1, true)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_PILL, 0, spawningPos, Vector.Zero, player):ToPickup()
-        data.pilldrop = player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER)
+if REPENTOGON then
+	function PillCrusherLocal:AddPill(collectible, charge, firstTime, slot, VarData, player)
+        if firstTime and collectible == LostItemsPack.CollectibleType.PILL_CRUSHER then
+            local room = Game():GetRoom()
+            local spawningPos = room:FindFreePickupSpawnPosition(player.Position, 1, true)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_PILL, 0, spawningPos, Vector.Zero, player):ToPickup()
+        end
     end
-end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PillCrusherLocal.AddPill)
+    mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, PillCrusherLocal.AddPill)
+else
+	function PillCrusherLocal:AddPill(player)
+		local data = Helpers.GetData(player)
+		if not data then return end
 
+		data.pilldrop = data.pilldrop or player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER)
+
+		if data.pilldrop < player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER) then
+			local room = Game():GetRoom()
+			local spawningPos = room:FindFreePickupSpawnPosition(player.Position, 1, true)
+			Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_PILL, 0, spawningPos, Vector.Zero, player):ToPickup()
+			data.pilldrop = player:GetCollectibleNum(LostItemsPack.CollectibleType.PILL_CRUSHER)
+		end
+	end
+	mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PillCrusherLocal.AddPill)
+end
 
 function PillCrusherLocal:spawnPill(rng, pos)
 	local room = Game():GetRoom()

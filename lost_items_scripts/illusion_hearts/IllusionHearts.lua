@@ -480,7 +480,9 @@ end
 LostItemsPack:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, IllusionModLocal.postPickupInit, PickupVariant.PICKUP_HEART)
 
 function IllusionModLocal:onUseBookOfIllusions(_, _, player, flags)
-	if GiantBookAPI then
+	if REPENTOGON then
+		ItemOverlay.Show(Isaac.GetGiantBookIdByName("Book of Illusions"), 0 , player)
+	elseif GiantBookAPI then
 		GiantBookAPI.playGiantBook("Appear", "Illusions.png", Color(0.2, 0.1, 0.3, 1, 0, 0, 0), Color(0.117, 0.0117, 0.2, 1, 0, 0, 0), Color(0, 0, 0, 0.8, 0, 0, 0), SoundEffect.SOUND_BOOK_PAGE_TURN_12)
 	end
 	sfxManager:Play(SoundEffect.SOUND_BOOK_PAGE_TURN_12, 1, 0, false, 1)

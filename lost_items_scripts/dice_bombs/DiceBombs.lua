@@ -41,10 +41,17 @@ mod:AddCallback(LostItemsPack.Callbacks.ON_DICE_BOMB_EXPLOSION, DiceBombsLocal.D
 
 ---@param bomb EntityBomb
 function DiceBombsLocal:D4BombExplode(bomb, player, radius)
+    local itemConf = Isaac.GetItemConfig():GetCollectible(LostItemsPack.CollectibleType.DICE_BOMBS)
+    if REPENTOGON then
+        itemConf.Tags = itemConf.Tags | ItemConfig.TAG_QUEST
+    end
     for i, entity in ipairs(Isaac.FindInRadius(bomb.Position, radius)) do
         if entity.Type == EntityType.ENTITY_PLAYER and entity.Variant == 0 then
             entity:ToPlayer():UseActiveItem(CollectibleType.COLLECTIBLE_D4, 1)
         end
+    end
+    if REPENTOGON then
+        itemConf.Tags = itemConf.Tags & ~ItemConfig.TAG_QUEST
     end
     return true
 end
