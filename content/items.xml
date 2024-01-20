@@ -33,7 +33,7 @@
 
     <passive id="13" name="Ol' Lopper" description="A new point of view" gfx="ol_lopper.png" quality="1" tags="summonable offensive"/>
 
-    <passive id="14" name="Max's Head" description="Wip" gfx="maxs_head.png" quality="1" cache="firedelay" tags="summonable offensive"/>
+    <passive id="14" name="Max's Head" description="Tears up" gfx="maxs_head.png" quality="1" cache="firedelay" tags="summonable offensive"/>
 
     <trinket name="Game Squid" description="Wip" />
 
