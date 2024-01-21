@@ -18,16 +18,16 @@
 
     <passive id="8" name="Pacifist" description="Make love, not war" gfx="collectibles_pacifist.png" quality="2" tags="summonable offensive nocantrip nogreed lazarusshared" />
 
-    <active id="9" name="Pill Crusher" description="Pill dealer" gfx="collectibles_648_pillcrusher.png" quality="1" tags="offensive nocantrip" />
+    <active id="9" name="Pill Crusher" description="Pill dealer" gfx="collectibles_648_pillcrusher.png" quality="1" shopprice="10" tags="offensive nocantrip" />
 
-    <passive id="10" name="Safety Bombs" description="For your own good +5 Bombs" gfx="SafetyBombs.png" bombs="5" quality="0" tags="summonable offensive"/>
+    <passive id="10" name="Safety Bombs" description="For your own good" gfx="SafetyBombs.png" bombs="7" quality="0" tags="summonable offensive"/>
 
     <active id="11" name="Voodoo Pin" description="Share your pain" gfx="collectibles_voodoopin.png" maxcharges="4" chargetype="normal" quality="3"/>
 
 
     <!--Update 2-->
 
-	<passive id="12" name="Dice Bombs" description="+5 bombs, reroll items" gfx="dice_bombs.png" bombs="5" quality="4" tags="summonable offensive"/>
+	<passive id="12" name="Dice Bombs" description="Item reroller +5 bombs" gfx="dice_bombs.png" bombs="5" quality="4" tags="summonable offensive"/>
 
     <!--Update 3-->
 
