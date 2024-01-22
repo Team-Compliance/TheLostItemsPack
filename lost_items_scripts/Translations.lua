@@ -28,7 +28,9 @@ local itemTranslations = {
         [LostItemsPack.CollectibleType.PILL_CRUSHER] = {"Дробилка пилюль", "Раздай их всем!"},
         [LostItemsPack.CollectibleType.SAFETY_BOMBS] = {"Безопасные бомбы", "Для твоего блага"},
         [LostItemsPack.CollectibleType.VOODOO_PIN] = {"Вуду булавка", "Ай!"},
-		 [LostItemsPack.CollectibleType.DICE_BOMBS] = {"Бомбы-кубики", "+5 бомб, рероль предметы"}
+		 [LostItemsPack.CollectibleType.DICE_BOMBS] = {"Бомбы-кубики", "Рероллер предметов, +5 бомб"},
+		 [LostItemsPack.CollectibleType.OL_LOPPER] = {"Старая гильотина", "Новая точка зрения"},
+		 [LostItemsPack.CollectibleType.MAXS_HEAD] = {"Голова Макса", "Скорострельность ↑"},
     }
 }
 
