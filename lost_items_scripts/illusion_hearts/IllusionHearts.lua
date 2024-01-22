@@ -135,7 +135,7 @@ local function RemoveIllusionData(entity, forgottenB)
     local data
     local index
 
-    if entity.Type == EntityType.ENTITY_PLAYER then
+    if entity:ToPlayer() then
         local player = entity:ToPlayer()
         if player and player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B and forgottenB then
             player = player:GetOtherTwin()
@@ -143,7 +143,7 @@ local function RemoveIllusionData(entity, forgottenB)
 
         index = Helpers.GetPlayerIndex(player)
         data = LostItemsPack.PersistentData.IllusionPlayersData
-    elseif entity.Type == EntityType.ENTITY_FAMILIAR then
+    elseif entity:ToFamiliar() then
         index = entity:ToFamiliar().InitSeed
         data = LostItemsPack.PersistentData.IllusionFamiliarsData
     end

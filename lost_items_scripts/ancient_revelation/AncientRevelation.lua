@@ -42,28 +42,19 @@ else
 	end
 	LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, AncientRevelation.OnPlayerInit)
 
-	function AncientRevelation:postPlayerUpdate(player)
+	function AncientRevelation:ARUpdate(player, cache)
 		if not ComplianceImmortal then return end
 		if player.Parent ~= nil then return end
-		local data = player:GetData()
-		if not data.lastSoulHearts then
-			data.lastSoulHearts = 0
-		end
 		if player:GetPlayerType() == PlayerType.PLAYER_THESOUL_B then
 			player = player:GetMainTwin()
 		end
-		local p = player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and player:GetSubPlayer() or player
-
-		if player:GetCollectibleNum(LostItemsPack.CollectibleType.ANCIENT_REVELATION) == data.AncientCount then
-			data.lastSoulHearts = CustomHealthAPI.PersistentData.OverriddenFunctions.GetSoulHearts(p)
+		local data = player:GetData()
+		if player:GetCollectibleNum(LostItemsPack.CollectibleType.ANCIENT_REVELATION) > data.AncientCount then
+			local p = player:GetPlayerType() == PlayerType.PLAYER_THEFORGOTTEN and player:GetSubPlayer() or player
+			p:AddSoulHearts(-4)
+			ComplianceImmortal.AddImmortalHearts(p, 4)
 		end
 		data.AncientCount = player:GetCollectibleNum(LostItemsPack.CollectibleType.ANCIENT_REVELATION)
-
-		if CustomHealthAPI.PersistentData.OverriddenFunctions.GetSoulHearts(p) > data.lastSoulHearts then
-			player:AddSoulHearts(-4)
-
-			ComplianceImmortal.AddImmortalHearts(player, 4)
-		end
 	end
-	LostItemsPack:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, AncientRevelation.postPlayerUpdate)
+	LostItemsPack:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, AncientRevelation.ARUpdate, CacheFlag.CACHE_TEARFLAG)
 end
