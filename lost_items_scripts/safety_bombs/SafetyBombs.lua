@@ -162,6 +162,7 @@ local function DoRenderRadar(bomb)
 end
 
 function SafetyBombsMod:BombRadar(bomb)
+	if Game():GetRoom():GetRenderMode() == RenderMode.RENDER_WATER_REFLECT then return end
 	local data = bomb:GetData()
 	
 	if data.isSafetyBomb then
